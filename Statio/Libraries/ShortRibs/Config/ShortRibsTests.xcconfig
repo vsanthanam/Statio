@@ -1,0 +1,11 @@
+ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES=YES
+CODE_SIGN_STYLE=Automatic
+DEVELOPMENT_TEAM=Y88YPD4RJA
+INFOPLIST_FILE=ShortRibsTests/Info.plist
+PRODUCT_BUNDLE_IDENTIFIER=com.varunsanthanam.ShortRibsTests
+PRODUCT_NAME=$(TARGET_NAME)
+SWIFT_VERSION=5.0
+TARGETED_DEVICE_FAMILY=1,2
+
+LD_RUNPATH_SEARCH_PATHS[config=Debug]=["$(inherited)", "@executable_path/Frameworks", "@loader_path/Frameworks"]
+LD_RUNPATH_SEARCH_PATHS[config=Release]=["$(inherited)", "@executable_path/Frameworks", "@loader_path/Frameworks"]

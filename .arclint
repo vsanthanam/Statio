@@ -1,0 +1,19 @@
+{
+	"linters": {
+		"dasut-config": {
+			"type": "json",
+			"include": ["(\\.repo-config)"]
+		},
+		"arctools": {
+			"type": "php",
+			"include": ["(\\.php)"]
+		},
+		"swift-lint": {
+			"type": "script-and-regex",
+			"script-and-regex.script": "./repo lint --arclint ",
+          	"script-and-regex.regex": "/^(?P<severity>warning|error):(?P<line>\\d+):(?P<char>\\d+) (?P<message>.*)$/m",
+			"include": ["(\\.swift)"],
+			"exclude": ["/Vendor/", "/bin/", "/Derived/"]
+		}
+	}
+}

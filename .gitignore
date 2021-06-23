@@ -1,0 +1,25 @@
+# Created by https://www.toptal.com/developers/gitignore/api/swift,xcode,objective-c
+# Edit at https://www.toptal.com/developers/gitignore?templates=swift,xcode,objective-c
+
+### Aro ###
+Statio/.package.resolved
+Statio/App/Statio/Resources/analytics_config.json
+Statio/App/Statio/Src/Infra/DependencyGraph.swift
+Statio/App/StatioTests/Mocks.swift
+Statio/App/StatioTests/FailureDiffs/
+
+### Repo <-> SwiftFormat ###
+.swiftformat
+
+### Repo <-> SwiftLint ###
+.swiftlint.yml
+
+### Sftool <-> Tuist ###
+/Statio/Tuist/Config.swift
+
+### Tuist ###
+*.xcworkspace/
+*.xcodeproj/
+
+## spm ###
+.build/
