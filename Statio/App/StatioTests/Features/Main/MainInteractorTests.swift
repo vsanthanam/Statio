@@ -1,12 +1,12 @@
 //
-// Aro
+// Statio
 // Varun Santhanam
 //
 
-@testable import Statio
 import Combine
 import Foundation
 @testable import ShortRibs
+@testable import Statio
 import XCTest
 
 final class MainInteractorTests: TestCase {
@@ -25,5 +25,5 @@ final class MainInteractorTests: TestCase {
     func test_init_setsPresenterListener() {
         XCTAssertTrue(presenter.listener === interactor)
     }
-    
+
 }

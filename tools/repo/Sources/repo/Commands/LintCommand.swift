@@ -1,5 +1,5 @@
 //
-// Aro
+// Statio
 // Varun Santhanam
 //
 
@@ -255,7 +255,7 @@ struct LintCommand: ParsableCommand, RepoCommand {
 
         let header = """
         //
-        // Aro
+        // Statio
         // Varun Santhanam
         //
         """

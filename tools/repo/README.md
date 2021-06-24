@@ -5,7 +5,7 @@ A command line helper used to develop stuff written in Swift.
 ## Introduction
 
 Repo is tool used to automate common operations like linting, running unit tests, and generating projects. It has a variety of subcommands that you can use to speed up development.
-Repo assumes that its being run from the root of the Aro monorepo, but can be run from other places too. Most subcommands allow you to provide the optional `--repo-root` option and specify some alternate location if you're running the tool from some directory other than the repo root.
+Repo assumes that its being run from the root of the Statio monorepo, but can be run from other places too. Most subcommands allow you to provide the optional `--repo-root` option and specify some alternate location if you're running the tool from some directory other than the repo root.
 
 ## Universal Options
 

@@ -1,5 +1,5 @@
 //
-// Aro
+// Statio
 // Varun Santhanam
 //
 
@@ -32,7 +32,7 @@ final class repoTests: XCTestCase {
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
         let output = String(data: data, encoding: .utf8)
 
-        XCTAssertEqual(output, "Welcome to Aro! Run ./repo -h for more options\n")
+        XCTAssertEqual(output, "Welcome to Statio! Run ./repo -h for more options\n")
     }
 
     /// Returns path to the built products directory.

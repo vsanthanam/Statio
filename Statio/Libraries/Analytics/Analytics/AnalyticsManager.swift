@@ -1,5 +1,5 @@
 //
-// Aro
+// Statio
 // Varun Santhanam
 //
 
@@ -88,8 +88,6 @@ public final class AnalyticsManager: AnalyticsManaging {
              sum: sum,
              duration: duration)
     }
-    
-    
 
     public func start<T>(trace: T) where T: Trace {
         let key = (eventPrefix + trace.key).expandedKey
@@ -155,7 +153,7 @@ public final class AnalyticsManager: AnalyticsManaging {
                       sum: Double = 0.0,
                       duration: TimeInterval = 0.0) {
         let key = (eventPrefix + key).expandedKey
-        
+
         guard isStarted else {
             assertionFailure("Attempt to log event \(key) without active analytics manager!")
             return
@@ -197,22 +195,22 @@ public final class AnalyticsManager: AnalyticsManaging {
 
 }
 
-fileprivate extension String {
-    
+private extension String {
+
     var expandedKey: String {
         uncapped.lowercased().split(separator: " ").joined(separator: "_")
     }
-    
+
     private var uncapped: String {
         var newString: String = ""
         let upperCase = CharacterSet.uppercaseLetters
-        for scalar in self.unicodeScalars {
+        for scalar in unicodeScalars {
             if upperCase.contains(scalar) {
                 newString.append(" ")
             }
             let character = Character(scalar)
-                newString.append(character)
-            }
+            newString.append(character)
+        }
 
         return newString
     }

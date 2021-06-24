@@ -1,5 +1,5 @@
 //
-// Aro
+// Statio
 // Varun Santhanam
 //
 
@@ -66,7 +66,7 @@ struct DevelopCommand: ParsableCommand, RepoCommand {
                   verbose: trace)
 
         if !dontOpenXcode {
-            _ = try? shell(script: "open \(workspace)/Aro.xcworkspace", at: repoRoot)
+            _ = try? shell(script: "open \(workspace)/Statio.xcworkspace", at: repoRoot)
         }
 
         complete(with: "Project Generated! 🍻")

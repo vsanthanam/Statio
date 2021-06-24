@@ -1,10 +1,10 @@
 //
-// Aro
+// Statio
 // Varun Santhanam
 //
 
-@testable import Statio
 import FBSnapshotTestCase
+@testable import Statio
 
 final class MainViewControllerSnapshotTests: SnapshotTestCase {
 

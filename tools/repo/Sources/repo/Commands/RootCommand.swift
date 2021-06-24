@@ -1,5 +1,5 @@
 //
-// Aro
+// Statio
 // Varun Santhanam
 //
 
@@ -25,6 +25,6 @@ struct RootCommand: ParsableCommand, RepoCommand {
     // MARK: - RepoCommand
 
     func action() throws {
-        write(message: "Welcome to Aro! Run ./repo -h for more options")
+        write(message: "Welcome to Statio! Run ./repo -h for more options")
     }
 }

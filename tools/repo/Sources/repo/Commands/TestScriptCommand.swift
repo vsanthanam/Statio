@@ -1,5 +1,5 @@
 //
-// Aro
+// Statio
 // Varun Santhanam
 //
 
@@ -97,9 +97,9 @@ struct TestScriptCommand: ParsableCommand, RepoCommand {
         let testCommand: String
 
         if pretty {
-            testCommand = "xcodebuild -workspace \(workspace)/Aro.xcworkspace -sdk iphonesimulator -scheme Aro -destination 'platform=iOS Simulator,name=\(device),OS=\(os)' test | xcbeautify"
+            testCommand = "xcodebuild -workspace \(workspace)/Statio.xcworkspace -sdk iphonesimulator -scheme Statio -destination 'platform=iOS Simulator,name=\(device),OS=\(os)' test | xcbeautify"
         } else {
-            testCommand = "xcodebuild -workspace \(workspace)/Aro.xcworkspace -sdk iphonesimulator -scheme Aro -destination 'platform=iOS Simulator,name=\(device),OS=\(os)' test"
+            testCommand = "xcodebuild -workspace \(workspace)/Statio.xcworkspace -sdk iphonesimulator -scheme Statio -destination 'platform=iOS Simulator,name=\(device),OS=\(os)' test"
         }
 
         script += "\n\(testCommand)"
