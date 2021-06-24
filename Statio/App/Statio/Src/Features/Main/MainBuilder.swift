@@ -12,10 +12,24 @@ protocol MainDependency: Dependency {
     var analyticsManager: AnalyticsManaging { get }
 }
 
-final class MainComponent: Component<MainDependency> {}
+final class MainComponent: Component<MainDependency> {
+
+    // MARK: - Published Dependencies
+
+    var resourceProvider: ResourceProviding {
+        ResourceProvider()
+    }
+
+    // MARK: - Children
+
+    var monitorBuilder: MonitorBuildable {
+        MonitorBuilder { MonitorComponent(parent: self) }
+    }
+
+}
 
 /// @mockable
-protocol MainInteractable: PresentableInteractable {}
+protocol MainInteractable: PresentableInteractable, MonitorListener {}
 
 typealias MainDynamicBuildDependency = (
     MainListener
@@ -33,7 +47,8 @@ final class MainBuilder: ComponentizedBuilder<MainComponent, PresentableInteract
     override func build(with component: MainComponent, _ dynamicBuildDependency: MainDynamicBuildDependency) -> PresentableInteractable {
         let listener = dynamicBuildDependency
         let viewController = MainViewController(analyticsManager: component.analyticsManager)
-        let interactor = MainInteractor(presenter: viewController)
+        let interactor = MainInteractor(presenter: viewController,
+                                        monitorBuilder: component.monitorBuilder)
         interactor.listener = listener
         return interactor
     }

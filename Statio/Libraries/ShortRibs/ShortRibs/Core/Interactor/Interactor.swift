@@ -58,7 +58,9 @@ open class Interactor: Interactable {
     public final func attach(child: Interactable) {
         assert(isActive, "You cannot attach children while the interactor is inactive!")
         assert(!child.isActive, "You cannot attach a child that is already active!")
-        assert(!(children.contains { $0 === child }), "You cannot attach a child that is already attached!")
+        guard !children.contains(child) else {
+            return
+        }
         children.append(child)
         child.activate()
     }
@@ -69,7 +71,6 @@ open class Interactor: Interactable {
     public final func detach(child: Interactable) {
         assert(child.isActive, "You cannot detach a child that isn't active!")
         guard let index = children.firstIndex(where: { e in e as AnyObject === child as AnyObject }) else {
-            assertionFailure("You cannot detach a child that isn't already attached!")
             return
         }
         children.remove(at: index)
@@ -159,4 +160,10 @@ public extension Cancellable {
         return self
     }
 
+}
+
+public extension Array where Element == Interactable {
+    func contains(_ element: Element) -> Bool {
+        contains { $0 === element }
+    }
 }

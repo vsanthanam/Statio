@@ -42,10 +42,7 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
     private var main: PresentableInteractable?
 
     private func attachMain() {
-        if let main = main {
-            detach(child: main)
-        }
-        let main = mainBuilder.build(withListener: self)
+        let main = self.main ?? mainBuilder.build(withListener: self)
         attach(child: main)
         presenter.showMain(main.viewControllable)
         self.main = main

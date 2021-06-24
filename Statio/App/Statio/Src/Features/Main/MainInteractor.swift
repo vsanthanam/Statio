@@ -21,7 +21,9 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
 
     // MARK: - Initializers
 
-    override init(presenter: MainPresentable) {
+    init(presenter: MainPresentable,
+         monitorBuilder: MonitorBuildable) {
+        self.monitorBuilder = monitorBuilder
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -29,5 +31,25 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
     // MARK: - API
 
     weak var listener: MainListener?
+
+    // MARK: - Interactor
+
+    override func didBecomeActive() {
+        super.didBecomeActive()
+        attachMonitor()
+    }
+
+    // MARK: - Private
+
+    private let monitorBuilder: MonitorBuildable
+
+    private var monitor: PresentableInteractable?
+
+    private func attachMonitor() {
+        let monitor = self.monitor ?? monitorBuilder.build(withListener: self)
+        attach(child: monitor)
+        presenter.show(monitor.viewControllable)
+        self.monitor = monitor
+    }
 
 }
