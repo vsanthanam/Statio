@@ -20,9 +20,37 @@ final class MainComponent: Component<MainDependency> {
         ResourceProvider()
     }
 
+    var deviceModelStream: DeviceModelStreaming {
+        mutableDeviceModelStream
+    }
+
+    // MARK: - Internal Dependencies
+
+    fileprivate var mainDeviceModelStorageWorker: MainDeviceModelStorageWorking {
+        MainDeviceModelStorageWorker(deviceModelStream: deviceModelStream, mutableDeviceModelStorage: mutableDeviceModelStorage)
+    }
+
+    fileprivate var mainDeviceModelUpdateWorker: MainDeviceModelUpdateWorking {
+        MainDeviceModelUpdateWorker(mutableDeviceModelStream: mutableDeviceModelStream, deviceModelStorage: deviceModelStorage)
+    }
+
+    // MARK: - Private Dependencies
+
+    private var mutableDeviceModelStream: MutableDeviceModelStreaming {
+        shared { DeviceModelStream(deviceModelStorage: deviceModelStorage) }
+    }
+
+    private var mutableDeviceModelStorage: MutableDeviceModelStoring {
+        DeviceModelStorage()
+    }
+
+    private var deviceModelStorage: DeviceModelStoring {
+        mutableDeviceModelStorage
+    }
+
     // MARK: - Children
 
-    var monitorBuilder: MonitorBuildable {
+    fileprivate var monitorBuilder: MonitorBuildable {
         MonitorBuilder { MonitorComponent(parent: self) }
     }
 
@@ -48,6 +76,8 @@ final class MainBuilder: ComponentizedBuilder<MainComponent, PresentableInteract
         let listener = dynamicBuildDependency
         let viewController = MainViewController(analyticsManager: component.analyticsManager)
         let interactor = MainInteractor(presenter: viewController,
+                                        mainDeviceModelStorageWorker: component.mainDeviceModelStorageWorker,
+                                        mainDeviceModelUpdateWorker: component.mainDeviceModelUpdateWorker,
                                         monitorBuilder: component.monitorBuilder)
         interactor.listener = listener
         return interactor

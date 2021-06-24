@@ -12,6 +12,8 @@ import XCTest
 final class MainInteractorTests: TestCase {
 
     let presenter = MainPresentableMock()
+    let mainDeviceModelStorageWorker = MainDeviceModelStorageWorkingMock()
+    let mainDeviceModelUpdateWorker = MainDeviceModelUpdateWorkingMock()
     let monitorBuilder = MonitorBuildableMock()
 
     let listener = MainListenerMock()
@@ -20,12 +22,33 @@ final class MainInteractorTests: TestCase {
 
     override func setUp() {
         super.setUp()
-        interactor = .init(presenter: presenter, monitorBuilder: monitorBuilder)
+        interactor = .init(presenter: presenter,
+                           mainDeviceModelStorageWorker: mainDeviceModelStorageWorker,
+                           mainDeviceModelUpdateWorker: mainDeviceModelUpdateWorker,
+                           monitorBuilder: monitorBuilder)
         interactor.listener = listener
     }
 
     func test_init_setsPresenterListener() {
         XCTAssertTrue(presenter.listener === interactor)
+    }
+
+    func test_activate_startsDeviceModelStorageWorker() {
+        mainDeviceModelUpdateWorker.startHandler = { [interactor] scope in
+            XCTAssertTrue(interactor === scope)
+        }
+        XCTAssertEqual(mainDeviceModelStorageWorker.startCallCount, 0)
+        interactor.activate()
+        XCTAssertEqual(mainDeviceModelStorageWorker.startCallCount, 1)
+    }
+
+    func test_activate_startsDeviceUpdateStorageWorker() {
+        mainDeviceModelUpdateWorker.startHandler = { [interactor] scope in
+            XCTAssertTrue(interactor === scope)
+        }
+        XCTAssertEqual(mainDeviceModelUpdateWorker.startCallCount, 0)
+        interactor.activate()
+        XCTAssertEqual(mainDeviceModelUpdateWorker.startCallCount, 1)
     }
 
     func test_activate_attachesMonitor() {
