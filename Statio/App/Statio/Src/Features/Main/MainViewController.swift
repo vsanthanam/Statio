@@ -121,6 +121,6 @@ final class MainViewController: ScopeViewController, MainPresentable, UITabBarDe
 
 private extension MainTabViewModel {
     var tabItem: UITabBarItem {
-        .init(title: title, image: nil, tag: tag)
+        .init(title: title, image: image, tag: tag)
     }
 }

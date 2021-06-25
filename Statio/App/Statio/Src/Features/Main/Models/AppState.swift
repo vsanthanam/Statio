@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import UIKit
 
 enum AppState: CaseIterable, Identifiable, Equatable, Hashable {
 
@@ -18,9 +19,9 @@ enum AppState: CaseIterable, Identifiable, Equatable, Hashable {
     var viewModel: MainTabViewModel {
         switch self {
         case .monitor:
-            return .init(title: "Monitor", tag: 0)
+            return .init(title: "Monitor", image: UIImage(systemName: "magnifyingglass", withConfiguration: UIImage.SymbolConfiguration(weight: .regular))!.imageWithoutBaseline(), tag: 0)
         case .settings:
-            return .init(title: "Settings", tag: 1)
+            return .init(title: "Settings", image: UIImage(systemName: "gear", withConfiguration: UIImage.SymbolConfiguration(weight: .regular))!.imageWithoutBaseline(), tag: 1)
         }
     }
 

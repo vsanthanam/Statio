@@ -17,6 +17,7 @@ final class MainViewControllerSnapshotTests: SnapshotTestCase {
         let viewController = MainViewController(analyticsManager: AnalyticsManagingMock())
         viewController.loadView()
         viewController.viewDidLoad()
+        viewController.showTabs(AppState.allCases.map(\.viewModel))
         FBSnapshotVerifyViewController(viewController)
     }
 
