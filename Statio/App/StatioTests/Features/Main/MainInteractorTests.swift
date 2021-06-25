@@ -12,6 +12,8 @@ import XCTest
 final class MainInteractorTests: TestCase {
 
     let presenter = MainPresentableMock()
+    let appStateSubject = PassthroughSubject<AppState, Never>()
+    let appStateManager = AppStateManagingMock()
     let mainDeviceModelStorageWorker = MainDeviceModelStorageWorkingMock()
     let mainDeviceModelUpdateWorker = MainDeviceModelUpdateWorkingMock()
     let mainDeviceBoardStorageWorker = MainDeviceBoardStorageWorkingMock()
@@ -23,7 +25,9 @@ final class MainInteractorTests: TestCase {
 
     override func setUp() {
         super.setUp()
+        appStateManager.state = appStateSubject.eraseToAnyPublisher()
         interactor = .init(presenter: presenter,
+                           appStateManager: appStateManager,
                            mainDeviceModelStorageWorker: mainDeviceModelStorageWorker,
                            mainDeviceModelUpdateWorker: mainDeviceModelUpdateWorker,
                            mainDeviceBoardStorageWorker: mainDeviceBoardStorageWorker,

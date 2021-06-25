@@ -21,10 +21,12 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
     // MARK: - Initializers
 
     init(presenter: MainPresentable,
+         appStateManager: AppStateManaging,
          mainDeviceModelStorageWorker: MainDeviceModelStorageWorking,
          mainDeviceModelUpdateWorker: MainDeviceModelUpdateWorking,
          mainDeviceBoardStorageWorker: MainDeviceBoardStorageWorking,
          mainDeviceBoardUpdateWorker: MainDeviceBoardUpdateWorking) {
+        self.appStateManager = appStateManager
         self.mainDeviceModelStorageWorker = mainDeviceModelStorageWorker
         self.mainDeviceModelUpdateWorker = mainDeviceModelUpdateWorker
         self.mainDeviceBoardStorageWorker = mainDeviceBoardStorageWorker
@@ -41,15 +43,27 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
 
     override func didBecomeActive() {
         super.didBecomeActive()
+        startObservingAppState()
         startWorkers()
     }
 
     // MARK: - Private
 
+    private let appStateManager: AppStateManaging
     private let mainDeviceModelStorageWorker: MainDeviceModelStorageWorking
     private let mainDeviceModelUpdateWorker: MainDeviceModelUpdateWorking
     private let mainDeviceBoardStorageWorker: MainDeviceBoardStorageWorking
     private let mainDeviceBoardUpdateWorker: MainDeviceBoardUpdateWorking
+
+    private var currentState: PresentableInteractable?
+
+    private func startObservingAppState() {
+        appStateManager.state
+            .sink { _ in
+                // Do stuff with the latest state
+            }
+            .cancelOnDeactivate(interactor: self)
+    }
 
     private func startWorkers() {
         mainDeviceModelStorageWorker.start(on: self)

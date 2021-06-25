@@ -28,6 +28,10 @@ final class MainComponent: Component<MainDependency> {
         mutableDeviceBoardStream
     }
 
+    var appStateProviding: AppStateProviding {
+        appStateManager
+    }
+
     // MARK: - Internal Dependencies
 
     fileprivate var mainDeviceModelStorageWorker: MainDeviceModelStorageWorking {
@@ -44,6 +48,10 @@ final class MainComponent: Component<MainDependency> {
 
     fileprivate var mainDeviceBoardUpdateWorker: MainDeviceBoardUpdateWorking {
         MainDeviceBoardUpdateWorker(mutableDeviceBoardStream: mutableDeviceBoardStream)
+    }
+
+    fileprivate var appStateManager: AppStateManaging {
+        shared { AppStateManager() }
     }
 
     // MARK: - Private Dependencies
@@ -94,6 +102,7 @@ final class MainBuilder: ComponentizedBuilder<MainComponent, PresentableInteract
         let listener = dynamicBuildDependency
         let viewController = MainViewController(analyticsManager: component.analyticsManager)
         let interactor = MainInteractor(presenter: viewController,
+                                        appStateManager: component.appStateManager,
                                         mainDeviceModelStorageWorker: component.mainDeviceModelStorageWorker,
                                         mainDeviceModelUpdateWorker: component.mainDeviceModelUpdateWorker,
                                         mainDeviceBoardStorageWorker: component.mainDeviceBoardStorageWorker,
