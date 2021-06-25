@@ -21,11 +21,12 @@ final class DeviceModelStorage: MutableDeviceModelStoring {
     // MARK: - DeviceModelStoring
 
     func retrieveCachedModels() throws -> [DeviceModel] {
-        guard let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+        guard let documentsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
             loggedAssertionFailure("Couldn't locate documents directory", key: "missing_documents_directory")
             return []
         }
-        guard let data = FileManager.default.contents(atPath: directory.path) else {
+        let modelsUrl = documentsUrl.appendingPathComponent("device_models.json", isDirectory: false)
+        guard let data = FileManager.default.contents(atPath: modelsUrl.path) else {
             return []
         }
         return try JSONDecoder().decode([DeviceModel].self, from: data)
@@ -34,12 +35,13 @@ final class DeviceModelStorage: MutableDeviceModelStoring {
     // MARK: - MutableDeviceModelStoring
 
     func storeModels(_ models: [DeviceModel]) throws {
-        guard let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+        guard let documentsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
             return
         }
-        try? FileManager.default.removeItem(at: directory)
+        let modelsUrl = documentsUrl.appendingPathComponent("device_models.json", isDirectory: false)
+        try? FileManager.default.removeItem(at: modelsUrl)
         let data = try JSONEncoder().encode(models)
-        try data.write(to: directory)
+        try data.write(to: modelsUrl)
     }
 
 }

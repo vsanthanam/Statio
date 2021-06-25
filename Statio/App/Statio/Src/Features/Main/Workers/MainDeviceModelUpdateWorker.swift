@@ -17,10 +17,8 @@ final class MainDeviceModelUpdateWorker: Worker, MainDeviceModelUpdateWorking {
 
     // MARK: - Initializers
 
-    init(mutableDeviceModelStream: MutableDeviceModelStreaming,
-         deviceModelStorage: DeviceModelStoring) {
+    init(mutableDeviceModelStream: MutableDeviceModelStreaming) {
         self.mutableDeviceModelStream = mutableDeviceModelStream
-        self.deviceModelStorage = deviceModelStorage
         super.init()
     }
 
@@ -34,7 +32,6 @@ final class MainDeviceModelUpdateWorker: Worker, MainDeviceModelUpdateWorking {
     // MARK: - Private
 
     private let mutableDeviceModelStream: MutableDeviceModelStreaming
-    private let deviceModelStorage: DeviceModelStoring
 
     private func updateModels() {
         ComposableRequest<NoBody, [DeviceModel], HTTPError>()

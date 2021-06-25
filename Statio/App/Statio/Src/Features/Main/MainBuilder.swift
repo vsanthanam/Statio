@@ -24,6 +24,10 @@ final class MainComponent: Component<MainDependency> {
         mutableDeviceModelStream
     }
 
+    var deviceBoardStream: DeviceBoardStreaming {
+        mutableDeviceBoardStream
+    }
+
     // MARK: - Internal Dependencies
 
     fileprivate var mainDeviceModelStorageWorker: MainDeviceModelStorageWorking {
@@ -31,7 +35,15 @@ final class MainComponent: Component<MainDependency> {
     }
 
     fileprivate var mainDeviceModelUpdateWorker: MainDeviceModelUpdateWorking {
-        MainDeviceModelUpdateWorker(mutableDeviceModelStream: mutableDeviceModelStream, deviceModelStorage: deviceModelStorage)
+        MainDeviceModelUpdateWorker(mutableDeviceModelStream: mutableDeviceModelStream)
+    }
+
+    fileprivate var mainDeviceBoardStorageWorker: MainDeviceBoardStorageWorking {
+        MainDeviceBoardStorageWorker(deviceBoardStream: deviceBoardStream, mutableDeviceBoardStorage: mutableDeviceBoardStorage)
+    }
+
+    fileprivate var mainDeviceBoardUpdateWorker: MainDeviceBoardUpdateWorking {
+        MainDeviceBoardUpdateWorker(mutableDeviceBoardStream: mutableDeviceBoardStream)
     }
 
     // MARK: - Private Dependencies
@@ -46,6 +58,18 @@ final class MainComponent: Component<MainDependency> {
 
     private var deviceModelStorage: DeviceModelStoring {
         mutableDeviceModelStorage
+    }
+
+    private var mutableDeviceBoardStream: MutableDeviceBoardStreaming {
+        shared { DeviceBoardStream(deviceBoardStorage: deviceBoardStorage) }
+    }
+
+    private var mutableDeviceBoardStorage: MutableDeviceBoardStoring {
+        DeviceBoardStorage()
+    }
+
+    private var deviceBoardStorage: DeviceBoardStoring {
+        mutableDeviceBoardStorage
     }
 
     // MARK: - Children
@@ -78,6 +102,8 @@ final class MainBuilder: ComponentizedBuilder<MainComponent, PresentableInteract
         let interactor = MainInteractor(presenter: viewController,
                                         mainDeviceModelStorageWorker: component.mainDeviceModelStorageWorker,
                                         mainDeviceModelUpdateWorker: component.mainDeviceModelUpdateWorker,
+                                        mainDeviceBoardStorageWorker: component.mainDeviceBoardStorageWorker,
+                                        mainDeviceBoardUpdateWorker: component.mainDeviceBoardUpdateWorker,
                                         monitorBuilder: component.monitorBuilder)
         interactor.listener = listener
         return interactor

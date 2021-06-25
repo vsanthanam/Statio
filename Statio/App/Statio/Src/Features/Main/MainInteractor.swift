@@ -24,9 +24,13 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
     init(presenter: MainPresentable,
          mainDeviceModelStorageWorker: MainDeviceModelStorageWorking,
          mainDeviceModelUpdateWorker: MainDeviceModelUpdateWorking,
+         mainDeviceBoardStorageWorker: MainDeviceBoardStorageWorking,
+         mainDeviceBoardUpdateWorker: MainDeviceBoardUpdateWorking,
          monitorBuilder: MonitorBuildable) {
         self.mainDeviceModelStorageWorker = mainDeviceModelStorageWorker
         self.mainDeviceModelUpdateWorker = mainDeviceModelUpdateWorker
+        self.mainDeviceBoardStorageWorker = mainDeviceBoardStorageWorker
+        self.mainDeviceBoardUpdateWorker = mainDeviceBoardUpdateWorker
         self.monitorBuilder = monitorBuilder
         super.init(presenter: presenter)
         presenter.listener = self
@@ -48,13 +52,17 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
 
     private let mainDeviceModelStorageWorker: MainDeviceModelStorageWorking
     private let mainDeviceModelUpdateWorker: MainDeviceModelUpdateWorking
+    private let mainDeviceBoardStorageWorker: MainDeviceBoardStorageWorking
+    private let mainDeviceBoardUpdateWorker: MainDeviceBoardUpdateWorking
     private let monitorBuilder: MonitorBuildable
 
     private var monitor: PresentableInteractable?
 
     private func startWorkers() {
         mainDeviceModelStorageWorker.start(on: self)
+        mainDeviceBoardStorageWorker.start(on: self)
         mainDeviceModelUpdateWorker.start(on: self)
+        mainDeviceBoardUpdateWorker.start(on: self)
     }
 
     private func attachMonitor() {

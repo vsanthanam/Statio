@@ -16,6 +16,7 @@ final class DeviceModelStreamTests: TestCase {
     var stream: DeviceModelStream!
 
     override func setUp() {
+        super.setUp()
         stream = .init(deviceModelStorage: deviceModelStorage)
     }
 
