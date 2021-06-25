@@ -18,6 +18,8 @@ final class MainInteractorTests: TestCase {
     let mainDeviceModelUpdateWorker = MainDeviceModelUpdateWorkingMock()
     let mainDeviceBoardStorageWorker = MainDeviceBoardStorageWorkingMock()
     let mainDeviceBoardUpdateWorker = MainDeviceBoardUpdateWorkingMock()
+    let monitorBuilder = MonitorBuildableMock()
+    let settingsBuilder = SettingsBuildableMock()
 
     let listener = MainListenerMock()
 
@@ -31,12 +33,137 @@ final class MainInteractorTests: TestCase {
                            mainDeviceModelStorageWorker: mainDeviceModelStorageWorker,
                            mainDeviceModelUpdateWorker: mainDeviceModelUpdateWorker,
                            mainDeviceBoardStorageWorker: mainDeviceBoardStorageWorker,
-                           mainDeviceBoardUpdateWorker: mainDeviceBoardUpdateWorker)
+                           mainDeviceBoardUpdateWorker: mainDeviceBoardUpdateWorker,
+                           monitorBuilder: monitorBuilder,
+                           settingsBuilder: settingsBuilder)
         interactor.listener = listener
     }
 
     func test_init_setsPresenterListener() {
         XCTAssertTrue(presenter.listener === interactor)
+    }
+
+    func test_activate_configuresStates() {
+        presenter.showTabsHandler = { models in
+            XCTAssertEqual(models, AppState.allCases.map(\.viewModel))
+        }
+        XCTAssertEqual(presenter.showTabsCallCount, 0)
+        interactor.activate()
+        XCTAssertEqual(presenter.showTabsCallCount, 1)
+    }
+
+    func test_activate_updatesToInitialState() {
+        appStateManager.updateHandler = { state in
+            XCTAssertEqual(state, .monitor)
+        }
+        XCTAssertEqual(appStateManager.updateCallCount, 0)
+        interactor.activate()
+        XCTAssertEqual(appStateManager.updateCallCount, 1)
+    }
+
+    func test_stateSwitchching_buildsOnce_presents_attaches() {
+        let monitor = MonitorInteractableMock()
+        let settings = SettingsInteractableMock()
+
+        monitor.activateHandler = { monitor.isActive = true }
+        monitor.deactivateHandler = { monitor.isActive = false }
+
+        settings.activateHandler = { settings.isActive = true }
+        settings.deactivateHandler = { settings.isActive = false }
+
+        monitorBuilder.buildHandler = { [interactor] listener in
+            XCTAssertTrue(interactor === listener)
+            return monitor
+        }
+
+        settingsBuilder.buildHandler = { [interactor] listener in
+            XCTAssertTrue(interactor === listener)
+            return settings
+        }
+
+        XCTAssertEqual(monitorBuilder.buildCallCount, 0)
+        XCTAssertEqual(settingsBuilder.buildCallCount, 0)
+        XCTAssertEqual(presenter.embedCallCount, 0)
+        XCTAssertEqual(interactor.children.count, 0)
+
+        interactor.activate()
+
+        XCTAssertEqual(monitorBuilder.buildCallCount, 0)
+        XCTAssertEqual(settingsBuilder.buildCallCount, 0)
+        XCTAssertEqual(presenter.embedCallCount, 0)
+        XCTAssertEqual(interactor.children.count, 0)
+
+        presenter.activateTabHandler = { id in
+            XCTAssertEqual(AppState.monitor.id, id)
+        }
+
+        appStateSubject.send(.monitor)
+
+        XCTAssertEqual(monitorBuilder.buildCallCount, 1)
+        XCTAssertEqual(settingsBuilder.buildCallCount, 0)
+        XCTAssertEqual(presenter.embedCallCount, 1)
+        XCTAssertEqual(presenter.activateTabCallCount, 1)
+        XCTAssertEqual(interactor.children.count, 1)
+        XCTAssertTrue(interactor.children.first === monitor)
+
+        presenter.activateTabHandler = { id in
+            XCTAssertEqual(AppState.settings.id, id)
+        }
+
+        appStateSubject.send(.settings)
+
+        XCTAssertEqual(monitorBuilder.buildCallCount, 1)
+        XCTAssertEqual(settingsBuilder.buildCallCount, 1)
+        XCTAssertEqual(presenter.embedCallCount, 2)
+        XCTAssertEqual(presenter.activateTabCallCount, 2)
+        XCTAssertEqual(interactor.children.count, 1)
+        XCTAssertTrue(interactor.children.first === settings)
+
+        presenter.activateTabHandler = { id in
+            XCTAssertEqual(AppState.monitor.id, id)
+        }
+
+        appStateSubject.send(.monitor)
+
+        XCTAssertEqual(monitorBuilder.buildCallCount, 1)
+        XCTAssertEqual(settingsBuilder.buildCallCount, 1)
+        XCTAssertEqual(presenter.embedCallCount, 3)
+        XCTAssertEqual(presenter.activateTabCallCount, 3)
+        XCTAssertEqual(interactor.children.count, 1)
+        XCTAssertTrue(interactor.children.first === monitor)
+
+        presenter.activateTabHandler = { id in
+            XCTAssertEqual(AppState.settings.id, id)
+        }
+
+        appStateSubject.send(.settings)
+
+        XCTAssertEqual(monitorBuilder.buildCallCount, 1)
+        XCTAssertEqual(settingsBuilder.buildCallCount, 1)
+        XCTAssertEqual(presenter.embedCallCount, 4)
+        XCTAssertEqual(presenter.activateTabCallCount, 4)
+        XCTAssertEqual(interactor.children.count, 1)
+        XCTAssertTrue(interactor.children.first === settings)
+    }
+
+    func test_didTap_activatesState() {
+        XCTAssertEqual(appStateManager.updateCallCount, 0)
+
+        appStateManager.updateHandler = { state in
+            XCTAssertEqual(state, .settings)
+        }
+
+        interactor.didSelectTab(withTag: AppState.settings.id)
+
+        XCTAssertEqual(appStateManager.updateCallCount, 1)
+
+        appStateManager.updateHandler = { state in
+            XCTAssertEqual(state, .monitor)
+        }
+
+        interactor.didSelectTab(withTag: AppState.monitor.id)
+
+        XCTAssertEqual(appStateManager.updateCallCount, 2)
     }
 
     func test_activate_startsDeviceModelStorageWorker() {

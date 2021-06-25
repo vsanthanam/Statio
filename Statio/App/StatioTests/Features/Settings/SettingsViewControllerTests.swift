@@ -5,18 +5,18 @@
 
 @testable import Analytics
 import Foundation
-@testable import ShortRibs
 @testable import Statio
 import XCTest
 
-final class MainViewControllerTests: TestCase {
+final class SettingsViewControllerTests: TestCase {
 
     let analyticsManager = AnalyticsManagingMock()
-    let listener = MainPresentableListenerMock()
+    let listener = SettingsPresentableListenerMock()
 
-    var viewController: MainViewController!
+    var viewController: SettingsViewController!
 
     override func setUp() {
+        super.setUp()
         viewController = .init(analyticsManager: analyticsManager)
         viewController.listener = listener
     }
@@ -27,24 +27,11 @@ final class MainViewControllerTests: TestCase {
                 XCTFail("Invalid Analytics Event")
                 return
             }
-            XCTAssertEqual(event, .main_vc_impression)
+            XCTAssertEqual(event, .settings_vc_impression)
         }
 
         XCTAssertEqual(analyticsManager.sendCallCount, 0)
         viewController.viewDidAppear(true)
         XCTAssertEqual(analyticsManager.sendCallCount, 1)
-    }
-
-    func test_didSelectTabBar_callsListener() {
-        let bar = UITabBar()
-        let item = UITabBarItem(title: nil, image: nil, tag: 7)
-
-        listener.didSelectTabHandler = { tag in
-            XCTAssertEqual(tag, item.tag)
-        }
-
-        XCTAssertEqual(listener.didSelectTabCallCount, 0)
-        viewController.tabBar(bar, didSelect: item)
-        XCTAssertEqual(listener.didSelectTabCallCount, 1)
     }
 }

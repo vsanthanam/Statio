@@ -4,12 +4,17 @@
 //
 
 import Foundation
+import ShortRibs
 import UIKit
 
-open class BaseNavigationController: UINavigationController {
+class BaseNavigationController: UINavigationController {
 
-    override public init(rootViewController: UIViewController) {
+    override init(rootViewController: UIViewController) {
         super.init(rootViewController: rootViewController)
+    }
+
+    init() {
+        super.init(rootViewController: .init())
     }
 
     @available(*, unavailable)
@@ -17,7 +22,7 @@ open class BaseNavigationController: UINavigationController {
         fatalError("Don't Use Interface Builder 😡")
     }
 
-    override open func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         let appearance = UINavigationBarAppearance()
 //        appearance.titleTextAttributes = [.foregroundColor: UIColor.contentPrimary]
@@ -29,4 +34,8 @@ open class BaseNavigationController: UINavigationController {
 //        navigationBar.tintColor = .contentAccentPrimary
     }
 
+}
+
+extension BaseNavigationController: ViewControllable {
+    var uiviewController: UIViewController { self }
 }
