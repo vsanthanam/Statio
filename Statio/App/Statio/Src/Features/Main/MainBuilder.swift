@@ -72,16 +72,10 @@ final class MainComponent: Component<MainDependency> {
         mutableDeviceBoardStorage
     }
 
-    // MARK: - Children
-
-    fileprivate var monitorBuilder: MonitorBuildable {
-        MonitorBuilder { MonitorComponent(parent: self) }
-    }
-
 }
 
 /// @mockable
-protocol MainInteractable: PresentableInteractable, MonitorListener {}
+protocol MainInteractable: PresentableInteractable {}
 
 typealias MainDynamicBuildDependency = (
     MainListener
@@ -103,8 +97,7 @@ final class MainBuilder: ComponentizedBuilder<MainComponent, PresentableInteract
                                         mainDeviceModelStorageWorker: component.mainDeviceModelStorageWorker,
                                         mainDeviceModelUpdateWorker: component.mainDeviceModelUpdateWorker,
                                         mainDeviceBoardStorageWorker: component.mainDeviceBoardStorageWorker,
-                                        mainDeviceBoardUpdateWorker: component.mainDeviceBoardUpdateWorker,
-                                        monitorBuilder: component.monitorBuilder)
+                                        mainDeviceBoardUpdateWorker: component.mainDeviceBoardUpdateWorker)
         interactor.listener = listener
         return interactor
     }

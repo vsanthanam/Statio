@@ -10,8 +10,6 @@ enum AnalyticsEvent: String, Event, Equatable, Hashable, CustomStringConvertible
 
     case root_become_active
     case main_vc_impression
-    case home_vc_impression
-    case monitor_vc_impression
 
     // MARK: - Event
 

@@ -42,35 +42,6 @@ final class MainViewController: ScopeViewController, MainPresentable {
 
     weak var listener: MainPresentableListener?
 
-    func show(_ viewController: ViewControllable) {
-        guard viewController !== currentState else {
-            return
-        }
-
-        currentState?.uiviewController.willMove(toParent: nil)
-        addChild(viewController.uiviewController)
-
-        viewController.uiviewController.view.alpha = 0.0
-        specializedView.addSubview(viewController.uiviewController.view)
-        viewController.uiviewController.view.snp.makeConstraints { make in
-            make
-                .edges
-                .equalToSuperview()
-        }
-
-        UIView.animate(withDuration: 0.4,
-                       animations: { [currentState] in
-                           currentState?.uiviewController.view.alpha = 0.0
-                           viewController.uiviewController.view.alpha = 1.0
-                       }, completion: { [weak self] _ in
-                           self?.currentState?.uiviewController.removeFromParent()
-                           self?.currentState?.uiviewController.view.removeFromSuperview()
-                           viewController.uiviewController.didMove(toParent: self)
-                           self?.currentState = viewController
-                           self?.setNeedsStatusBarAppearanceUpdate()
-                       })
-    }
-
     // MARK: - Private
 
     private let analyticsManager: AnalyticsManaging

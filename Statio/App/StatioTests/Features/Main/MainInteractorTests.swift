@@ -16,7 +16,6 @@ final class MainInteractorTests: TestCase {
     let mainDeviceModelUpdateWorker = MainDeviceModelUpdateWorkingMock()
     let mainDeviceBoardStorageWorker = MainDeviceBoardStorageWorkingMock()
     let mainDeviceBoardUpdateWorker = MainDeviceBoardUpdateWorkingMock()
-    let monitorBuilder = MonitorBuildableMock()
 
     let listener = MainListenerMock()
 
@@ -28,8 +27,7 @@ final class MainInteractorTests: TestCase {
                            mainDeviceModelStorageWorker: mainDeviceModelStorageWorker,
                            mainDeviceModelUpdateWorker: mainDeviceModelUpdateWorker,
                            mainDeviceBoardStorageWorker: mainDeviceBoardStorageWorker,
-                           mainDeviceBoardUpdateWorker: mainDeviceBoardUpdateWorker,
-                           monitorBuilder: monitorBuilder)
+                           mainDeviceBoardUpdateWorker: mainDeviceBoardUpdateWorker)
         interactor.listener = listener
     }
 
@@ -76,30 +74,4 @@ final class MainInteractorTests: TestCase {
         interactor.activate()
         XCTAssertEqual(mainDeviceBoardUpdateWorker.startCallCount, 1)
     }
-
-    func test_activate_attachesMonitor() {
-        let monitor = PresentableInteractableMock()
-        let viewController = ViewControllableMock()
-        monitor.viewControllable = viewController
-
-        monitorBuilder.buildHandler = { listener in
-            XCTAssertTrue(listener === self.interactor)
-            return monitor
-        }
-
-        presenter.showHandler = { vc in
-            XCTAssertTrue(vc === viewController)
-        }
-
-        XCTAssertEqual(monitorBuilder.buildCallCount, 0)
-        XCTAssertEqual(presenter.showCallCount, 0)
-        XCTAssertEqual(interactor.children.count, 0)
-
-        interactor.activate()
-
-        XCTAssertEqual(monitorBuilder.buildCallCount, 1)
-        XCTAssertEqual(presenter.showCallCount, 1)
-        XCTAssertEqual(interactor.children.count, 1)
-    }
-
 }
