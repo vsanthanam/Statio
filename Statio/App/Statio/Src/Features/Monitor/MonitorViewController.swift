@@ -32,6 +32,10 @@ final class MonitorViewController: BaseNavigationController, MonitorPresentable,
 
     weak var listener: MonitorPresentableListener?
 
+    func showList(_ monitorList: MonitorListViewControllable) {
+        viewControllers = [monitorList.uiviewController]
+    }
+
     // MARK: - Private
 
     private let analyticsManager: AnalyticsManaging
