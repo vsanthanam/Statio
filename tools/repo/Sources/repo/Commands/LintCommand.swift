@@ -178,6 +178,15 @@ struct LintCommand: ParsableCommand, RepoCommand {
         struct SwiftLintConfig: Codable {
             var excluded: [String] = []
             var disabled_rules: [String] = []
+            var custom_rules: [String: SwiftLintCustomRegexRule] = [:]
+        }
+
+        struct SwiftLintCustomRegexRule: Codable {
+            var name: String
+            var regex: String
+            var message: String
+            var level: LintResult.Level
+            let excluded: String
         }
 
         var config = SwiftLintConfig()
@@ -186,6 +195,14 @@ struct LintCommand: ParsableCommand, RepoCommand {
             .map { repoRoot + "/" + $0 }
         config.excluded = exclude
         config.disabled_rules = disabledRules
+        for rule in (configuration?.lint.swiftlint.warnings ?? []) {
+            let customRule = SwiftLintCustomRegexRule(name: rule.name, regex: rule.regex, message: rule.message, level: .warning, excluded: "(^.*tools.*$)")
+            config.custom_rules[rule.name] = customRule
+        }
+        for rule in (configuration?.lint.swiftlint.errors ?? []) {
+            let customRule = SwiftLintCustomRegexRule(name: rule.name, regex: rule.regex, message: rule.message, level: .error, excluded: "(^.*tools.*$)")
+            config.custom_rules[rule.name] = customRule
+        }
         let encoder = YAMLEncoder()
         let yaml = try encoder.encode(config)
         if trace, !arclint {
@@ -305,14 +322,14 @@ struct LintCommand: ParsableCommand, RepoCommand {
     }
 }
 
-struct LintResult: CustomStringConvertible {
+struct LintResult: Codable, CustomStringConvertible {
 
-    enum Source: String {
+    enum Source: String, Codable {
         case swiftlint
         case swiftformat
     }
 
-    enum Level: String {
+    enum Level: String, Codable {
         case warning
         case error
     }

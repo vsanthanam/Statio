@@ -31,11 +31,24 @@ struct LintConfiguration: Codable {
 
     struct SwiftLint: Codable {
 
+        /// A custom lint rule
+        struct Rule: Codable {
+            let name: String
+            let regex: String
+            let message: String
+        }
+
         /// Disabled rules
         let disabledRules: [String]
 
         /// Opt-In Rules
         let optInRules: [String]
+
+        /// Custom Regex Warning Rules
+        let warnings: [Rule]
+
+        /// Custom Regex Error Rules
+        let errors: [Rule]
     }
 
 }
