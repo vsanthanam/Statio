@@ -95,7 +95,7 @@ struct LintCommand: ParsableCommand, RepoCommand {
 
         wipeConfig()
 
-        if autofix, !arclint {
+        if autofix, (!arclint) {
             try runSwiftLint(with: configuration,
                              enabledRules: enabledLintRules,
                              disabledRules: disabledLintRules,
@@ -134,11 +134,11 @@ struct LintCommand: ParsableCommand, RepoCommand {
 
         for result in results {
             if arclint {
-                let formatted = "\(result.level.rawValue):\(result.line):\(result.col) \(result.message) [\(result.source.rawValue)]"
+                let formatted = "\(result.level.rawValue):\(result.line):\(result.col):\(result.message):\(result.source.rawValue)"
                 write(message: formatted)
             } else {
                 switch result.level {
-                case .warning:
+                case .warning, .autofix:
                     warn(message: result.description, withColor: .yellow)
                 case .error:
                     warn(message: result.description, withColor: .red)
@@ -205,7 +205,7 @@ struct LintCommand: ParsableCommand, RepoCommand {
         }
         let encoder = YAMLEncoder()
         let yaml = try encoder.encode(config)
-        if trace, !arclint {
+        if trace {
             write(message: "SwifLint Configuration")
             write(message: yaml)
         }
@@ -223,7 +223,7 @@ struct LintCommand: ParsableCommand, RepoCommand {
         } else {
             command = [command, "--path", (input ?? repoRoot), "--strict"].joined(separator: " ")
         }
-        if trace, !arclint {
+        if trace {
             write(message: "\n" + command + "\n")
         }
         do {
@@ -238,7 +238,7 @@ struct LintCommand: ParsableCommand, RepoCommand {
                 .split(separator: "\n")
                 .filter { $0.hasPrefix("/") }
                 .map { output -> LintResult in
-                    .fromOutput(.init(output))
+                    .fromOutput(.init(output), source: .swiftlint)
                 }
                 .forEach { line in
                     output.append(line)
@@ -293,7 +293,7 @@ struct LintCommand: ParsableCommand, RepoCommand {
         }
         let command: String
         if fix {
-            command = ["bin/swiftformat/swiftformat", input ?? repoRoot, headerCommand].joined(separator: " ")
+            command = ["bin/swiftformat/swiftformat", input ?? repoRoot].joined(separator: " ")
         } else {
             command = ["bin/swiftformat/swiftformat", "--lint", input ?? repoRoot, headerCommand].joined(separator: " ")
         }
@@ -312,7 +312,7 @@ struct LintCommand: ParsableCommand, RepoCommand {
                 .split(separator: "\n")
                 .filter { $0.hasPrefix("/") }
                 .map { output -> LintResult in
-                    .fromOutput(.init(output))
+                    .fromOutput(.init(output), source: .swiftformat)
                 }
                 .forEach { line in
                     output.append(line)
@@ -332,20 +332,21 @@ struct LintResult: Codable, CustomStringConvertible {
     enum Level: String, Codable {
         case warning
         case error
+        case autofix
     }
 
-    let message: String
-    let file: String
-    let line: Int
-    let col: Int
-    let level: Level
-    let source: Source
+    var message: String
+    var file: String
+    var line: Int
+    var col: Int
+    var level: Level
+    var source: Source
 
     var description: String {
         "[\(level.rawValue)] \(file) at line \(line):\(col) — \(message)"
     }
 
-    static func fromOutput(_ output: String) -> LintResult {
+    static func fromOutput(_ output: String, source: Source) -> LintResult {
         let comps = output.split(separator: ":")
         let file = comps[0]
         let line = Int(comps[1])!
@@ -357,6 +358,6 @@ struct LintResult: Codable, CustomStringConvertible {
                      line: line,
                      col: col,
                      level: level,
-                     source: .swiftformat)
+                     source: source)
     }
 }
