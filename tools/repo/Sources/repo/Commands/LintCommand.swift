@@ -292,7 +292,7 @@ struct LintCommand: ParsableCommand, RepoCommand {
         }
         let command: String
         if fix {
-            command = ["bin/swiftformat/swiftformat", input ?? repoRoot].joined(separator: " ")
+            command = ["bin/swiftformat/swiftformat", input ?? repoRoot, headerCommand].joined(separator: " ")
         } else {
             command = ["bin/swiftformat/swiftformat", "--lint", input ?? repoRoot, headerCommand].joined(separator: " ")
         }
