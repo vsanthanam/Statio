@@ -28,7 +28,7 @@ extension RepoCommand {
         } catch {
             if let error = error as? RepoError {
                 let message = error.message.withColor(.red)
-                print(message, to: &io.stderr_stream)
+                print(message, to: &io.stderr_stream) // swiftlint:disable:this custom_rules
                 Darwin.exit(EXIT_FAILURE)
             } else {
                 throw error

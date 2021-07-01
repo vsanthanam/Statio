@@ -186,7 +186,6 @@ struct LintCommand: ParsableCommand, RepoCommand {
             var regex: String
             var message: String
             var level: LintResult.Level
-            let excluded: String
         }
 
         var config = SwiftLintConfig()
@@ -196,11 +195,11 @@ struct LintCommand: ParsableCommand, RepoCommand {
         config.excluded = exclude
         config.disabled_rules = disabledRules
         for rule in (configuration?.lint.swiftlint.warnings ?? []) {
-            let customRule = SwiftLintCustomRegexRule(name: rule.name, regex: rule.regex, message: rule.message, level: .warning, excluded: "(^.*tools.*$)")
+            let customRule = SwiftLintCustomRegexRule(name: rule.name, regex: rule.regex, message: rule.message, level: .warning)
             config.custom_rules[rule.name] = customRule
         }
         for rule in (configuration?.lint.swiftlint.errors ?? []) {
-            let customRule = SwiftLintCustomRegexRule(name: rule.name, regex: rule.regex, message: rule.message, level: .error, excluded: "(^.*tools.*$)")
+            let customRule = SwiftLintCustomRegexRule(name: rule.name, regex: rule.regex, message: rule.message, level: .error)
             config.custom_rules[rule.name] = customRule
         }
         let encoder = YAMLEncoder()

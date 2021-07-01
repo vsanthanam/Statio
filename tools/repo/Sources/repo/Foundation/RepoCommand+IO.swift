@@ -12,23 +12,23 @@ extension RepoCommand {
 
     func write(message: String, withColor color: Color? = nil) {
         if let color = color {
-            print(message.withColor(color), to: &io.stdout_stream)
+            print(message.withColor(color), to: &io.stdout_stream) // swiftlint:disable:this custom_rules
         } else {
-            print(message, to: &io.stdout_stream)
+            print(message, to: &io.stdout_stream) // swiftlint:disable:this custom_rules
         }
     }
 
     func warn(message: String, withColor color: Color? = nil) {
         if let color = color {
-            print(message.withColor(color), to: &io.stderr_stream)
+            print(message.withColor(color), to: &io.stderr_stream) // swiftlint:disable:this custom_rules
         } else {
-            print(message, to: &io.stderr_stream)
+            print(message, to: &io.stderr_stream) // swiftlint:disable:this custom_rules
         }
     }
 
     func complete(with message: String? = "Success! 🍻", color: Color = .green) {
         if let message = message {
-            print(message.withColor(color), to: &io.stdout_stream)
+            print(message.withColor(color), to: &io.stdout_stream) // swiftlint:disable:this custom_rules
         }
     }
 
