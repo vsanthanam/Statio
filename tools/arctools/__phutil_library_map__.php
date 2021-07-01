@@ -11,7 +11,7 @@ phutil_register_library_map(array(
   'class' => array(
     'CommandUnitTestEngine' => 'src/CommandUnitTestEngine.php',
     'MultiTestEngine' => 'src/MultiTestEngine.php',
-    'RepoSwiftLint' => 'src/RepoSwiftLinter.php',
+    'RepoSwiftLint' => 'src/SwiftLinter.php',
   ),
   'function' => array(),
   'xmap' => array(
