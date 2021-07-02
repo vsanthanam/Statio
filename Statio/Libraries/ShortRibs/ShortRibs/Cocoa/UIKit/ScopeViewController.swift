@@ -199,8 +199,8 @@ open class BaseScopeViewController<T>: UIViewController, ViewControllable where 
 }
 
 open class ScopeViewController: BaseScopeViewController<ScopeView> {
-    public convenience init() {
-        self.init(ScopeView.init)
+    public init() {
+        super.init(ScopeView.init)
     }
 }
 

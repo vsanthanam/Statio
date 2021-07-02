@@ -14,7 +14,7 @@ protocol MonitorViewControllable: ViewControllable {}
 /// @mockable
 protocol MonitorPresentableListener: AnyObject {}
 
-final class MonitorViewController: BaseNavigationController, MonitorPresentable, MonitorViewControllable {
+final class MonitorViewController: ParentScopeNavigationController, MonitorPresentable, MonitorViewControllable {
 
     init(analyticsManager: AnalyticsManaging) {
         self.analyticsManager = analyticsManager
@@ -22,6 +22,11 @@ final class MonitorViewController: BaseNavigationController, MonitorPresentable,
     }
 
     // MARK: - UIViewController
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationBar.prefersLargeTitles = true
+    }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -33,7 +38,11 @@ final class MonitorViewController: BaseNavigationController, MonitorPresentable,
     weak var listener: MonitorPresentableListener?
 
     func showList(_ monitorList: MonitorListViewControllable) {
-        viewControllers = [monitorList.uiviewController]
+        if activeViewController == nil {
+            setActiveViewController(monitorList)
+        } else {
+            popActiveViewController(monitorList)
+        }
     }
 
     // MARK: - Private

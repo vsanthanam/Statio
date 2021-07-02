@@ -27,7 +27,7 @@ final class MonitorListViewController: ScopeViewController, MonitorListPresentab
         self.analyticsManager = analyticsManager
         self.collectionView = collectionView
         self.dataSource = dataSource
-        super.init(ScopeView.init)
+        super.init()
     }
 
     // MARK: - UIViewController
@@ -35,8 +35,8 @@ final class MonitorListViewController: ScopeViewController, MonitorListPresentab
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Statio"
-        specializedView.addSubview(collectionView.uiview)
-        collectionView.uiview.snp.makeConstraints { make in
+        specializedView.addSubview(collectionView.view)
+        collectionView.view.snp.makeConstraints { make in
             make
                 .edges
                 .equalToSuperview()
@@ -77,26 +77,4 @@ final class MonitorListViewController: ScopeViewController, MonitorListPresentab
 
     private let collectionView: MonitorListCollectionView
     private let dataSource: MonitorListDataSource
-}
-
-/// @mockable
-protocol MonitorListDataSource: AnyObject {
-    func itemIdentifier(for indexPath: IndexPath) -> MonitorIdentifier?
-    func apply(_ snapshot: NSDiffableDataSourceSnapshot<MonitorCategoryIdentifier, MonitorIdentifier>)
-}
-
-extension UICollectionViewDiffableDataSource: MonitorListDataSource where SectionIdentifierType == MonitorCategoryIdentifier, ItemIdentifierType == MonitorIdentifier {
-    func apply(_ snapshot: NSDiffableDataSourceSnapshot<MonitorCategoryIdentifier, MonitorIdentifier>) {
-        apply(snapshot, animatingDifferences: true)
-    }
-}
-
-/// @mockable
-protocol MonitorListCollectionView: Any {
-    var uiview: UIView { get }
-    var delegate: UICollectionViewDelegate? { get set }
-}
-
-extension UICollectionView: MonitorListCollectionView {
-    var uiview: UIView { self }
 }

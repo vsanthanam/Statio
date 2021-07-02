@@ -19,7 +19,7 @@ final class RootViewController: ScopeViewController, RootPresentable, RootViewCo
 
     init(analyticsManager: AnalyticsManaging) {
         self.analyticsManager = analyticsManager
-        super.init(ScopeView.init)
+        super.init()
     }
 
     // MARK: - UIViewController

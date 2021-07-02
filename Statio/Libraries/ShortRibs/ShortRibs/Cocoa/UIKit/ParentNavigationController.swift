@@ -6,50 +6,40 @@
 import SnapKit
 import UIKit
 
-open class ParentNavigationController: ScopeViewController {
+open class ParentScopeNavigationController: ScopeViewController {
 
-    // MARK: - UIViewController
-
-    override open func viewDidLoad() {
-        super.viewDidLoad()
-        setUp()
-    }
+    // MARK: - API
 
     public enum Direction {
         case push
         case pop
     }
 
-    // MARK: - API
-
-    public var parentBar: UINavigationBar {
+    public var navigationBar: UINavigationBar {
         nav.navigationBar
     }
 
-    public func setBarColor(_ color: UIColor) {
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        let style = NSMutableParagraphStyle()
-        style.firstLineHeadIndent = 10 // This is added to the default margin
-        appearance.backgroundColor = color
-        nav.navigationBar.standardAppearance = appearance
-        nav.navigationBar.compactAppearance = appearance
-        nav.navigationBar.scrollEdgeAppearance = appearance
+    public var activeViewController: ViewControllable? {
+        nav.viewControllers.first as? ViewControllable
     }
 
-    open func embedActiveChild(_ viewController: ViewControllable, with direction: Direction) {
-        guard !nav.viewControllers.contains(viewController.uiviewController) else {
-            return
-        }
-        switch direction {
-        case .pop:
-            nav.setViewControllers([viewController.uiviewController] + nav.viewControllers, animated: false)
-            nav.popToViewController(viewController.uiviewController, animated: true)
-        case .push:
-            nav.pushViewController(viewController: viewController.uiviewController, animated: true) { [weak nav] in
-                nav?.viewControllers = [viewController.uiviewController]
-            }
-        }
+    public func setActiveViewController(_ viewController: ViewControllable) {
+        nav.viewControllers = [viewController.uiviewController]
+    }
+
+    public func pushActiveViewController(_ viewController: ViewControllable, completionHandler: (() -> Void)? = nil) {
+        embedActiveChild(viewController, with: .push, animated: true, completionHandler: completionHandler)
+    }
+
+    public func popActiveViewController(_ viewController: ViewControllable, completionHandler: (() -> Void)? = nil) {
+        embedActiveChild(viewController, with: .pop, animated: true, completionHandler: completionHandler)
+    }
+
+    // MARK: - UIViewController
+
+    override open func viewDidLoad() {
+        super.viewDidLoad()
+        setUp()
     }
 
     // MARK: - Private
@@ -65,9 +55,24 @@ open class ParentNavigationController: ScopeViewController {
                 .equalToSuperview()
         }
         nav.didMove(toParent: self)
-        setBarColor(.white)
-        nav.navigationBar.isTranslucent = false
-        nav.navigationBar.prefersLargeTitles = true
+    }
+
+    private func embedActiveChild(_ viewController: ViewControllable, with direction: Direction, animated: Bool, completionHandler: (() -> Void)?) {
+        guard !nav.viewControllers.contains(viewController.uiviewController) else {
+            return
+        }
+        switch direction {
+        case .pop:
+            nav.setViewControllers([viewController.uiviewController] + nav.viewControllers, animated: false)
+            nav.popToViewController(viewController.uiviewController, animated: animated) {
+                completionHandler?()
+            }
+        case .push:
+            nav.pushViewController(viewController: viewController.uiviewController, animated: animated) { [weak nav] in
+                nav?.viewControllers = [viewController.uiviewController]
+                completionHandler?()
+            }
+        }
     }
 }
 

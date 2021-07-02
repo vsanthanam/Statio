@@ -257,8 +257,7 @@ struct LintCommand: ParsableCommand, RepoCommand {
     }
 
     @discardableResult
-    private func runSwiftFormat(with configuration: ToolConfiguration?,
-                                enabledRules: [String], disabledRules: [String], swiftVersion: String, excludeDirs: [String], fix: Bool) throws -> [LintResult] {
+    private func runSwiftFormat(with configuration: ToolConfiguration?, enabledRules: [String], disabledRules: [String], swiftVersion: String, excludeDirs: [String], fix: Bool) throws -> [LintResult] {
         var configComponents: [String] = .init()
         if !disabledRules.isEmpty {
             let disable = "--disable" + " " + disabledRules.joined(separator: ",")

@@ -22,7 +22,7 @@ final class MainViewController: ScopeViewController, MainPresentable, UITabBarDe
     init(analyticsManager: AnalyticsManaging) {
         self.analyticsManager = analyticsManager
         tabBar = .init()
-        super.init(ScopeView.init)
+        super.init()
     }
 
     // MARK: - UIViewController

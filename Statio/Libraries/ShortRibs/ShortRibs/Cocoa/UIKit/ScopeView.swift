@@ -7,6 +7,15 @@ import Combine
 import Foundation
 import UIKit
 
+/// @mockable
+public protocol Viewable: AnyObject {
+    var view: UIView { get }
+}
+
+extension UIView: Viewable {
+    public var view: UIView { self }
+}
+
 open class ScopeView: UIView {
 
     // MARK: - Initializers

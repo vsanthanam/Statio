@@ -14,7 +14,7 @@ protocol SettingsViewControllable: ViewControllable {}
 /// @mockable
 protocol SettingsPresentableListener: AnyObject {}
 
-final class SettingsViewController: BaseNavigationController, SettingsPresentable, SettingsViewControllable {
+final class SettingsViewController: ParentScopeNavigationController, SettingsPresentable, SettingsViewControllable {
 
     init(analyticsManager: AnalyticsManaging) {
         self.analyticsManager = analyticsManager

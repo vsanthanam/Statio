@@ -30,7 +30,8 @@
                               "cyclomatic_complexity",
                               "file_length",
                               "todo",
-                              "trailing_semicolons"],
+                              "trailing_semicolons",
+                              "void_return"],
             "optInRules": [],
             "warnings": [
                 {
