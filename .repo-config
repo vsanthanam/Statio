@@ -29,7 +29,8 @@
                               "trailing_whitespace",
                               "cyclomatic_complexity",
                               "file_length",
-                              "todo"],
+                              "todo",
+                              "trailing_semicolons"],
             "optInRules": [],
             "warnings": [
                 {

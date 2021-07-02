@@ -1,6 +1,6 @@
 <?php
 
-final class RepoSwiftLint extends ArcanistExternalLinter {
+final class SwiftLinter extends ArcanistExternalLinter {
 
     public function getInfoName() {
         return 'swift';
@@ -69,7 +69,7 @@ final class RepoSwiftLint extends ArcanistExternalLinter {
                 $message->setLine($components[1]);
                 $message->setChar($components[2]);
                 $message->setDescription($components[3]);
-                $message->setName("repo-swift-lint");
+                $message->setName($components[5]);
                 $message->setPath($path);
                 $message->setCode($components[4]);
                 $messages[] = $message;

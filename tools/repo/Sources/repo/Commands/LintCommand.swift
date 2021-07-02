@@ -72,6 +72,9 @@ struct LintCommand: ParsableCommand, RepoCommand {
     @Flag(name: .long, help: "For internal use by arcanist. Do not use.")
     var arclint: Bool = false
 
+    @Flag(name: .long, help: "Do not use")
+    var debug: Bool = false
+
     // MARK: - ParsableCommand
 
     static let configuration: CommandConfiguration = .init(commandName: "lint",
@@ -134,7 +137,7 @@ struct LintCommand: ParsableCommand, RepoCommand {
 
         for result in results {
             if arclint {
-                let formatted = "\(result.level.rawValue):\(result.line):\(result.col):\(result.message):\(result.source.rawValue)"
+                let formatted = "\(result.level.rawValue):\(result.line):\(result.col):\(result.message):\(result.code):\(result.source.rawValue)"
                 write(message: formatted)
             } else {
                 switch result.level {
@@ -167,6 +170,10 @@ struct LintCommand: ParsableCommand, RepoCommand {
     }
 
     // MARK: - Private
+
+    private var shouldTrace: Bool {
+        (trace && !arclint) || debug
+    }
 
     private func wipeConfig() {
         _ = try? shellOut(to: "rm .swiftlint.yml", at: repoRoot)
@@ -204,7 +211,7 @@ struct LintCommand: ParsableCommand, RepoCommand {
         }
         let encoder = YAMLEncoder()
         let yaml = try encoder.encode(config)
-        if trace {
+        if shouldTrace {
             write(message: "SwifLint Configuration")
             write(message: yaml)
         }
@@ -222,7 +229,7 @@ struct LintCommand: ParsableCommand, RepoCommand {
         } else {
             command = [command, "--path", (input ?? repoRoot), "--strict"].joined(separator: " ")
         }
-        if trace {
+        if shouldTrace {
             write(message: "\n" + command + "\n")
         }
         do {
@@ -237,7 +244,10 @@ struct LintCommand: ParsableCommand, RepoCommand {
                 .split(separator: "\n")
                 .filter { $0.hasPrefix("/") }
                 .map { output -> LintResult in
-                    .fromOutput(.init(output), source: .swiftlint)
+                    if debug {
+                        write(message: .init(output))
+                    }
+                    return .fromOutput(.init(output), source: .swiftlint)
                 }
                 .forEach { line in
                     output.append(line)
@@ -247,7 +257,8 @@ struct LintCommand: ParsableCommand, RepoCommand {
     }
 
     @discardableResult
-    private func runSwiftFormat(with configuration: ToolConfiguration?, enabledRules: [String], disabledRules: [String], swiftVersion: String, excludeDirs: [String], fix: Bool) throws -> [LintResult] {
+    private func runSwiftFormat(with configuration: ToolConfiguration?,
+                                enabledRules: [String], disabledRules: [String], swiftVersion: String, excludeDirs: [String], fix: Bool) throws -> [LintResult] {
         var configComponents: [String] = .init()
         if !disabledRules.isEmpty {
             let disable = "--disable" + " " + disabledRules.joined(separator: ",")
@@ -286,7 +297,7 @@ struct LintCommand: ParsableCommand, RepoCommand {
             throw CustomRepoError(message: "Couldn't write swiftformat config!")
         }
         let configToUse = try shellOut(to: .readFile(at: ".swiftformat"), at: repoRoot)
-        if trace, !arclint {
+        if shouldTrace {
             write(message: "SwiftFormat config:")
             write(message: configToUse)
         }
@@ -296,7 +307,7 @@ struct LintCommand: ParsableCommand, RepoCommand {
         } else {
             command = ["bin/swiftformat/swiftformat", "--lint", input ?? repoRoot, headerCommand].joined(separator: " ")
         }
-        if trace, !arclint {
+        if shouldTrace {
             write(message: "\n" + command + "\n")
         }
         do {
@@ -311,7 +322,10 @@ struct LintCommand: ParsableCommand, RepoCommand {
                 .split(separator: "\n")
                 .filter { $0.hasPrefix("/") }
                 .map { output -> LintResult in
-                    .fromOutput(.init(output), source: .swiftformat)
+                    if debug {
+                        write(message: .init(output))
+                    }
+                    return .fromOutput(.init(output), source: .swiftformat)
                 }
                 .forEach { line in
                     output.append(line)
@@ -340,9 +354,10 @@ struct LintResult: Codable, CustomStringConvertible {
     var col: Int
     var level: Level
     var source: Source
+    var code: String
 
     var description: String {
-        "[\(level.rawValue)] \(file) at line \(line):\(col) — \(message)"
+        "[\(level.rawValue)] \(file) at line \(line):\(col) — \(message) [\(code)]"
     }
 
     static func fromOutput(_ output: String, source: Source) -> LintResult {
@@ -351,12 +366,25 @@ struct LintResult: Codable, CustomStringConvertible {
         let line = Int(comps[1])!
         let col = Int(comps[2])!
         let level = Level(rawValue: String(comps[3].dropFirst()))!
-        let message = comps[4 ..< comps.count].joined(separator: " | ")
-        return .init(message: .init(message),
+        var messageAndCodeComps = comps[4 ..< comps.count].joined(separator: " -").split(separator: " ")
+        var code: String
+        switch source {
+        case .swiftformat:
+            code = String(messageAndCodeComps.first!)
+            messageAndCodeComps.removeFirst()
+        case .swiftlint:
+            code = String(messageAndCodeComps.last!)
+            messageAndCodeComps.removeLast()
+        }
+        code.removeFirst()
+        code.removeLast()
+        let message = messageAndCodeComps.joined(separator: " ")
+        return .init(message: message,
                      file: String(file),
                      line: line,
                      col: col,
                      level: level,
-                     source: source)
+                     source: source,
+                     code: code)
     }
 }
