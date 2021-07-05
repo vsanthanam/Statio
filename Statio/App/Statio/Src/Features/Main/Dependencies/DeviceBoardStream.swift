@@ -19,6 +19,8 @@ protocol MutableDeviceBoardStreaming: DeviceBoardStreaming {
 
 final class DeviceBoardStream: MutableDeviceBoardStreaming {
 
+    // MARK: - Initializers
+
     init(deviceBoardStorage: DeviceBoardStoring) {
         self.deviceBoardStorage = deviceBoardStorage
     }
