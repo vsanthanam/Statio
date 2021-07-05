@@ -18,6 +18,7 @@ struct CustomRepoError: RepoError {
 }
 
 protocol RepoCommand {
+    func onComplete()
     func action() throws
 }
 
@@ -26,6 +27,7 @@ extension RepoCommand {
         do {
             try action()
         } catch {
+            onComplete()
             if let error = error as? RepoError {
                 let message = error.message.withColor(.red)
                 print(message, to: &io.stderr_stream) // swiftlint:disable:this custom_rules

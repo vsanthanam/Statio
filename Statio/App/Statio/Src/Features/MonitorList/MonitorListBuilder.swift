@@ -11,35 +11,33 @@ import UIKit
 
 protocol MonitorListDependency: Dependency {
     var analyticsManager: AnalyticsManaging { get }
+    var monitorTitleProvider: MonitorTitleProviding { get }
+    var monitorIconProvider: MonitorIconProviding { get }
 }
 
 class MonitorListComponent: Component<MonitorListDependency> {
 
-    fileprivate var collectionView: UICollectionView {
+    // MARK: - Internal Dependencies
+
+    fileprivate var collectionView: MonitorListCollectionView {
         shared {
-            var config = UICollectionLayoutListConfiguration(appearance: .grouped)
-            config.showsSeparators = true
-            let layout = UICollectionViewCompositionalLayout.list(using: config)
-            let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-            return collectionView
+            MonitorListCollectionView()
         }
     }
 
     fileprivate var dataSource: MonitorListDataSource {
         shared {
-            let registration = UICollectionView.CellRegistration<UICollectionViewListCell, MonitorIdentifier> { cell, _, model in
-                var configuration = cell.defaultContentConfiguration()
-                configuration.text = model.rawValue.capitalized
-                cell.contentConfiguration = configuration
-            }
-            let dataSource = UICollectionViewDiffableDataSource<MonitorCategoryIdentifier, MonitorIdentifier>(collectionView: collectionView,
-                                                                                                              cellProvider: { view, indexPath, model in
-                                                                                                                  view.dequeueConfiguredReusableCell(using: registration, for: indexPath, item: model)
-                                                                                                              })
-            return dataSource
+            MonitorListDataSourceImpl(collectionView: collectionView,
+                                      monitorTitleProvider: dependency.monitorTitleProvider,
+                                      monitorIconProvider: dependency.monitorIconProvider)
         }
     }
 
+    // MARK: - Private Dependencies
+
+    private var monitorTitleProvider: MonitorTitleProviding {
+        MonitorTitleProvider()
+    }
 }
 
 /// @mockable

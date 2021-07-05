@@ -19,6 +19,8 @@ public protocol MutableDeviceModelStreaming: DeviceModelStreaming {
 
 final class DeviceModelStream: MutableDeviceModelStreaming {
 
+    // MARK: - Initializers
+
     init(deviceModelStorage: DeviceModelStoring) {
         self.deviceModelStorage = deviceModelStorage
     }

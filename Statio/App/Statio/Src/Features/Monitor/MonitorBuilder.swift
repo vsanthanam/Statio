@@ -14,6 +14,16 @@ protocol MonitorDependency: Dependency {
 
 class MonitorComponent: Component<MonitorDependency> {
 
+    // MARK: - PublishedDependencies
+
+    var monitorTitleProvider: MonitorTitleProviding {
+        MonitorTitleProvider()
+    }
+
+    var monitorIconProvider: MonitorIconProviding {
+        MonitorIconProvider()
+    }
+
     // MARK: - Children
 
     fileprivate var monitorListBuilder: MonitorListBuildable {

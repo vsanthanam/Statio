@@ -8,6 +8,10 @@ import ShellOut
 
 extension RepoCommand {
 
+    // MARK: - Default Conformance
+
+    func onComplete() {}
+
     // MARK: - API
 
     func write(message: String, withColor color: Color? = nil) {
@@ -27,6 +31,7 @@ extension RepoCommand {
     }
 
     func complete(with message: String? = "Success! 🍻", color: Color = .green) {
+        onComplete()
         if let message = message {
             print(message.withColor(color), to: &io.stdout_stream) // swiftlint:disable:this custom_rules
         }

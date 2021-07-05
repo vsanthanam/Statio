@@ -16,6 +16,8 @@ protocol SettingsPresentableListener: AnyObject {}
 
 final class SettingsViewController: ParentScopeNavigationController, SettingsPresentable, SettingsViewControllable {
 
+    // MARK: - Initializers
+
     init(analyticsManager: AnalyticsManaging) {
         self.analyticsManager = analyticsManager
         super.init()

@@ -12,7 +12,7 @@ final class MonitorListViewControllerTests: TestCase {
 
     let listener = MonitorListPresentableListenerMock()
     let analyticsManager = AnalyticsManagingMock()
-    let collectionView = MonitorListCollectionViewMock()
+    let collectionView = MonitorListCollectionViewableMock()
     let dataSource = MonitorListDataSourceMock()
 
     var viewController: MonitorListViewController!
@@ -23,6 +23,12 @@ final class MonitorListViewControllerTests: TestCase {
                                collectionView: collectionView,
                                dataSource: dataSource)
         viewController.listener = listener
+    }
+
+    func test_viewDidLoad_assignsCollectionViewDelegate() {
+        XCTAssertNil(collectionView.delegate)
+        viewController.viewDidLoad()
+        XCTAssertTrue(collectionView.delegate === viewController)
     }
 
     func test_viewDidAppear_sendsEvent() {

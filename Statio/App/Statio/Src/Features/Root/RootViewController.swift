@@ -17,6 +17,8 @@ protocol RootPresentableListener: AnyObject {}
 
 final class RootViewController: ScopeViewController, RootPresentable, RootViewControllable {
 
+    // MARK: - Initializers
+
     init(analyticsManager: AnalyticsManaging) {
         self.analyticsManager = analyticsManager
         super.init()

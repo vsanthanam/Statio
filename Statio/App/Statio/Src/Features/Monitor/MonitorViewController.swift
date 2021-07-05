@@ -16,6 +16,8 @@ protocol MonitorPresentableListener: AnyObject {}
 
 final class MonitorViewController: ParentScopeNavigationController, MonitorPresentable, MonitorViewControllable {
 
+    // MARK: - Initializers
+
     init(analyticsManager: AnalyticsManaging) {
         self.analyticsManager = analyticsManager
         super.init()

@@ -96,8 +96,6 @@ struct LintCommand: ParsableCommand, RepoCommand {
             throw LintCommandError.noSwiftVersion
         }
 
-        wipeConfig()
-
         if autofix, (!arclint) {
             try runSwiftLint(with: configuration,
                              enabledRules: enabledLintRules,
@@ -110,7 +108,6 @@ struct LintCommand: ParsableCommand, RepoCommand {
                                swiftVersion: version,
                                excludeDirs: excludeDirs,
                                fix: true)
-            wipeConfig()
         }
 
         let lintResults = try runSwiftLint(with: configuration,
@@ -149,8 +146,6 @@ struct LintCommand: ParsableCommand, RepoCommand {
             }
         }
 
-        wipeConfig()
-
         if arclint {
             complete(with: nil)
             return
@@ -169,6 +164,20 @@ struct LintCommand: ParsableCommand, RepoCommand {
         }
     }
 
+    func onComplete() {
+        if !arclint {
+            wipeConfig()
+        }
+    }
+
+    private func wipeSwiftLintConfig() {
+        _ = try? shellOut(to: "rm .swiftlint.yml", at: repoRoot)
+    }
+
+    private func wipeSwiftFormatConfig() {
+        _ = try? shellOut(to: "rm .swiftformat", at: repoRoot)
+    }
+
     // MARK: - Private
 
     private var shouldTrace: Bool {
@@ -176,8 +185,8 @@ struct LintCommand: ParsableCommand, RepoCommand {
     }
 
     private func wipeConfig() {
-        _ = try? shellOut(to: "rm .swiftlint.yml", at: repoRoot)
-        _ = try? shellOut(to: "rm .swiftformat", at: repoRoot)
+        wipeSwiftLintConfig()
+        wipeSwiftFormatConfig()
     }
 
     @discardableResult
@@ -295,11 +304,16 @@ struct LintCommand: ParsableCommand, RepoCommand {
         } catch {
             throw CustomRepoError(message: "Couldn't write swiftformat config!")
         }
-        let configToUse = try shellOut(to: .readFile(at: ".swiftformat"), at: repoRoot)
-        if shouldTrace {
-            write(message: "SwiftFormat config:")
-            write(message: configToUse)
+        do {
+            let configToUse = try shellOut(to: .readFile(at: ".swiftformat"), at: repoRoot)
+            if shouldTrace {
+                write(message: "SwiftFormat config:")
+                write(message: configToUse)
+            }
+        } catch {
+            throw CustomRepoError(message: "Couldn't read swiftformat config!")
         }
+
         let command: String
         if fix {
             command = ["bin/swiftformat/swiftformat", input ?? repoRoot, headerCommand].joined(separator: " ")

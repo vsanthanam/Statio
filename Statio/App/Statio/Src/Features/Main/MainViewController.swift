@@ -19,6 +19,8 @@ protocol MainPresentableListener: AnyObject {
 
 final class MainViewController: ScopeViewController, MainPresentable, UITabBarDelegate {
 
+    // MARK: - Initializers
+
     init(analyticsManager: AnalyticsManaging) {
         self.analyticsManager = analyticsManager
         tabBar = .init()

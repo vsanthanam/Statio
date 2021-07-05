@@ -57,10 +57,6 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
         appStateManager.update(state: .monitor)
     }
 
-    override func willResignActive() {
-        super.willResignActive()
-    }
-
     // MARK: - MainPresentableListener
 
     func didSelectTab(withTag tag: Int) {

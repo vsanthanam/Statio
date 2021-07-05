@@ -22,7 +22,7 @@ final class MonitorListViewController: ScopeViewController, MonitorListPresentab
     // MARK: - Initializers
 
     init(analyticsManager: AnalyticsManaging,
-         collectionView: MonitorListCollectionView,
+         collectionView: MonitorListCollectionViewable,
          dataSource: MonitorListDataSource) {
         self.analyticsManager = analyticsManager
         self.collectionView = collectionView
@@ -35,6 +35,7 @@ final class MonitorListViewController: ScopeViewController, MonitorListPresentab
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Statio"
+        collectionView.delegate = self
         specializedView.addSubview(collectionView.view)
         collectionView.view.snp.makeConstraints { make in
             make
@@ -75,6 +76,6 @@ final class MonitorListViewController: ScopeViewController, MonitorListPresentab
 
     private let analyticsManager: AnalyticsManaging
 
-    private let collectionView: MonitorListCollectionView
+    private let collectionView: MonitorListCollectionViewable
     private let dataSource: MonitorListDataSource
 }

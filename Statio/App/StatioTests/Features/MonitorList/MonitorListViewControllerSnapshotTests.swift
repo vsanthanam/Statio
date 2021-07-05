@@ -14,26 +14,18 @@ final class MonitorListViewControllerSnapshotTests: FBSnapshotTestCase {
     }
 
     func test_monitorListViewController() {
-        let collectionView: UICollectionView = {
-            var config = UICollectionLayoutListConfiguration(appearance: .grouped)
-            config.showsSeparators = true
-            let layout = UICollectionViewCompositionalLayout.list(using: config)
-            let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-            return collectionView
-        }()
-
-        let dataSource: MonitorListDataSource = {
-            let registration = UICollectionView.CellRegistration<UICollectionViewListCell, MonitorIdentifier> { cell, _, model in
-                var configuration = cell.defaultContentConfiguration()
-                configuration.text = model.rawValue.capitalized
-                cell.contentConfiguration = configuration
-            }
-            let dataSource = UICollectionViewDiffableDataSource<MonitorCategoryIdentifier, MonitorIdentifier>(collectionView: collectionView,
-                                                                                                              cellProvider: { view, indexPath, model in
-                                                                                                                  view.dequeueConfiguredReusableCell(using: registration, for: indexPath, item: model)
-                                                                                                              })
-            return dataSource
-        }()
+        let collectionView = MonitorListCollectionView()
+        let monitorTitleProvider = MonitorTitleProvidingMock()
+        monitorTitleProvider.titleHandler = { _ in
+            "Title"
+        }
+        let monitorIconProvider = MonitorIconProvidingMock()
+        monitorIconProvider.imageHandler = { _, size, color in
+            MonitorIconProvider().image(forIdentifier: .disk, size: size, color: color)
+        }
+        let dataSource = MonitorListDataSourceImpl(collectionView: collectionView,
+                                                   monitorTitleProvider: monitorTitleProvider,
+                                                   monitorIconProvider: monitorIconProvider)
 
         let viewController = MonitorListViewController(analyticsManager: AnalyticsManagingMock(), collectionView: collectionView, dataSource: dataSource)
         viewController.viewDidLoad()
