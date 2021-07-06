@@ -28,7 +28,6 @@ final class DeviceIdentityViewController: ScopeViewController, DeviceIdentityPre
     override func viewDidLoad() {
         super.viewDidLoad()
         specializedView.backgroundColor = .systemBackground
-        title = "Identity"
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -39,6 +38,10 @@ final class DeviceIdentityViewController: ScopeViewController, DeviceIdentityPre
     // MARK: - DeviceIdentityPresentable
 
     weak var listener: DeviceIdentityPresentableListener?
+
+    func apply(viewModel: DeviceIdentityViewModel) {
+        title = viewModel.deviceName
+    }
 
     // MARK: - Private
 

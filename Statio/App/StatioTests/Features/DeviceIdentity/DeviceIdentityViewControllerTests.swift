@@ -35,4 +35,11 @@ final class DeviceIdentityViewControllerTests: TestCase {
         viewController.viewDidAppear(true)
         XCTAssertEqual(analyticsManager.sendCallCount, 1)
     }
+
+    func test_apply_assignsTitle() {
+        let model = DeviceIdentityViewModel(deviceName: "Name")
+        XCTAssertNil(viewController.title)
+        viewController.apply(viewModel: model)
+        XCTAssertEqual(viewController.title, "Name")
+    }
 }
