@@ -9,11 +9,11 @@ import UIKit
 
 /// @mockable
 public protocol Viewable: AnyObject {
-    var view: UIView { get }
+    var uiview: UIView { get }
 }
 
 extension UIView: Viewable {
-    public var view: UIView { self }
+    public var uiview: UIView { self }
 }
 
 open class ScopeView: UIView {

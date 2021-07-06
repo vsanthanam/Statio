@@ -23,9 +23,9 @@ final class MonitorListViewControllerSnapshotTests: FBSnapshotTestCase {
         monitorIconProvider.imageHandler = { _, size, color in
             MonitorIconProvider().image(forIdentifier: .disk, size: size, color: color)
         }
-        let dataSource = MonitorListDataSourceImpl(collectionView: collectionView,
-                                                   monitorTitleProvider: monitorTitleProvider,
-                                                   monitorIconProvider: monitorIconProvider)
+        let dataSource = MonitorListCollectionViewDataSource(collectionView: collectionView,
+                                                             monitorTitleProvider: monitorTitleProvider,
+                                                             monitorIconProvider: monitorIconProvider)
 
         let viewController = MonitorListViewController(analyticsManager: AnalyticsManagingMock(), collectionView: collectionView, dataSource: dataSource)
         viewController.viewDidLoad()

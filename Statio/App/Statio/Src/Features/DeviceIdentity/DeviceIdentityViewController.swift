@@ -6,20 +6,27 @@
 import Analytics
 import Foundation
 import ShortRibs
+import SnapKit
 import UIKit
 
 /// @mockable
 protocol DeviceIdentityViewControllable: ViewControllable {}
 
 /// @mockable
-protocol DeviceIdentityPresentableListener: AnyObject {}
+protocol DeviceIdentityPresentableListener: AnyObject {
+    func didTapBack()
+}
 
-final class DeviceIdentityViewController: ScopeViewController, DeviceIdentityPresentable, DeviceIdentityViewControllable {
+final class DeviceIdentityViewController: ScopeViewController, DeviceIdentityPresentable, DeviceIdentityViewControllable, UICollectionViewDelegate {
 
     // MARK: - Initializers
 
-    init(analyticsManager: AnalyticsManaging) {
+    init(analyticsManager: AnalyticsManaging,
+         collectionView: DeviceIdentityCollectionViewable,
+         dataSource: DeviceIdentityDataSource) {
         self.analyticsManager = analyticsManager
+        self.collectionView = collectionView
+        self.dataSource = dataSource
         super.init()
     }
 
@@ -27,7 +34,18 @@ final class DeviceIdentityViewController: ScopeViewController, DeviceIdentityPre
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        let leadingItem = UIBarButtonItem(barButtonSystemItem: .close,
+                                          target: self,
+                                          action: #selector(didTapBack))
+        navigationItem.leftBarButtonItem = leadingItem
         specializedView.backgroundColor = .systemBackground
+        collectionView.delegate = self
+        specializedView.addSubview(collectionView.uiview)
+        collectionView.uiview.snp.makeConstraints { make in
+            make
+                .edges
+                .equalToSuperview()
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -41,9 +59,25 @@ final class DeviceIdentityViewController: ScopeViewController, DeviceIdentityPre
 
     func apply(viewModel: DeviceIdentityViewModel) {
         title = viewModel.deviceName
+        var snapshot = NSDiffableDataSourceSnapshot<DeviceIdentityCategory, DeviceIdentityRow>()
+        snapshot.appendSections([.hardware, .software])
+        snapshot.appendItems([.init(title: "Model Name", value: viewModel.modelName),
+                              .init(title: "Model Identifier", value: viewModel.modelIdentifier)],
+                             toSection: .hardware)
+        snapshot.appendItems([.init(title: "Operating System", value: viewModel.osName)])
+        snapshot.appendItems([.init(title: "Version", value: viewModel.osVersion)],
+                             toSection: .software)
+        dataSource.apply(snapshot)
     }
 
     // MARK: - Private
 
     private let analyticsManager: AnalyticsManaging
+    private let collectionView: DeviceIdentityCollectionViewable
+    private let dataSource: DeviceIdentityDataSource
+
+    @objc
+    private func didTapBack() {
+        listener?.didTapBack()
+    }
 }

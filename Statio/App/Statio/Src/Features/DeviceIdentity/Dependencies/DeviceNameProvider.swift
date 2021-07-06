@@ -7,15 +7,30 @@ import Foundation
 import UIKit
 
 /// @mockable
-protocol DeviceNameProviding: AnyObject {
-    func buildLatestName() -> String
+protocol DeviceStaticInfoProviding: AnyObject {
+    var deviceName: String { get }
+    var modelIdentifier: String { get }
+    var os: String { get }
+    var version: String { get }
 }
 
-final class DeviceNameProvider: DeviceNameProviding {
+final class DeviceStaticInfoProvider: DeviceStaticInfoProviding {
 
     // MARK: - DeviceNameProviding
 
-    func buildLatestName() -> String {
-        UIDevice.current.name
+    var deviceName: String {
+        DeviceInfo.name
+    }
+
+    var modelIdentifier: String {
+        DeviceInfo.identifier
+    }
+
+    var os: String {
+        DeviceInfo.systemInfo.name
+    }
+
+    var version: String {
+        DeviceInfo.systemInfo.version
     }
 }

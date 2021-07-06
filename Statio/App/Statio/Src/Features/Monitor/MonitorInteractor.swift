@@ -37,7 +37,9 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        attachMonitorList()
+        if activeMonitor == nil {
+            attachMonitorList()
+        }
     }
 
     // MARK: - MonitorListListener
@@ -60,6 +62,12 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
         }
     }
 
+    // MARK: - DeviceIdentityListener
+
+    func deviceIdentityDidClose() {
+        attachMonitorList()
+    }
+
     // MARK: - Private
 
     private let monitorListBuilder: MonitorListBuildable
@@ -69,6 +77,9 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
     private var activeMonitor: PresentableInteractable?
 
     private func attachMonitorList() {
+        if let activeMonitor = activeMonitor {
+            detach(child: activeMonitor)
+        }
         let monitorList = self.monitorList ?? monitorListBuilder.build(withListener: self)
         attach(child: monitorList)
         presenter.showList(monitorList.viewController)

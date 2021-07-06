@@ -27,9 +27,9 @@ class MonitorListComponent: Component<MonitorListDependency> {
 
     fileprivate var dataSource: MonitorListDataSource {
         shared {
-            MonitorListDataSourceImpl(collectionView: collectionView,
-                                      monitorTitleProvider: dependency.monitorTitleProvider,
-                                      monitorIconProvider: dependency.monitorIconProvider)
+            MonitorListCollectionViewDataSource(collectionView: collectionView,
+                                                monitorTitleProvider: dependency.monitorTitleProvider,
+                                                monitorIconProvider: dependency.monitorIconProvider)
         }
     }
 

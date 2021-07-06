@@ -56,8 +56,6 @@ open class Interactor: Interactable {
     /// - Parameter child: The child to attach.
     /// - Note: This method will cause a runtime failure if the provided child has already been attached, or is already active.
     public final func attach(child: Interactable) {
-        assert(isActive, "You cannot attach children while the interactor is inactive!")
-        assert(!child.isActive, "You cannot attach a child that is already active!")
         guard !children.contains(child) else {
             return
         }
@@ -69,7 +67,6 @@ open class Interactor: Interactable {
     /// - Parameter child: The child to detach
     /// - Note: This method will cause a runtime failure if the provided child has already been detached, or has already ben deactivated.
     public final func detach(child: Interactable) {
-        assert(child.isActive, "You cannot detach a child that isn't active!")
         guard let index = children.firstIndex(where: { e in e as AnyObject === child as AnyObject }) else {
             return
         }
@@ -96,7 +93,6 @@ open class Interactor: Interactable {
         }
         storage = Set<AnyCancellable>()
         isActive = true
-        children.forEach { $0.activate() }
         didBecomeActive()
     }
 
@@ -105,7 +101,6 @@ open class Interactor: Interactable {
             return
         }
         willResignActive()
-        children.forEach { $0.deactivate() }
         storage?.forEach { cancellable in cancellable.cancel() }
         storage = nil
         isActive = false

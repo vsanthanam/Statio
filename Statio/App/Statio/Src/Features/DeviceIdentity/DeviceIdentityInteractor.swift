@@ -15,48 +15,61 @@ protocol DeviceIdentityPresentable: DeviceIdentityViewControllable {
 }
 
 /// @mockable
-protocol DeviceIdentityListener: AnyObject {}
+protocol DeviceIdentityListener: AnyObject {
+    func deviceIdentityDidClose()
+}
 
 final class DeviceIdentityInteractor: PresentableInteractor<DeviceIdentityPresentable>, DeviceIdentityInteractable, DeviceIdentityPresentableListener {
 
     // MARK: - Initializers
 
     init(presenter: DeviceIdentityPresentable,
-         deviceNameProvider: DeviceNameProviding) {
-        self.deviceNameProvider = deviceNameProvider
+         deviceStaticInfoProvider: DeviceStaticInfoProviding,
+         deviceModelStream: DeviceModelStreaming) {
+        self.deviceStaticInfoProvider = deviceStaticInfoProvider
+        self.deviceModelStream = deviceModelStream
         super.init(presenter: presenter)
         presenter.listener = self
-    }
-
-    // MARK: - Interactor
-
-    override func didBecomeActive() {
-        super.didBecomeActive()
-        applyLatestViewModel()
-        startObservingApplicationLifecycle()
     }
 
     // MARK: - API
 
     weak var listener: DeviceIdentityListener?
 
+    // MARK: - Interactor
+
+    override func didBecomeActive() {
+        super.didBecomeActive()
+        startObservingDeviceIdentity()
+    }
+
+    // MARK: - DeviceIdentityPresentableListener
+
+    func didTapBack() {
+        listener?.deviceIdentityDidClose()
+    }
+
     // MARK: - Private
 
-    private let deviceNameProvider: DeviceNameProviding
+    private let deviceStaticInfoProvider: DeviceStaticInfoProviding
+    private let deviceModelStream: DeviceModelStreaming
 
-    private func buildViewModel() -> DeviceIdentityViewModel {
-        .init(deviceName: deviceNameProvider.buildLatestName())
-    }
-
-    private func applyLatestViewModel() {
-        let viewModel = buildViewModel()
-        presenter.apply(viewModel: viewModel)
-    }
-
-    private func startObservingApplicationLifecycle() {
+    private func startObservingDeviceIdentity() {
         UIApplication.didBecomeActiveNotification.asPublisher()
-            .sink { _ in
-                self.applyLatestViewModel()
+            .prepend(Notification(name: UIApplication.didBecomeActiveNotification))
+            .combineLatest(deviceModelStream.models) { [deviceStaticInfoProvider] _, models -> DeviceModel? in
+                models.first(where: { $0.id == deviceStaticInfoProvider.modelIdentifier })
+            }
+            .map { [deviceStaticInfoProvider] model in
+                DeviceIdentityViewModel(deviceName: deviceStaticInfoProvider.deviceName,
+                                        modelIdentifier: deviceStaticInfoProvider.modelIdentifier,
+                                        modelName: model?.name ?? "Unknown Model",
+                                        osName: deviceStaticInfoProvider.os,
+                                        osVersion: deviceStaticInfoProvider.version)
+            }
+            .removeDuplicates()
+            .sink { [presenter] viewModel in
+                presenter.apply(viewModel: viewModel)
             }
             .cancelOnDeactivate(interactor: self)
     }

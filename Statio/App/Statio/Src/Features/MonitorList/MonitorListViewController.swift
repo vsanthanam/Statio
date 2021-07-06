@@ -36,8 +36,8 @@ final class MonitorListViewController: ScopeViewController, MonitorListPresentab
         super.viewDidLoad()
         title = "Statio"
         collectionView.delegate = self
-        specializedView.addSubview(collectionView.view)
-        collectionView.view.snp.makeConstraints { make in
+        specializedView.addSubview(collectionView.uiview)
+        collectionView.uiview.snp.makeConstraints { make in
             make
                 .edges
                 .equalToSuperview()

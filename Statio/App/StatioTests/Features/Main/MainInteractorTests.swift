@@ -65,12 +65,6 @@ final class MainInteractorTests: TestCase {
         let monitor = MonitorInteractableMock()
         let settings = SettingsInteractableMock()
 
-        monitor.activateHandler = { monitor.isActive = true }
-        monitor.deactivateHandler = { monitor.isActive = false }
-
-        settings.activateHandler = { settings.isActive = true }
-        settings.deactivateHandler = { settings.isActive = false }
-
         monitorBuilder.buildHandler = { [interactor] listener in
             XCTAssertTrue(interactor === listener)
             return monitor

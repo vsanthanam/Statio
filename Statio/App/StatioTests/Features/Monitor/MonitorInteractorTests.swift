@@ -61,9 +61,6 @@ final class MonitorInteractorTests: TestCase {
         XCTAssertEqual(interactor.children.count, 0)
 
         interactor.activate()
-        if let list = interactor.children.first as? MonitorListInteractableMock {
-            list.isActive = true
-        }
         interactor.monitorListDidSelect(identifier: .identity)
 
         XCTAssertEqual(deviceIdentityBuilder.buildCallCount, 1)

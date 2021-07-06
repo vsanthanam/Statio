@@ -10,14 +10,23 @@ import ShortRibs
 
 protocol DeviceIdentityDependency: Dependency {
     var analyticsManager: AnalyticsManaging { get }
+    var deviceModelStream: DeviceModelStreaming { get }
 }
 
 class DeviceIdentityComponent: Component<DeviceIdentityDependency> {
 
     // MARK: - Internal Dependencies
 
-    fileprivate var deviceNameProvider: DeviceNameProviding {
-        DeviceNameProvider()
+    fileprivate var deviceStaticInfoProvider: DeviceStaticInfoProviding {
+        DeviceStaticInfoProvider()
+    }
+
+    fileprivate var collectionView: DeviceIdentityCollectionView {
+        shared { DeviceIdentityCollectionView() }
+    }
+
+    fileprivate var dataSource: DeviceIdentityDataSource {
+        shared { DeviceIdentityCollectionViewDataSource(collectionView: collectionView) }
     }
 
 }
@@ -40,8 +49,12 @@ final class DeviceIdentityBuilder: ComponentizedBuilder<DeviceIdentityComponent,
 
     override final func build(with component: DeviceIdentityComponent, _ dynamicBuildDependency: DeviceIdentityDynamicBuildDependency) -> PresentableInteractable {
         let listener = dynamicBuildDependency
-        let viewController = DeviceIdentityViewController(analyticsManager: component.analyticsManager)
-        let interactor = DeviceIdentityInteractor(presenter: viewController, deviceNameProvider: component.deviceNameProvider)
+        let viewController = DeviceIdentityViewController(analyticsManager: component.analyticsManager,
+                                                          collectionView: component.collectionView,
+                                                          dataSource: component.dataSource)
+        let interactor = DeviceIdentityInteractor(presenter: viewController,
+                                                  deviceStaticInfoProvider: component.deviceStaticInfoProvider,
+                                                  deviceModelStream: component.deviceModelStream)
         viewController.listener = interactor
         interactor.listener = listener
         return interactor

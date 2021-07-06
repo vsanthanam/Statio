@@ -84,6 +84,7 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
 
     private func startObservingAppState() {
         appStateManager.state
+            .removeDuplicates()
             .sink { state in
                 self.activate(state)
             }
@@ -118,14 +119,14 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
             if let monitor = monitor {
                 return monitor
             }
-            let monitor = monitorBuilder.build(withListener: self)
+            let monitor = self.monitor ?? monitorBuilder.build(withListener: self)
             self.monitor = monitor
             return monitor
         case .settings:
             if let settings = settings {
                 return settings
             }
-            let settings = settingsBuilder.build(withListener: self)
+            let settings = self.settings ?? settingsBuilder.build(withListener: self)
             self.settings = settings
             return settings
         }

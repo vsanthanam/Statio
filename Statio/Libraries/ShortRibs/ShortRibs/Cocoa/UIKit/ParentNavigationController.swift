@@ -24,6 +24,7 @@ open class ParentScopeNavigationController: ScopeViewController {
     }
 
     public func setActiveViewController(_ viewController: ViewControllable) {
+        guard activeViewController !== viewController else { return }
         nav.viewControllers = [viewController.uiviewController]
     }
 
