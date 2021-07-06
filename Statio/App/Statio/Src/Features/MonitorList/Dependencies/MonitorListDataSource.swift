@@ -8,22 +8,21 @@ import UIKit
 
 /// @mockable
 protocol MonitorListDataSource: AnyObject {
-    func itemIdentifier(for indexPath: IndexPath) -> MonitorIdentifier?
-    func apply(_ snapshot: NSDiffableDataSourceSnapshot<MonitorCategoryIdentifier, MonitorIdentifier>)
+    func itemIdentifier(for indexPath: IndexPath) -> MonitorListRow?
+    func apply(_ snapshot: NSDiffableDataSourceSnapshot<MonitorCategoryIdentifier, MonitorListRow>)
 }
 
-typealias MonitorListCollectionViewDataSource = UICollectionViewDiffableDataSource<MonitorCategoryIdentifier, MonitorIdentifier>
+typealias MonitorListCollectionViewDataSource = UICollectionViewDiffableDataSource<MonitorCategoryIdentifier, MonitorListRow>
 
-extension UICollectionViewDiffableDataSource: MonitorListDataSource where SectionIdentifierType == MonitorCategoryIdentifier, ItemIdentifierType == MonitorIdentifier {
+extension UICollectionViewDiffableDataSource: MonitorListDataSource where SectionIdentifierType == MonitorCategoryIdentifier, ItemIdentifierType == MonitorListRow {
 
-    convenience init(collectionView: UICollectionView,
-                     monitorTitleProvider: MonitorTitleProviding,
-                     monitorIconProvider: MonitorIconProviding) {
-        let registration = UICollectionView.CellRegistration<UICollectionViewListCell, MonitorIdentifier> { cell, _, identifier in
+    // MARK: - Initializers
+
+    convenience init(collectionView: MonitorListCollectionView) {
+        let registration = UICollectionView.CellRegistration<UICollectionViewListCell, MonitorListRow> { cell, _, row in
             var configuration = cell.defaultContentConfiguration()
-            configuration.text = monitorTitleProvider.title(for: identifier)
-            configuration.image = monitorIconProvider.image(forIdentifier: identifier,
-                                                            size: .init(width: 24, height: 24))
+            configuration.text = row.name
+            configuration.image = row.icon
             cell.contentConfiguration = configuration
         }
         self.init(collectionView: collectionView,
@@ -32,7 +31,9 @@ extension UICollectionViewDiffableDataSource: MonitorListDataSource where Sectio
                   })
     }
 
-    func apply(_ snapshot: NSDiffableDataSourceSnapshot<MonitorCategoryIdentifier, MonitorIdentifier>) {
+    // MARK: - MonitorListDataSource
+
+    func apply(_ snapshot: NSDiffableDataSourceSnapshot<MonitorCategoryIdentifier, MonitorListRow>) {
         apply(snapshot, animatingDifferences: true)
     }
 

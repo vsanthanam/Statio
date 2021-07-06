@@ -14,6 +14,8 @@ final class MonitorListViewControllerTests: TestCase {
     let analyticsManager = AnalyticsManagingMock()
     let collectionView = MonitorListCollectionViewableMock()
     let dataSource = MonitorListDataSourceMock()
+    let monitorTitleProvider = MonitorTitleProvidingMock()
+    let monitorIconProvider = MonitorIconProvidingMock()
 
     var viewController: MonitorListViewController!
 
@@ -21,7 +23,9 @@ final class MonitorListViewControllerTests: TestCase {
         super.setUp()
         viewController = .init(analyticsManager: analyticsManager,
                                collectionView: collectionView,
-                               dataSource: dataSource)
+                               dataSource: dataSource,
+                               monitorTitleProvider: monitorTitleProvider,
+                               monitorIconProvider: monitorIconProvider)
         viewController.listener = listener
     }
 
@@ -61,7 +65,7 @@ final class MonitorListViewControllerTests: TestCase {
 
         dataSource.itemIdentifierHandler = { indexPath in
             XCTAssertEqual(indexPath, .init(row: 5, section: 0))
-            return .memory
+            return MonitorListRow(identifier: .memory, name: "Memory", icon: .init())
         }
 
         XCTAssertEqual(listener.didSelectMonitorCallCount, 0)

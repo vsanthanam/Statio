@@ -23,11 +23,13 @@ final class MonitorListViewControllerSnapshotTests: FBSnapshotTestCase {
         monitorIconProvider.imageHandler = { _, size, color in
             MonitorIconProvider().image(forIdentifier: .disk, size: size, color: color)
         }
-        let dataSource = MonitorListCollectionViewDataSource(collectionView: collectionView,
-                                                             monitorTitleProvider: monitorTitleProvider,
-                                                             monitorIconProvider: monitorIconProvider)
+        let dataSource = MonitorListCollectionViewDataSource(collectionView: collectionView)
 
-        let viewController = MonitorListViewController(analyticsManager: AnalyticsManagingMock(), collectionView: collectionView, dataSource: dataSource)
+        let viewController = MonitorListViewController(analyticsManager: AnalyticsManagingMock(),
+                                                       collectionView: collectionView,
+                                                       dataSource: dataSource,
+                                                       monitorTitleProvider: monitorTitleProvider,
+                                                       monitorIconProvider: monitorIconProvider)
         viewController.viewDidLoad()
         viewController.viewDidAppear(true)
         viewController.applyIdentifiers(MonitorIdentifier.allCases, categories: MonitorCategoryIdentifier.allCases)

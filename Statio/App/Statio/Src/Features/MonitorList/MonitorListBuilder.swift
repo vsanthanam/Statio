@@ -27,17 +27,10 @@ class MonitorListComponent: Component<MonitorListDependency> {
 
     fileprivate var dataSource: MonitorListDataSource {
         shared {
-            MonitorListCollectionViewDataSource(collectionView: collectionView,
-                                                monitorTitleProvider: dependency.monitorTitleProvider,
-                                                monitorIconProvider: dependency.monitorIconProvider)
+            MonitorListCollectionViewDataSource(collectionView: collectionView)
         }
     }
 
-    // MARK: - Private Dependencies
-
-    private var monitorTitleProvider: MonitorTitleProviding {
-        MonitorTitleProvider()
-    }
 }
 
 /// @mockable
@@ -62,7 +55,9 @@ final class MonitorListBuilder: ComponentizedBuilder<MonitorListComponent, Monit
         let listener = dynamicBuildDependency
         let viewController = MonitorListViewController(analyticsManager: component.analyticsManager,
                                                        collectionView: component.collectionView,
-                                                       dataSource: component.dataSource)
+                                                       dataSource: component.dataSource,
+                                                       monitorTitleProvider: component.monitorTitleProvider,
+                                                       monitorIconProvider: component.monitorIconProvider)
         let interactor = MonitorListInteractor(presenter: viewController)
         viewController.listener = interactor
         interactor.listener = listener

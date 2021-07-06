@@ -23,10 +23,14 @@ final class MonitorListViewController: ScopeViewController, MonitorListPresentab
 
     init(analyticsManager: AnalyticsManaging,
          collectionView: MonitorListCollectionViewable,
-         dataSource: MonitorListDataSource) {
+         dataSource: MonitorListDataSource,
+         monitorTitleProvider: MonitorTitleProviding,
+         monitorIconProvider: MonitorIconProviding) {
         self.analyticsManager = analyticsManager
         self.collectionView = collectionView
         self.dataSource = dataSource
+        self.monitorTitleProvider = monitorTitleProvider
+        self.monitorIconProvider = monitorIconProvider
         super.init()
     }
 
@@ -54,10 +58,19 @@ final class MonitorListViewController: ScopeViewController, MonitorListPresentab
     weak var listener: MonitorListPresentableListener?
 
     func applyIdentifiers(_ identifiers: [MonitorIdentifier], categories: [MonitorCategoryIdentifier]) {
-        var snapshot = NSDiffableDataSourceSnapshot<MonitorCategoryIdentifier, MonitorIdentifier>()
+        var snapshot = NSDiffableDataSourceSnapshot<MonitorCategoryIdentifier, MonitorListRow>()
         snapshot.appendSections(categories)
         for category in MonitorCategoryIdentifier.allCases {
-            let items = identifiers.filter { $0.category == category }
+            let items = identifiers
+                .filter { $0.category == category }
+                .map { [monitorTitleProvider, monitorIconProvider] identifier in
+                    MonitorListRow(identifier: identifier,
+                                   name: monitorTitleProvider.title(for: identifier),
+                                   icon: monitorIconProvider.image(forIdentifier: identifier,
+                                                                   size: .init(width: 24,
+                                                                               height: 24),
+                                                                   color: .label))
+                }
             snapshot.appendItems(items, toSection: category)
         }
         dataSource.apply(snapshot)
@@ -67,8 +80,8 @@ final class MonitorListViewController: ScopeViewController, MonitorListPresentab
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        if let item = dataSource.itemIdentifier(for: indexPath) {
-            listener?.didSelectMonitor(withIdentifier: item)
+        if let row = dataSource.itemIdentifier(for: indexPath) {
+            listener?.didSelectMonitor(withIdentifier: row.identifier)
         }
     }
 
@@ -78,4 +91,6 @@ final class MonitorListViewController: ScopeViewController, MonitorListPresentab
 
     private let collectionView: MonitorListCollectionViewable
     private let dataSource: MonitorListDataSource
+    private let monitorTitleProvider: MonitorTitleProviding
+    private let monitorIconProvider: MonitorIconProviding
 }
