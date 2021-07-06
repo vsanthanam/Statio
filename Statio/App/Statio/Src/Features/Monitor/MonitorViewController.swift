@@ -47,6 +47,14 @@ final class MonitorViewController: ParentScopeNavigationController, MonitorPrese
         }
     }
 
+    func showMonitor(_ viewController: ViewControllable) {
+        if activeViewController == nil {
+            setActiveViewController(viewController)
+        } else {
+            pushActiveViewController(viewController)
+        }
+    }
+
     // MARK: - Private
 
     private let analyticsManager: AnalyticsManaging
