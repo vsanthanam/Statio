@@ -23,12 +23,12 @@ The app is comprised of the primary app target, as well as several first party l
     - Logging, a wrapper for Apple Unified Logging
     - Analytics, a Swift wrapper for Countly's Objective-C SDK
 
-Additionally, the repo makes use of the following third party tooling utilities.
-    - [SwiftLint](https://realm.github.io/SwiftLint/), A Swift linter
-    - [SwiftFormat](https://github.com/nicklockwood/SwiftFormat), A Swift formatter
-    - [Tuist](https://tuist.io), An xcode project g0enerator
-    - [Mockolo](https://github.com/uber/ribs), Efficient Swift mock generation
-    - [Needle](https://github.com/uber/needle), Compile-time safe dependency injection
+Additionally, the repo makes use of the following third party tooling utilities:
+- [SwiftLint](https://realm.github.io/SwiftLint/), A Swift linter
+- [SwiftFormat](https://github.com/nicklockwood/SwiftFormat), A Swift formatter
+- [Tuist](https://tuist.io), An xcode project generator
+- [Mockolo](https://github.com/uber/ribs), Efficient Swift mock generation
+- [Needle](https://github.com/uber/needle), Compile-time safe dependency injection
 
 You need not install these utilities. The correct versions are bundled in the repo.
 
