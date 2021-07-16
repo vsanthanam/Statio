@@ -34,6 +34,8 @@ final class MemoryViewController: ScopeViewController, MemoryPresentable, Memory
 
     weak var listener: MemoryPresentableListener?
 
+    func present(snapshot: MemoryMonitor.Snapshot) {}
+
     // MARK: - Private
 
     private let analyticsManager: AnalyticsManaging

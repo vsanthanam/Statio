@@ -12,7 +12,27 @@ protocol MemoryDependency: Dependency {
     var analyticsManager: AnalyticsManaging { get }
 }
 
-class MemoryComponent: Component<MemoryDependency> {}
+class MemoryComponent: Component<MemoryDependency> {
+
+    // MARK: - Published Dependencies
+
+    var memorySnapshotStream: MemorySnapshotStreaming {
+        mutableMemorySnapshotStream
+    }
+
+    // MARK: - Internal Dependencies
+
+    fileprivate var memoryMonitor: MemoryMonitoring {
+        MemoryMonitor(mutableMemorySnapshotStream: mutableMemorySnapshotStream)
+    }
+
+    // MARK: - Private Dependencies
+
+    private var mutableMemorySnapshotStream: MutableMemorySnapshotStreaming {
+        shared { MemorySnapshotStream() }
+    }
+
+}
 
 /// @mockable
 protocol MemoryInteractable: PresentableInteractable {}
@@ -33,7 +53,9 @@ final class MemoryBuilder: ComponentizedBuilder<MemoryComponent, PresentableInte
     override final func build(with component: MemoryComponent, _ dynamicBuildDependency: MemoryDynamicBuildDependency) -> PresentableInteractable {
         let listener = dynamicBuildDependency
         let viewController = MemoryViewController(analyticsManager: component.analyticsManager)
-        let interactor = MemoryInteractor(presenter: viewController)
+        let interactor = MemoryInteractor(presenter: viewController,
+                                          memoryMonitor: component.memoryMonitor,
+                                          memorySnapshotStream: component.memorySnapshotStream)
         interactor.listener = listener
         return interactor
     }
