@@ -12,7 +12,9 @@ import UIKit
 protocol MemoryViewControllable: ViewControllable {}
 
 /// @mockable
-protocol MemoryPresentableListener: AnyObject {}
+protocol MemoryPresentableListener: AnyObject {
+    func didTapBack()
+}
 
 final class MemoryViewController: ScopeViewController, MemoryPresentable, MemoryViewControllable {
 
@@ -24,6 +26,16 @@ final class MemoryViewController: ScopeViewController, MemoryPresentable, Memory
     }
 
     // MARK: - UIViewController
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        title = "Memory"
+        let leadingItem = UIBarButtonItem(barButtonSystemItem: .close,
+                                          target: self,
+                                          action: #selector(didTapBack))
+        navigationItem.leftBarButtonItem = leadingItem
+        specializedView.backgroundColor = .systemBackground
+    }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -39,4 +51,9 @@ final class MemoryViewController: ScopeViewController, MemoryPresentable, Memory
     // MARK: - Private
 
     private let analyticsManager: AnalyticsManaging
+
+    @objc
+    private func didTapBack() {
+        listener?.didTapBack()
+    }
 }

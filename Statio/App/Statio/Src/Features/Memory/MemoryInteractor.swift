@@ -13,7 +13,9 @@ protocol MemoryPresentable: MemoryViewControllable {
 }
 
 /// @mockable
-protocol MemoryListener: AnyObject {}
+protocol MemoryListener: AnyObject {
+    func memoryDidClose()
+}
 
 final class MemoryInteractor: PresentableInteractor<MemoryPresentable>, MemoryInteractable, MemoryPresentableListener {
 
@@ -39,6 +41,12 @@ final class MemoryInteractor: PresentableInteractor<MemoryPresentable>, MemoryIn
     // MARK: - API
 
     weak var listener: MemoryListener?
+
+    // MARK: - MemoryPresentableListener
+
+    func didTapBack() {
+        listener?.memoryDidClose()
+    }
 
     // MARK: - Private
 

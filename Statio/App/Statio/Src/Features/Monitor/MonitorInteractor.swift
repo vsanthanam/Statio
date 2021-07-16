@@ -75,6 +75,12 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
         attachMonitorList()
     }
 
+    // MARK: - MemoryListener
+
+    func memoryDidClose() {
+        attachMonitorList()
+    }
+
     // MARK: - Private
 
     private let monitorListBuilder: MonitorListBuildable

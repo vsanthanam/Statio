@@ -50,4 +50,10 @@ final class MemoryInteractorTests: TestCase {
         snapshotSubject.send(.test)
         XCTAssertEqual(presenter.presentCallCount, 1)
     }
+
+    func test_didTapBack_callsListener() {
+        XCTAssertEqual(listener.memoryDidCloseCallCount, 0)
+        interactor.didTapBack()
+        XCTAssertEqual(listener.memoryDidCloseCallCount, 1)
+    }
 }
