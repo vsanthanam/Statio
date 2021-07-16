@@ -34,10 +34,14 @@ class MonitorComponent: Component<MonitorDependency> {
         DeviceIdentityBuilder { DeviceIdentityComponent(parent: self) }
     }
 
+    fileprivate var memoryBuilder: MemoryBuildable {
+        MemoryBuilder { MemoryComponent(parent: self) }
+    }
+
 }
 
 /// @mockable
-protocol MonitorInteractable: PresentableInteractable, MonitorListListener, DeviceIdentityListener {}
+protocol MonitorInteractable: PresentableInteractable, MonitorListListener, DeviceIdentityListener, MemoryListener {}
 
 typealias MonitorDynamicBuildDependency = (
     MonitorListener
@@ -57,8 +61,8 @@ final class MonitorBuilder: ComponentizedBuilder<MonitorComponent, PresentableIn
         let viewController = MonitorViewController(analyticsManager: component.analyticsManager)
         let interactor = MonitorInteractor(presenter: viewController,
                                            monitorListBuilder: component.monitorListBuilder,
-                                           deviceIdentityBuilder: component.deviceIdentityBuilder)
-        viewController.listener = interactor
+                                           deviceIdentityBuilder: component.deviceIdentityBuilder,
+                                           memoryBuilder: component.memoryBuilder)
         interactor.listener = listener
         return interactor
     }

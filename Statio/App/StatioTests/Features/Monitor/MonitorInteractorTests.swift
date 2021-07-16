@@ -14,6 +14,7 @@ final class MonitorInteractorTests: TestCase {
     let listener = MonitorListenerMock()
     let monitorListBuilder = MonitorListBuildableMock()
     let deviceIdentityBuilder = DeviceIdentityBuildableMock()
+    let memoryBuilder = MemoryBuildableMock()
 
     var interactor: MonitorInteractor!
 
@@ -21,7 +22,8 @@ final class MonitorInteractorTests: TestCase {
         super.setUp()
         interactor = .init(presenter: presenter,
                            monitorListBuilder: monitorListBuilder,
-                           deviceIdentityBuilder: deviceIdentityBuilder)
+                           deviceIdentityBuilder: deviceIdentityBuilder,
+                           memoryBuilder: memoryBuilder)
         interactor.listener = listener
     }
 
@@ -64,6 +66,28 @@ final class MonitorInteractorTests: TestCase {
         interactor.monitorListDidSelect(identifier: .identity)
 
         XCTAssertEqual(deviceIdentityBuilder.buildCallCount, 1)
+        XCTAssertEqual(presenter.showMonitorCallCount, 1)
+        XCTAssertEqual(interactor.children.count, 1)
+    }
+
+    func test_didSelect_memory_buildsAttachesAndPresents() {
+        let viewController = ViewControllableMock()
+        let memory = PresentableInteractableMock()
+        memory.viewControllable = viewController
+
+        memoryBuilder.buildHandler = { [interactor] listener in
+            XCTAssertTrue(interactor === listener)
+            return memory
+        }
+
+        XCTAssertEqual(memoryBuilder.buildCallCount, 0)
+        XCTAssertEqual(presenter.showMonitorCallCount, 0)
+        XCTAssertEqual(interactor.children.count, 0)
+
+        interactor.activate()
+        interactor.monitorListDidSelect(identifier: .memory)
+
+        XCTAssertEqual(memoryBuilder.buildCallCount, 1)
         XCTAssertEqual(presenter.showMonitorCallCount, 1)
         XCTAssertEqual(interactor.children.count, 1)
     }

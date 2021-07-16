@@ -34,7 +34,6 @@ final class SettingsBuilder: ComponentizedBuilder<SettingsComponent, Presentable
         let listener = dynamicBuildDependency
         let viewController = SettingsViewController(analyticsManager: component.analyticsManager)
         let interactor = SettingsInteractor(presenter: viewController)
-        viewController.listener = interactor
         interactor.listener = listener
         return interactor
     }

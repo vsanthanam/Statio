@@ -55,7 +55,6 @@ final class DeviceIdentityBuilder: ComponentizedBuilder<DeviceIdentityComponent,
         let interactor = DeviceIdentityInteractor(presenter: viewController,
                                                   deviceStaticInfoProvider: component.deviceStaticInfoProvider,
                                                   deviceModelStream: component.deviceModelStream)
-        viewController.listener = interactor
         interactor.listener = listener
         return interactor
     }

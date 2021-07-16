@@ -59,7 +59,6 @@ final class MonitorListBuilder: ComponentizedBuilder<MonitorListComponent, Monit
                                                        monitorTitleProvider: component.monitorTitleProvider,
                                                        monitorIconProvider: component.monitorIconProvider)
         let interactor = MonitorListInteractor(presenter: viewController)
-        viewController.listener = interactor
         interactor.listener = listener
         return interactor
     }
