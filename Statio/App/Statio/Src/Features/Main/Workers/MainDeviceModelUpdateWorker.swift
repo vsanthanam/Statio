@@ -24,7 +24,7 @@ final class MainDeviceModelUpdateWorker: Worker, MainDeviceModelUpdateWorking {
 
     // MARK: - Worker
 
-    override func didStart(on scope: WorkerScope) {
+    override func didStart(on scope: Workable) {
         super.didStart(on: scope)
         updateModels()
     }

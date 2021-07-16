@@ -21,7 +21,7 @@ final class MainDeviceBoardStorageWorker: Worker, MainDeviceBoardStorageWorking 
 
     // MARK: - Worker
 
-    override func didStart(on scope: WorkerScope) {
+    override func didStart(on scope: Workable) {
         super.didStart(on: scope)
         startObservingNewBoards()
     }
@@ -35,13 +35,11 @@ final class MainDeviceBoardStorageWorker: Worker, MainDeviceBoardStorageWorking 
         deviceBoardStream.boards
             .filter { [mutableDeviceBoardStorage] boards in
                 boards != (try? mutableDeviceBoardStorage.retrieveCachedBoards()) ?? []
-
             }
             .removeDuplicates()
             .sink { [mutableDeviceBoardStorage] boards in
                 try? mutableDeviceBoardStorage.storeBoards(boards)
             }
             .cancelOnStop(worker: self)
-
     }
 }

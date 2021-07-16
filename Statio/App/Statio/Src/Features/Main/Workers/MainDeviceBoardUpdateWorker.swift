@@ -24,7 +24,7 @@ final class MainDeviceBoardUpdateWorker: Worker, MainDeviceBoardUpdateWorking {
 
     // MARK: - Worker
 
-    override func didStart(on scope: WorkerScope) {
+    override func didStart(on scope: Workable) {
         super.didStart(on: scope)
         updateBoards()
     }

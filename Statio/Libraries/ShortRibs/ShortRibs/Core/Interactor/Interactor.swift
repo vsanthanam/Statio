@@ -9,7 +9,7 @@ import Foundation
 /// A protocol that defines the public interface of an `Interactor` available to other classes
 ///
 /// @mockable
-public protocol Interactable: WorkerScope {
+public protocol Interactable: Workable {
 
     /// Activate the interactor
     /// - Note: You probably shouldn't invoke this method directly.
@@ -74,7 +74,7 @@ open class Interactor: Interactable {
         child.deactivate()
     }
 
-    // MARK: - WorkerScope
+    // MARK: - Workable
 
     @Published
     public private(set) final var isActive: Bool = false

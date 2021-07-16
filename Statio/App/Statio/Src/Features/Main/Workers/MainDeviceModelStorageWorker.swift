@@ -22,7 +22,7 @@ final class MainDeviceModelStorageWorker: Worker, MainDeviceModelStorageWorking 
 
     // MARK: - Worker
 
-    override func didStart(on scope: WorkerScope) {
+    override func didStart(on scope: Workable) {
         super.didStart(on: scope)
         startObservingNewModels()
     }

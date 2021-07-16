@@ -8,7 +8,7 @@ import Foundation
 
 /// A protocol defining an object that a `Worker` can work on
 /// @mockable
-public protocol WorkerScope: AnyObject {
+public protocol Workable: AnyObject {
 
     /// Whether or not the workable scope is active
     var isActive: Bool { get }
@@ -24,7 +24,7 @@ public protocol Working: AnyObject {
 
     /// Start the worker
     /// - Parameter workable: The `workable` scope to bind the worker too
-    func start(on scope: WorkerScope)
+    func start(on scope: Workable)
 
     /// Stop the worker
     func stop()
@@ -48,7 +48,7 @@ open class Worker: Working {
 
     /// Called when the worker starts
     /// - Parameter workable: The workable scope that the worker is bound to
-    open func didStart(on scope: WorkerScope) {
+    open func didStart(on scope: Workable) {
         // Optional Abstract Method
     }
 
@@ -66,7 +66,7 @@ open class Worker: Working {
         $isStarted.eraseToAnyPublisher()
     }
 
-    public final func start(on scope: WorkerScope) {
+    public final func start(on scope: Workable) {
         guard !isStarted else {
             return
         }
@@ -104,7 +104,7 @@ open class Worker: Working {
 
     private var storage: Set<AnyCancellable>?
 
-    private func bind(to scope: WorkerScope) {
+    private func bind(to scope: Workable) {
         binding = nil
 
         binding = scope.isActiveStream
@@ -119,7 +119,7 @@ open class Worker: Working {
             }
     }
 
-    private func internalStart(on workable: WorkerScope) {
+    private func internalStart(on workable: Workable) {
         storage = Set<AnyCancellable>()
         didStart(on: workable)
     }
@@ -137,9 +137,9 @@ open class Worker: Working {
         stop()
     }
 
-    private final class AnyWeakScope: WorkerScope {
+    private final class AnyWeakScope: Workable {
 
-        private weak var workable: WorkerScope?
+        private weak var workable: Workable?
 
         var isActive: Bool {
             workable?.isActive ?? false
@@ -149,7 +149,7 @@ open class Worker: Working {
             workable?.isActiveStream ?? Just<Bool>(false).eraseToAnyPublisher()
         }
 
-        init(_ workable: WorkerScope) {
+        init(_ workable: Workable) {
             self.workable = workable
         }
 
