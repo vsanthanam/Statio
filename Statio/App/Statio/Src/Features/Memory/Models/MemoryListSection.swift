@@ -7,5 +7,6 @@ import Foundation
 
 enum MemoryListSection: Equatable, Hashable {
     case pressureChart
-    case pressureLegend
+    case overview
+    case usageBreakdown
 }

@@ -62,7 +62,8 @@ final class MemoryViewController: ScopeViewController, MemoryPresentable, Memory
     func present(snapshot: MemoryMonitor.Snapshot) {
         var dataSnapshot = NSDiffableDataSourceSnapshot<MemoryListSection, MemoryListRow>()
         dataSnapshot.appendSections([.pressureChart,
-                                     .pressureLegend])
+                                     .overview,
+                                     .usageBreakdown])
         let formatter = NumberFormatter()
         formatter.numberStyle = .percent
         dataSnapshot.appendItems([.chartData([
@@ -72,17 +73,16 @@ final class MemoryViewController: ScopeViewController, MemoryPresentable, Memory
             ("Reserved", snapshot.data.reserved),
             ("Free", snapshot.data.free)
         ])], toSection: .pressureChart)
-        dataSnapshot.appendItems([.legendEntry("Free", snapshot.data.free.asCountedMemory),
-                                  .legendEntry("Active", snapshot.data.active.asCountedMemory),
+        dataSnapshot.appendItems([
+            .legendEntry("Total", snapshot.data.physical.asCountedMemory),
+            .legendEntry("Free", snapshot.data.free.asCountedMemory),
+            .legendEntry("Reserved", snapshot.data.reserved.asCountedMemory),
+            .legendEntry("Used", snapshot.data.used.asCountedMemory)
+        ], toSection: .overview)
+        dataSnapshot.appendItems([.legendEntry("Active", snapshot.data.active.asCountedMemory),
                                   .legendEntry("Inactive", snapshot.data.inactive.asCountedMemory),
-                                  .legendEntry("Wired", snapshot.data.wired.asCountedMemory),
-                                  .legendEntry("Used", snapshot.data.used.asCountedMemory),
-                                  .legendEntry("Available", snapshot.data.available.asCountedMemory),
-                                  .legendEntry("Reserved", snapshot.data.reserved.asCountedMemory),
-                                  .legendEntry("Total", snapshot.data.physical.asCountedMemory),
-                                  .legendEntry("Pressure", formatter.string(from: .init(value: snapshot.data.pressure))!),
-                                  .legendEntry("Adjusted Pressure", formatter.string(from: .init(value: snapshot.data.adjustedMemoryPressure))!)],
-                                 toSection: .pressureLegend)
+                                  .legendEntry("Wired", snapshot.data.wired.asCountedMemory)],
+                                 toSection: .usageBreakdown)
         let offset = collectionView.contentOffset
         dataSource.apply(dataSnapshot)
         collectionView.contentOffset = offset

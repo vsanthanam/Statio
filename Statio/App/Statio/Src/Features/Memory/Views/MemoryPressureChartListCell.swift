@@ -14,15 +14,18 @@ final class MemoryPressureChartListCell: UICollectionViewListCell, ChartViewDele
     func apply(_ data: [(String, UInt64)]) {
         let entries = data.map { entry -> PieChartDataEntry in
             let (label, value) = entry
-            return PieChartDataEntry(value: (Double)(value), label: label)
+            let dataEntry = PieChartDataEntry(value: (Double)(value), label: label)
+            return dataEntry
         }
         let dataSet = PieChartDataSet(entries: entries)
+        dataSet.drawValuesEnabled = false
         dataSet.colors = [.red,
                           .orange,
                           .blue,
                           .green,
                           .yellow]
         chart.data = PieChartData(dataSet: dataSet)
+        chart.centerText = "SWA"
     }
 
     // MARK: - UICollectionViewCell
@@ -41,6 +44,7 @@ final class MemoryPressureChartListCell: UICollectionViewListCell, ChartViewDele
                 .equalTo(200)
         }
         chart.delegate = self
+
     }
 
     // MARK: - Private
