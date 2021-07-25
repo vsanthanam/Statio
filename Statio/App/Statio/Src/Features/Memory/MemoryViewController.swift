@@ -4,8 +4,10 @@
 //
 
 import Analytics
+import Charts
 import Foundation
 import ShortRibs
+import StatioKit
 import UIKit
 
 /// @mockable
@@ -16,12 +18,16 @@ protocol MemoryPresentableListener: AnyObject {
     func didTapBack()
 }
 
-final class MemoryViewController: ScopeViewController, MemoryPresentable, MemoryViewControllable {
+final class MemoryViewController: ScopeViewController, MemoryPresentable, MemoryViewControllable, UICollectionViewDelegate {
 
     // MARK: - Initializers
 
-    init(analyticsManager: AnalyticsManaging) {
+    init(analyticsManager: AnalyticsManaging,
+         memoryListCollectionView: MemoryListCollectionViewable,
+         memoryListDataSource: MemoryListDataSource) {
         self.analyticsManager = analyticsManager
+        collectionView = memoryListCollectionView
+        dataSource = memoryListDataSource
         super.init()
     }
 
@@ -35,6 +41,13 @@ final class MemoryViewController: ScopeViewController, MemoryPresentable, Memory
                                           action: #selector(didTapBack))
         navigationItem.leftBarButtonItem = leadingItem
         specializedView.backgroundColor = .systemBackground
+        collectionView.delegate = self
+        specializedView.addSubview(collectionView.uiview)
+        collectionView.uiview.snp.makeConstraints { make in
+            make
+                .edges
+                .equalToSuperview()
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -46,11 +59,40 @@ final class MemoryViewController: ScopeViewController, MemoryPresentable, Memory
 
     weak var listener: MemoryPresentableListener?
 
-    func present(snapshot: MemoryMonitor.Snapshot) {}
+    func present(snapshot: MemoryMonitor.Snapshot) {
+        var dataSnapshot = NSDiffableDataSourceSnapshot<MemoryListSection, MemoryListRow>()
+        dataSnapshot.appendSections([.pressureChart,
+                                     .pressureLegend])
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .percent
+        dataSnapshot.appendItems([.chartData([
+            ("Wired", snapshot.data.wired),
+            ("Active", snapshot.data.active),
+            ("Inactive", snapshot.data.inactive),
+            ("Reserved", snapshot.data.reserved),
+            ("Free", snapshot.data.free)
+        ])], toSection: .pressureChart)
+        dataSnapshot.appendItems([.legendEntry("Free", snapshot.data.free.asCountedMemory),
+                                  .legendEntry("Active", snapshot.data.active.asCountedMemory),
+                                  .legendEntry("Inactive", snapshot.data.inactive.asCountedMemory),
+                                  .legendEntry("Wired", snapshot.data.wired.asCountedMemory),
+                                  .legendEntry("Used", snapshot.data.used.asCountedMemory),
+                                  .legendEntry("Available", snapshot.data.available.asCountedMemory),
+                                  .legendEntry("Reserved", snapshot.data.reserved.asCountedMemory),
+                                  .legendEntry("Total", snapshot.data.physical.asCountedMemory),
+                                  .legendEntry("Pressure", formatter.string(from: .init(value: snapshot.data.pressure))!),
+                                  .legendEntry("Adjusted Pressure", formatter.string(from: .init(value: snapshot.data.adjustedMemoryPressure))!)],
+                                 toSection: .pressureLegend)
+        let offset = collectionView.contentOffset
+        dataSource.apply(dataSnapshot)
+        collectionView.contentOffset = offset
+    }
 
     // MARK: - Private
 
     private let analyticsManager: AnalyticsManaging
+    private let collectionView: MemoryListCollectionViewable
+    private let dataSource: MemoryListDataSource
 
     @objc
     private func didTapBack() {

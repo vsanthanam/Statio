@@ -30,14 +30,22 @@ final class MemoryMonitor: Worker, MemoryMonitoring {
 
     override func didStart(on scope: Workable) {
         super.didStart(on: scope)
-        beginTakingMemorySnapshots()
+        startTakingMemorySnapshots()
     }
 
     // MARK: - Private
 
     private let mutableMemorySnapshotStream: MutableMemorySnapshotStreaming
 
-    private func beginTakingMemorySnapshots() {
+    private func startTakingMemorySnapshots() {
+        let initialSnapshot: Snapshot?
+
+        if let snapshot = try? Memory.record() {
+            initialSnapshot = .init(data: snapshot, timestamp: .init())
+        } else {
+            initialSnapshot = nil
+        }
+
         Timer.publish(every: 2, on: .main, in: .common)
             .autoconnect()
             .tryMap { date -> Snapshot in
@@ -45,6 +53,7 @@ final class MemoryMonitor: Worker, MemoryMonitoring {
                 return Snapshot(data: data, timestamp: date)
             }
             .replaceError(with: nil)
+            .prepend(initialSnapshot)
             .filterNil()
             .removeDuplicates()
             .sink { [mutableMemorySnapshotStream] snapshot in

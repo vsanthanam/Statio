@@ -39,6 +39,6 @@ final class MemorySnapshotStreamTests: TestCase {
 
 extension MemoryMonitor.Snapshot {
     static var test: MemoryMonitor.Snapshot {
-        .init(data: .init(physicalMemory: 0, freeMemory: 0, active: 0, inactive: 0, wired: 0, pageIns: 0, pageOuts: 0), timestamp: .distantPast)
+        .init(data: .init(physical: 0, free: 0, active: 0, inactive: 0, wired: 0, pageIns: 0, pageOuts: 0), timestamp: .distantPast)
     }
 }

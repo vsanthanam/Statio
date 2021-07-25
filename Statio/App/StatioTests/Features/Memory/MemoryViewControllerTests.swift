@@ -13,12 +13,16 @@ final class MemoryViewControllerTests: TestCase {
 
     let listener = MemoryPresentableListenerMock()
     let analyticsManager = AnalyticsManagingMock()
+    let memoryListCollectionView = MemoryListCollectionViewableMock()
+    let memoryListDataSource = MemoryListDataSourceMock()
 
     var viewController: MemoryViewController!
 
     override func setUp() {
         super.setUp()
-        viewController = .init(analyticsManager: analyticsManager)
+        viewController = .init(analyticsManager: analyticsManager,
+                               memoryListCollectionView: memoryListCollectionView,
+                               memoryListDataSource: memoryListDataSource)
         viewController.listener = listener
     }
 

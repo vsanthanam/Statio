@@ -26,6 +26,14 @@ class MemoryComponent: Component<MemoryDependency> {
         MemoryMonitor(mutableMemorySnapshotStream: mutableMemorySnapshotStream)
     }
 
+    fileprivate var collectionView: MemoryListCollectionView {
+        shared { MemoryListCollectionView() }
+    }
+
+    fileprivate var dataSource: MemoryListDataSource {
+        shared { MemoryListCollectionViewDataSource(collectionView: collectionView) }
+    }
+
     // MARK: - Private Dependencies
 
     private var mutableMemorySnapshotStream: MutableMemorySnapshotStreaming {
@@ -52,7 +60,9 @@ final class MemoryBuilder: ComponentizedBuilder<MemoryComponent, PresentableInte
 
     override final func build(with component: MemoryComponent, _ dynamicBuildDependency: MemoryDynamicBuildDependency) -> PresentableInteractable {
         let listener = dynamicBuildDependency
-        let viewController = MemoryViewController(analyticsManager: component.analyticsManager)
+        let viewController = MemoryViewController(analyticsManager: component.analyticsManager,
+                                                  memoryListCollectionView: component.collectionView,
+                                                  memoryListDataSource: component.dataSource)
         let interactor = MemoryInteractor(presenter: viewController,
                                           memoryMonitor: component.memoryMonitor,
                                           memorySnapshotStream: component.memorySnapshotStream)

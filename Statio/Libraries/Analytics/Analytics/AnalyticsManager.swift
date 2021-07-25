@@ -195,7 +195,7 @@ public final class AnalyticsManager: AnalyticsManaging {
 
 }
 
-private extension String {
+extension String {
 
     var expandedKey: String {
         uncapped.lowercased().split(separator: " ").joined(separator: "_")
@@ -215,4 +215,20 @@ private extension String {
         return newString
     }
 
+}
+
+public extension Event where Self: RawRepresentable, RawValue == String {
+    var key: String { rawValue }
+}
+
+public extension Trace where Self: RawRepresentable, RawValue == String {
+    var key: String { rawValue }
+}
+
+public extension FailureKey where Self: RawRepresentable, RawValue == String {
+    var key: String { rawValue }
+}
+
+extension String: Event, Trace, FailureKey {
+    public var key: String { self }
 }

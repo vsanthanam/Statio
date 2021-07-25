@@ -13,8 +13,15 @@ final class MemoryViewControllerSnapshotTests: SnapshotTestCase {
         recordMode = false
     }
 
-    func test_deviceIdentityViewController() {
-        let viewController = MemoryViewController(analyticsManager: AnalyticsManagingMock())
+    func test_memoryViewController() {
+        let collectionView = MemoryListCollectionView()
+        let dataSource = MemoryListCollectionViewDataSource(collectionView: collectionView)
+        let viewController = MemoryViewController(analyticsManager: AnalyticsManagingMock(),
+                                                  memoryListCollectionView: collectionView,
+                                                  memoryListDataSource: dataSource)
+        viewController.loadView()
+        viewController.viewDidLoad()
+        viewController.present(snapshot: .init(data: .init(physical: 500, free: 100, active: 100, inactive: 100, wired: 100, pageIns: 100, pageOuts: 100), timestamp: .init()))
         FBSnapshotVerifyViewController(viewController)
     }
 
