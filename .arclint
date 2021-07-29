@@ -1,16 +1,20 @@
 {
-	"linters": {
-		"repo-config": {
-			"type": "json",
-			"include": ["(\\.repo-config)"]
-		},
-		"arctools": {
-			"type": "php",
-			"include": ["(\\.php)"]
-		},
-		"statio": {
-			"type": "repo-swift-lint",
-			"include": "(^.*\\.swift$)"
-		}
-	}
+   "linters": {
+      "repo-config": {
+         "type": "json",
+         "include": [
+            "(\\.repo-config)"
+         ]
+      },
+      "arctools": {
+         "type": "php",
+         "include": [
+            "(\\.php)"
+         ]
+      },
+      "statio": {
+         "type": "repo-swift-lint",
+         "include": "(^.*\\.swift$)"
+      }
+   }
 }

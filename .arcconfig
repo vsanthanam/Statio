@@ -1,22 +1,22 @@
 {
-  "phabricator.uri": "https://code.vsanthanam.com/",
-  "arc.land.onto": [
-    "main"
-  ],
-  "load": [
-    "tools/arctools"
-  ],
-  "unit.engine": "MultiTestEngine",
-  "unit.engine.multi-test.engines": [
-    {
-      "engine": "CommandUnitTestEngine",
-      "unit.engine.command": "./tools/arcscripts/gen-deps.sh",
-      "unit.engine.command.name": "gen-deps.sh"
-    },
-    {
-      "engine": "CommandUnitTestEngine",
-      "unit.engine.command": "./tools/arcscripts/gen-deps.sh",
-      "unit.engine.command.name": "gen-mocks.sh"
-    }
-  ]
+   "phabricator.uri": "https://code.vsanthanam.com/",
+   "arc.land.onto": [
+      "main"
+   ],
+   "load": [
+      "tools/arctools"
+   ],
+   "unit.engine": "MultiTestEngine",
+   "unit.engine.multi-test.engines": [
+      {
+         "engine": "CommandUnitTestEngine",
+         "unit.engine.command": "./tools/arcscripts/gen-deps.sh",
+         "unit.engine.command.name": "gen-deps.sh"
+      },
+      {
+         "engine": "CommandUnitTestEngine",
+         "unit.engine.command": "./tools/arcscripts/gen-deps.sh",
+         "unit.engine.command.name": "gen-mocks.sh"
+      }
+   ]
 }
