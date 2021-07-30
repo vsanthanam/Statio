@@ -20,7 +20,13 @@ final class BatteryInteractor: PresentableInteractor<BatteryPresentable>, Batter
 
     // MARK: - Initializers
 
-    override init(presenter: BatteryPresentable) {
+    init(presenter: BatteryPresentable,
+         batteryMonitor: BatteryMonitoring,
+         batteryLevelStream: BatteryLevelStreaming,
+         batteryStateStream: BatteryStateStreaming) {
+        self.batteryMonitor = batteryMonitor
+        self.batteryLevelStream = batteryLevelStream
+        self.batteryStateStream = batteryStateStream
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -29,9 +35,22 @@ final class BatteryInteractor: PresentableInteractor<BatteryPresentable>, Batter
 
     weak var listener: BatteryListener?
 
+    // MARK: - Interactor
+
+    override func didBecomeActive() {
+        super.didBecomeActive()
+        batteryMonitor.start(on: self)
+    }
+
     // MARK: - BatteryPresentableListener
 
     func didTapBack() {
         listener?.batteryDidClose()
     }
+
+    // MARK: - Private
+
+    private let batteryMonitor: BatteryMonitoring
+    private let batteryLevelStream: BatteryLevelStreaming
+    private let batteryStateStream: BatteryStateStreaming
 }

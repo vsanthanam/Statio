@@ -12,12 +12,18 @@ final class BatteryInteractorTests: TestCase {
 
     let listener = BatteryListenerMock()
     let presenter = BatteryPresentableMock()
+    let batteryMonitor = BatteryMonitoringMock()
+    let batteryLevelStream = BatteryLevelStreamingMock()
+    let batteryStateStream = BatteryStateStreamingMock()
 
     var interactor: BatteryInteractor!
 
     override func setUp() {
         super.setUp()
-        interactor = .init(presenter: presenter)
+        interactor = .init(presenter: presenter,
+                           batteryMonitor: batteryMonitor,
+                           batteryLevelStream: batteryLevelStream,
+                           batteryStateStream: batteryStateStream)
         interactor.listener = listener
     }
 
