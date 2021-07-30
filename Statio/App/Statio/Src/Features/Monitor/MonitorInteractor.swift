@@ -23,10 +23,12 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
     init(presenter: MonitorPresentable,
          monitorListBuilder: MonitorListBuildable,
          deviceIdentityBuilder: DeviceIdentityBuildable,
-         memoryBuilder: MemoryBuildable) {
+         memoryBuilder: MemoryBuildable,
+         batteryBuilder: BatteryBuildable) {
         self.monitorListBuilder = monitorListBuilder
         self.deviceIdentityBuilder = deviceIdentityBuilder
         self.memoryBuilder = memoryBuilder
+        self.batteryBuilder = batteryBuilder
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -64,6 +66,11 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
             attach(child: monitor)
             presenter.showMonitor(monitor.viewControllable)
             activeMonitor = monitor
+        case .battery:
+            let monitor = batteryBuilder.build(withListener: self)
+            attach(child: monitor)
+            presenter.showMonitor(monitor.viewControllable)
+            activeMonitor = monitor
         default:
             fatalError()
         }
@@ -81,11 +88,18 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
         attachMonitorList()
     }
 
+    // MARK: - BatteryListener
+
+    func batteryDidClose() {
+        attachMonitorList()
+    }
+
     // MARK: - Private
 
     private let monitorListBuilder: MonitorListBuildable
     private let deviceIdentityBuilder: DeviceIdentityBuildable
     private let memoryBuilder: MemoryBuildable
+    private let batteryBuilder: BatteryBuildable
 
     private var monitorList: MonitorListInteractable?
     private var activeMonitor: PresentableInteractable?
