@@ -96,6 +96,7 @@ final class MemoryViewController: ScopeViewController, MemoryPresentable, Memory
 
     @objc
     private func didTapBack() {
+        analyticsManager.send(event: AnalyticsEvent.memory_vc_dismiss)
         listener?.didTapBack()
     }
 }

@@ -54,9 +54,14 @@ open class BaseScopeViewController<T>: UIViewController, ViewControllable where 
         case viewDidDisappear
     }
 
-    /// The typed, read-only interface for th view managed by this view controller
+    /// The typed, read-only interface for the view managed by this view controller
     public final var specializedView: T {
         unsafeDowncast(view, to: T.self)
+    }
+
+    /// The type-erased, read-only interface for the view managed by this view controller
+    public var scopeView: some ScopeView {
+        specializedView
     }
 
     /// A `Publisher` to observe lifecycle events

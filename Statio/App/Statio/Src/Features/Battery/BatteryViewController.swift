@@ -52,6 +52,7 @@ final class BatteryViewController: ScopeViewController, BatteryPresentable, Batt
 
     @objc
     private func didTapBack() {
+        analyticsManager.send(event: AnalyticsEvent.battery_vc_dismiss)
         listener?.didTapBack()
     }
 }

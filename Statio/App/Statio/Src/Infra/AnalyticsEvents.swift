@@ -14,8 +14,11 @@ enum AnalyticsEvent: String, Event, Equatable, Hashable, CustomStringConvertible
     case monitor_list_vc_impression
     case settings_vc_impression
     case device_identity_vc_impression
+    case device_identity_vc_dismiss
     case memory_vc_impression
+    case memory_vc_dismiss
     case battery_vc_impression
+    case battery_vc_dismiss
 
     // MARK: - Event
 

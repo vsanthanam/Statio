@@ -78,6 +78,7 @@ final class DeviceIdentityViewController: ScopeViewController, DeviceIdentityPre
 
     @objc
     private func didTapBack() {
+        analyticsManager.send(event: AnalyticsEvent.device_identity_vc_dismiss)
         listener?.didTapBack()
     }
 }
