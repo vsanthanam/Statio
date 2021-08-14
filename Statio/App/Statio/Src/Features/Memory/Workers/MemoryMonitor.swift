@@ -14,16 +14,11 @@ final class MemoryMonitor: Worker, MemoryMonitoring {
 
     // MARK: - Initializers
 
-    init(mutableMemorySnapshotStream: MutableMemorySnapshotStreaming) {
+    init(memoryProvider: MemoryProviding,
+         mutableMemorySnapshotStream: MutableMemorySnapshotStreaming) {
+        self.memoryProvider = memoryProvider
         self.mutableMemorySnapshotStream = mutableMemorySnapshotStream
         super.init()
-    }
-
-    // MARK: - API
-
-    struct Snapshot: Equatable, Hashable {
-        let data: Memory.Snapshot
-        let timestamp: Date
     }
 
     // MARK: - Worker
@@ -35,22 +30,16 @@ final class MemoryMonitor: Worker, MemoryMonitoring {
 
     // MARK: - Private
 
+    private let memoryProvider: MemoryProviding
     private let mutableMemorySnapshotStream: MutableMemorySnapshotStreaming
 
     private func startTakingMemorySnapshots() {
-        let initialSnapshot: Snapshot?
-
-        if let snapshot = try? Memory.record() {
-            initialSnapshot = .init(data: snapshot, timestamp: .init())
-        } else {
-            initialSnapshot = nil
-        }
+        let initialSnapshot = try? memoryProvider.record()
 
         Timer.publish(every: 2, on: .main, in: .common)
             .autoconnect()
-            .tryMap { date -> Snapshot in
-                let data = try Memory.record()
-                return Snapshot(data: data, timestamp: date)
+            .tryMap { [memoryProvider] _ -> Memory.Snapshot in
+                try memoryProvider.record()
             }
             .replaceError(with: nil)
             .prepend(initialSnapshot)

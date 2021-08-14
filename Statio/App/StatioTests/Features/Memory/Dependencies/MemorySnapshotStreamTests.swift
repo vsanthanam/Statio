@@ -19,7 +19,7 @@ final class MemorySnapshotStreamTests: TestCase {
     }
 
     func test_send_emits() {
-        var emits = [MemoryMonitor.Snapshot]()
+        var emits = [Memory.Snapshot]()
         memorySnapshotStream.memorySnapshot
             .sink { snapshot in
                 emits.append(snapshot)
@@ -37,8 +37,8 @@ final class MemorySnapshotStreamTests: TestCase {
 
 }
 
-extension MemoryMonitor.Snapshot {
-    static var test: MemoryMonitor.Snapshot {
-        .init(data: .init(physical: 0, free: 0, active: 0, inactive: 0, wired: 0, pageIns: 0, pageOuts: 0), timestamp: .distantPast)
+extension Memory.Snapshot {
+    static var test: Memory.Snapshot {
+        .init(physical: 0, free: 0, active: 0, inactive: 0, wired: 0, pageIns: 0, pageOuts: 0)
     }
 }

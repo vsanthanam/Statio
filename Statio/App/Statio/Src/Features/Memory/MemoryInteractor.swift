@@ -5,11 +5,12 @@
 
 import Foundation
 import ShortRibs
+import StatioKit
 
 /// @mockable
 protocol MemoryPresentable: MemoryViewControllable {
     var listener: MemoryPresentableListener? { get set }
-    func present(snapshot: MemoryMonitor.Snapshot)
+    func present(snapshot: Memory.Snapshot)
 }
 
 /// @mockable

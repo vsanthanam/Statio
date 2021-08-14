@@ -7,6 +7,7 @@ import Combine
 import Foundation
 @testable import ShortRibs
 @testable import Statio
+import StatioKit
 import XCTest
 
 final class MemoryInteractorTests: TestCase {
@@ -14,7 +15,7 @@ final class MemoryInteractorTests: TestCase {
     let listener = MemoryListenerMock()
     let presenter = MemoryPresentableMock()
     let memoryMonitor = MemoryMonitoringMock()
-    let snapshotSubject = PassthroughSubject<MemoryMonitor.Snapshot, Never>()
+    let snapshotSubject = PassthroughSubject<Memory.Snapshot, Never>()
     let memorySnapshotStream = MemorySnapshotStreamingMock()
 
     var interactor: MemoryInteractor!

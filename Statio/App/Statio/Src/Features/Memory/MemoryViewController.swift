@@ -59,7 +59,7 @@ final class MemoryViewController: ScopeViewController, MemoryPresentable, Memory
 
     weak var listener: MemoryPresentableListener?
 
-    func present(snapshot: MemoryMonitor.Snapshot) {
+    func present(snapshot: Memory.Snapshot) {
         var dataSnapshot = NSDiffableDataSourceSnapshot<MemoryListSection, MemoryListRow>()
         dataSnapshot.appendSections([.pressureChart,
                                      .overview,
@@ -67,21 +67,21 @@ final class MemoryViewController: ScopeViewController, MemoryPresentable, Memory
         let formatter = NumberFormatter()
         formatter.numberStyle = .percent
         dataSnapshot.appendItems([.chartData([
-            ("Wired", snapshot.data.wired),
-            ("Active", snapshot.data.active),
-            ("Inactive", snapshot.data.inactive),
-            ("Reserved", snapshot.data.reserved),
-            ("Free", snapshot.data.free)
+            ("Wired", snapshot.wired),
+            ("Active", snapshot.active),
+            ("Inactive", snapshot.inactive),
+            ("Reserved", snapshot.reserved),
+            ("Free", snapshot.free)
         ])], toSection: .pressureChart)
         dataSnapshot.appendItems([
-            .legendEntry("Total", snapshot.data.physical.asCountedMemory),
-            .legendEntry("Free", snapshot.data.free.asCountedMemory),
-            .legendEntry("Reserved", snapshot.data.reserved.asCountedMemory),
-            .legendEntry("Used", snapshot.data.used.asCountedMemory)
+            .legendEntry("Total", snapshot.physical.asCountedMemory),
+            .legendEntry("Free", snapshot.free.asCountedMemory),
+            .legendEntry("Reserved", snapshot.reserved.asCountedMemory),
+            .legendEntry("Used", snapshot.used.asCountedMemory)
         ], toSection: .overview)
-        dataSnapshot.appendItems([.legendEntry("Active", snapshot.data.active.asCountedMemory),
-                                  .legendEntry("Inactive", snapshot.data.inactive.asCountedMemory),
-                                  .legendEntry("Wired", snapshot.data.wired.asCountedMemory)],
+        dataSnapshot.appendItems([.legendEntry("Active", snapshot.active.asCountedMemory),
+                                  .legendEntry("Inactive", snapshot.inactive.asCountedMemory),
+                                  .legendEntry("Wired", snapshot.wired.asCountedMemory)],
                                  toSection: .usageBreakdown)
         let offset = collectionView.contentOffset
         dataSource.apply(dataSnapshot)

@@ -23,7 +23,8 @@ class MemoryComponent: Component<MemoryDependency> {
     // MARK: - Internal Dependencies
 
     fileprivate var memoryMonitor: MemoryMonitoring {
-        MemoryMonitor(mutableMemorySnapshotStream: mutableMemorySnapshotStream)
+        MemoryMonitor(memoryProvider: memoryProvider,
+                      mutableMemorySnapshotStream: mutableMemorySnapshotStream)
     }
 
     fileprivate var collectionView: MemoryListCollectionView {
@@ -35,6 +36,10 @@ class MemoryComponent: Component<MemoryDependency> {
     }
 
     // MARK: - Private Dependencies
+
+    private var memoryProvider: MemoryProviding {
+        MemoryProvider()
+    }
 
     private var mutableMemorySnapshotStream: MutableMemorySnapshotStreaming {
         shared { MemorySnapshotStream() }
