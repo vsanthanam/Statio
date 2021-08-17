@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import StatioKit
 import UIKit
 
 /// @mockable
@@ -19,18 +20,18 @@ final class DeviceStaticInfoProvider: DeviceStaticInfoProviding {
     // MARK: - DeviceNameProviding
 
     var deviceName: String {
-        DeviceInfo.name
+        Device.name
     }
 
     var modelIdentifier: String {
-        DeviceInfo.identifier
+        Device.identifier
     }
 
     var os: String {
-        DeviceInfo.systemInfo.name
+        Device.system.name
     }
 
     var version: String {
-        DeviceInfo.systemInfo.version
+        Device.system.version
     }
 }
