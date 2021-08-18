@@ -15,9 +15,6 @@ Statio/App/Derived/*
 ### Repo <-> SwiftLint ###
 .swiftlint.yml
 
-### Sftool <-> Tuist ###
-/Statio/Tuist/Config.swift
-
 ### Tuist ###
 *.xcworkspace/
 *.xcodeproj/

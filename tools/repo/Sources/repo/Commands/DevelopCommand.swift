@@ -61,7 +61,6 @@ struct DevelopCommand: ParsableCommand, RepoCommand {
         try tuist(on: repoRoot,
                   bin: bin,
                   toolConfig: toolConfiguration,
-                  generationOptions: configuration?.tuist.generationOptions ?? [],
                   workspace: workspace,
                   verbose: trace)
 

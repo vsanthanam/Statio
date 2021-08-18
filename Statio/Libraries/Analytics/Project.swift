@@ -4,19 +4,15 @@
 //
 
 import ProjectDescription
+import ProjectDescriptionHelpers
 
 let project = Project(name: "Analytics",
                       organizationName: "Varun Santhanam",
                       packages: [
-                          .remote(url: "https://github.com/Countly/countly-sdk-ios.git",
-                                  requirement: .upToNextMajor(from: "20.0.0")),
-                          .remote(url: "git@github.com:vsanthanam/AppFoundation.git",
-                                  requirement: .branch("main"))
+                          .for(.countly),
+                          .for(.appFoundation)
                       ],
-                      settings: .init(base: [:],
-                                      debug: .settings([:], xcconfig: .relativeToManifest("Config/Project.xcconfig")),
-                                      release: .settings([:], xcconfig: .relativeToManifest("Config/Project.xcconfig")),
-                                      defaultSettings: .recommended),
+                      settings: .project,
                       targets: [
                           Target(name: "Analytics",
                                  platform: .iOS,
@@ -28,14 +24,11 @@ let project = Project(name: "Analytics",
                                                   private: [],
                                                   project: []),
                                  dependencies: [
-                                     .package(product: "AppFoundation"),
-                                     .package(product: "Countly"),
+                                     .remote(.appFoundation),
+                                     .remote(.countly),
                                      .project(target: "Logging", path: "../Logging")
                                  ],
-                                 settings: .init(base: [:],
-                                                 debug: .settings([:], xcconfig: .relativeToManifest("Config/Analytics.xcconfig")),
-                                                 release: .settings([:], xcconfig: .relativeToManifest("Config/Analytics.xcconfig")),
-                                                 defaultSettings: .recommended)),
+                                 settings: .target(named: "Analytics")),
                           Target(name: "AnalyticsTests",
                                  platform: .iOS,
                                  product: .unitTests,
@@ -45,10 +38,7 @@ let project = Project(name: "Analytics",
                                  dependencies: [
                                      .target(name: "Analytics")
                                  ],
-                                 settings: .init(base: [:],
-                                                 debug: .settings([:], xcconfig: .relativeToManifest("Config/AnalyticsTests.xcconfig")),
-                                                 release: .settings([:], xcconfig: .relativeToManifest("Config/AnalyticsTests.xcconfig")),
-                                                 defaultSettings: .recommended))
+                                 settings: .target(named: "AnalyticsTests"))
                       ],
                       schemes: [
                           .init(name: "Analytics",

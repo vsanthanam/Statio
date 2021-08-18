@@ -4,13 +4,11 @@
 //
 
 import ProjectDescription
+import ProjectDescriptionHelpers
 
 let project = Project(name: "Logging",
                       organizationName: "Varun Santhanam",
-                      settings: .init(base: [:],
-                                      debug: .settings([:], xcconfig: .relativeToManifest("Config/Project.xcconfig")),
-                                      release: .settings([:], xcconfig: .relativeToManifest("Config/Project.xcconfig")),
-                                      defaultSettings: .recommended),
+                      settings: .project,
                       targets: [
                           Target(name: "Logging",
                                  platform: .iOS,
@@ -22,10 +20,7 @@ let project = Project(name: "Logging",
                                                   private: [],
                                                   project: []),
                                  dependencies: [],
-                                 settings: .init(base: [:],
-                                                 debug: .settings([:], xcconfig: .relativeToManifest("Config/Logging.xcconfig")),
-                                                 release: .settings([:], xcconfig: .relativeToManifest("Config/Logging.xcconfig")),
-                                                 defaultSettings: .recommended))
+                                 settings: .target(named: "Logging"))
                       ],
                       schemes: [
                           .init(name: "Logging",

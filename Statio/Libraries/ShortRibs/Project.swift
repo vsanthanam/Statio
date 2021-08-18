@@ -4,19 +4,15 @@
 //
 
 import ProjectDescription
+import ProjectDescriptionHelpers
 
 let project = Project(name: "ShortRibs",
                       organizationName: "Varun Santhanam",
                       packages: [
-                          .remote(url: "https://github.com/SnapKit/SnapKit.git",
-                                  requirement: .upToNextMajor(from: "5.0.0")),
-                          .remote(url: "https://github.com/uber/needle.git",
-                                  requirement: .upToNextMajor(from: "0.0.0"))
+                          .for(.snapKit),
+                          .for(.needle)
                       ],
-                      settings: .init(base: [:],
-                                      debug: .settings([:], xcconfig: .relativeToManifest("Config/Project.xcconfig")),
-                                      release: .settings([:], xcconfig: .relativeToManifest("Config/Project.xcconfig")),
-                                      defaultSettings: .recommended),
+                      settings: .project,
                       targets: [
                           Target(name: "ShortRibs",
                                  platform: .iOS,
@@ -28,13 +24,10 @@ let project = Project(name: "ShortRibs",
                                                   private: [],
                                                   project: []),
                                  dependencies: [
-                                     .package(product: "SnapKit"),
-                                     .package(product: "NeedleFoundation")
+                                     .remote(.snapKit),
+                                     .remote(.needle)
                                  ],
-                                 settings: .init(base: [:],
-                                                 debug: .init(settings: [:], xcconfig: .relativeToManifest("Config/ShortRibs.xcconfig")),
-                                                 release: .init(settings: [:], xcconfig: .relativeToManifest("Config/ShortRibs.xcconfig")),
-                                                 defaultSettings: .recommended)),
+                                 settings: .target(named: "ShortRibs")),
                           Target(name: "ShortRibsTests",
                                  platform: .iOS,
                                  product: .unitTests,
@@ -44,10 +37,7 @@ let project = Project(name: "ShortRibs",
                                  dependencies: [
                                      .target(name: "ShortRibs")
                                  ],
-                                 settings: .init(base: [:],
-                                                 debug: .init(settings: [:], xcconfig: .relativeToManifest("Config/ShortRibsTests.xcconfig")),
-                                                 release: .init(settings: [:], xcconfig: .relativeToManifest("Config/ShortRibsTests.xcconfig")),
-                                                 defaultSettings: .recommended))
+                                 settings: .target(named: "ShortRibsTests"))
                       ],
                       schemes: [
                           .init(name: "ShortRibs",

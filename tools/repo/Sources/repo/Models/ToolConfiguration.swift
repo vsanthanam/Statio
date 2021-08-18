@@ -33,9 +33,6 @@ struct ToolConfiguration: Codable {
     /// Library code path
     let libraryCodePath: String
 
-    /// Root tuist
-    let tuist: TuistConfiguration
-
     /// Root app directory
     let workspaceRoot: String
 }
