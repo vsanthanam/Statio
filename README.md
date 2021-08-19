@@ -1,5 +1,5 @@
 # Statio 2
-[![Build status](https://badge.buildkite.com/5618cf6cfcfa2533bf3400b9e8aa408df7c2fa5dd1c62a8f86.svg)](https://buildkite.com/varun-santhanam/shortribs-main-branch)
+[![Build status](https://badge.buildkite.com/ccfb90471cd44a5cfcab3e2841fd6eceb47d2b315aee7c1d31.svg)](https://buildkite.com/varun-santhanam/statio-main-branch)
 [![license](https://img.shields.io/github/license/vsanthanam/vsalert.svg)](https://en.wikipedia.org/wiki/MIT_License)
 [![swift-version](https://img.shields.io/badge/Swift-5.4-orange)](https://www.swift.org)
 
