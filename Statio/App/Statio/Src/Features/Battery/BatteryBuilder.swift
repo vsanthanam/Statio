@@ -14,6 +14,8 @@ protocol BatteryDependency: Dependency {
 
 class BatteryComponent: Component<BatteryDependency> {
 
+    // MARK: - Published Dependencies
+
     var batteryLevelStream: BatteryLevelStreaming {
         mutableBatteryLevelStream
     }
@@ -22,11 +24,23 @@ class BatteryComponent: Component<BatteryDependency> {
         mutableBatteryStateStream
     }
 
+    // MARK: - Internal Dependencies
+
     fileprivate var batteryMonitor: BatteryMonitoring {
         BatteryMonitor(batteryProvider: batteryProvider,
                        mutableBatteryLevelStream: mutableBatteryLevelStream,
                        mutableBatteryStateStream: mutableBatteryStateStream)
     }
+
+    fileprivate var colllectionView: BatteryCollectionView {
+        shared { BatteryCollectionView() }
+    }
+
+    fileprivate var dataSource: BatteryDataSource {
+        shared { BatteryCollectionViewDataSource(collectionView: colllectionView) }
+    }
+
+    // MARK: - Private Dependencies
 
     private var mutableBatteryLevelStream: MutableBatteryLevelStreaming {
         shared { BatteryLevelStream() }
@@ -60,7 +74,9 @@ final class BatteryBuilder: ComponentizedBuilder<BatteryComponent, PresentableIn
 
     override final func build(with component: BatteryComponent, _ dynamicBuildDependency: BatteryDynamicBuildDependency) -> PresentableInteractable {
         let listener = dynamicBuildDependency
-        let viewController = BatteryViewController(analyticsManager: component.analyticsManager)
+        let viewController = BatteryViewController(analyticsManager: component.analyticsManager,
+                                                   collectionView: component.colllectionView,
+                                                   dataSource: component.dataSource)
         let interactor = BatteryInteractor(presenter: viewController,
                                            batteryMonitor: component.batteryMonitor,
                                            batteryLevelStream: component.batteryLevelStream,

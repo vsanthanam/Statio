@@ -17,9 +17,15 @@ final class BatteryViewControllerSnapshotTests: SnapshotTestCase {
     }
 
     func test_batteryViewController() {
-        let viewController = BatteryViewController(analyticsManager: AnalyticsManagingMock())
+        let collectionView = BatteryCollectionView()
+        let dataSource = BatteryCollectionViewDataSource(collectionView: collectionView)
+        let viewController = BatteryViewController(analyticsManager: AnalyticsManagingMock(),
+                                                   collectionView: collectionView,
+                                                   dataSource: dataSource)
         viewController.loadView()
         viewController.viewDidLoad()
+        viewController.update(level: 0.5)
+        viewController.update(state: .discharging)
         FBSnapshotVerifyViewController(viewController)
     }
 
