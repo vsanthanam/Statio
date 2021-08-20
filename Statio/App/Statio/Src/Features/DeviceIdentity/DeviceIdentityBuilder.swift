@@ -17,8 +17,8 @@ class DeviceIdentityComponent: Component<DeviceIdentityDependency> {
 
     // MARK: - Internal Dependencies
 
-    fileprivate var deviceStaticInfoProvider: DeviceStaticInfoProviding {
-        DeviceStaticInfoProvider()
+    fileprivate var deviceProvider: DeviceProviding {
+        DeviceProvider()
     }
 
     fileprivate var collectionView: DeviceIdentityCollectionView {
@@ -53,7 +53,7 @@ final class DeviceIdentityBuilder: ComponentizedBuilder<DeviceIdentityComponent,
                                                           collectionView: component.collectionView,
                                                           dataSource: component.dataSource)
         let interactor = DeviceIdentityInteractor(presenter: viewController,
-                                                  deviceStaticInfoProvider: component.deviceStaticInfoProvider,
+                                                  deviceProvider: component.deviceProvider,
                                                   deviceModelStream: component.deviceModelStream)
         interactor.listener = listener
         return interactor

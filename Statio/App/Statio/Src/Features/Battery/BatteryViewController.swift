@@ -6,6 +6,7 @@
 import Analytics
 import Foundation
 import ShortRibs
+import StatioKit
 import UIKit
 
 /// @mockable
@@ -45,6 +46,10 @@ final class BatteryViewController: ScopeViewController, BatteryPresentable, Batt
     // MARK: - BatteryPresentable
 
     weak var listener: BatteryPresentableListener?
+
+    func update(level: Battery.Level) {}
+
+    func update(state: Battery.State) {}
 
     // MARK: - Private
 

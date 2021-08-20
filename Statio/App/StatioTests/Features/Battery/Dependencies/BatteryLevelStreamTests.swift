@@ -6,6 +6,7 @@
 import Combine
 import Foundation
 @testable import Statio
+import StatioKit
 import XCTest
 
 final class BatteryLevelStreamTests: TestCase {
@@ -18,7 +19,7 @@ final class BatteryLevelStreamTests: TestCase {
     }
 
     func test_update_publishes() {
-        var emits = [Double]()
+        var emits = [Battery.Level]()
         stream.batteryLevel
             .sink { value in
                 emits.append(value)

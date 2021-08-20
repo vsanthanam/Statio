@@ -24,9 +24,9 @@ final class DeviceIdentityInteractor: PresentableInteractor<DeviceIdentityPresen
     // MARK: - Initializers
 
     init(presenter: DeviceIdentityPresentable,
-         deviceStaticInfoProvider: DeviceStaticInfoProviding,
+         deviceProvider: DeviceProviding,
          deviceModelStream: DeviceModelStreaming) {
-        self.deviceStaticInfoProvider = deviceStaticInfoProvider
+        self.deviceProvider = deviceProvider
         self.deviceModelStream = deviceModelStream
         super.init(presenter: presenter)
         presenter.listener = self
@@ -51,21 +51,21 @@ final class DeviceIdentityInteractor: PresentableInteractor<DeviceIdentityPresen
 
     // MARK: - Private
 
-    private let deviceStaticInfoProvider: DeviceStaticInfoProviding
+    private let deviceProvider: DeviceProviding
     private let deviceModelStream: DeviceModelStreaming
 
     private func startObservingDeviceIdentity() {
         UIApplication.didBecomeActiveNotification.asPublisher()
             .prepend(Notification(name: UIApplication.didBecomeActiveNotification))
-            .combineLatest(deviceModelStream.models) { [deviceStaticInfoProvider] _, models -> DeviceModel? in
-                models.first(where: { $0.id == deviceStaticInfoProvider.modelIdentifier })
+            .combineLatest(deviceModelStream.models) { [deviceProvider] _, models -> DeviceModel? in
+                models.first(where: { $0.id == deviceProvider.modelIdentifier })
             }
-            .map { [deviceStaticInfoProvider] model in
-                DeviceIdentityViewModel(deviceName: deviceStaticInfoProvider.deviceName,
-                                        modelIdentifier: deviceStaticInfoProvider.modelIdentifier,
+            .map { [deviceProvider] model in
+                DeviceIdentityViewModel(deviceName: deviceProvider.deviceName,
+                                        modelIdentifier: deviceProvider.modelIdentifier,
                                         modelName: model?.name ?? "Unknown Model",
-                                        osName: deviceStaticInfoProvider.os,
-                                        osVersion: deviceStaticInfoProvider.version)
+                                        osName: deviceProvider.os,
+                                        osVersion: deviceProvider.version)
             }
             .removeDuplicates()
             .sink { [presenter] viewModel in

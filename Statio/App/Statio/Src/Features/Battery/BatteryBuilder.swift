@@ -23,7 +23,8 @@ class BatteryComponent: Component<BatteryDependency> {
     }
 
     fileprivate var batteryMonitor: BatteryMonitoring {
-        BatteryMonitor(mutableBatteryLevelStream: mutableBatteryLevelStream,
+        BatteryMonitor(batteryProvider: batteryProvider,
+                       mutableBatteryLevelStream: mutableBatteryLevelStream,
                        mutableBatteryStateStream: mutableBatteryStateStream)
     }
 
@@ -33,6 +34,10 @@ class BatteryComponent: Component<BatteryDependency> {
 
     private var mutableBatteryStateStream: MutableBatteryStateStreaming {
         shared { BatteryStateStream() }
+    }
+
+    private var batteryProvider: BatteryProviding {
+        BatteryProvider()
     }
 
 }

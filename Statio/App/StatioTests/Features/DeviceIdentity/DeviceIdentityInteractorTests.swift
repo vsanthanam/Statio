@@ -13,7 +13,7 @@ final class DeviceIdentityInteractorTests: TestCase {
 
     let listener = DeviceIdentityListenerMock()
     let presenter = DeviceIdentityPresentableMock()
-    let deviceStaticInfoProvider = DeviceStaticInfoProvidingMock()
+    let deviceProvider = DeviceProvidingMock()
     let deviceModelSubject = PassthroughSubject<[DeviceModel], Never>()
     let deviceModelStream = DeviceModelStreamingMock()
 
@@ -22,7 +22,9 @@ final class DeviceIdentityInteractorTests: TestCase {
     override func setUp() {
         super.setUp()
         deviceModelStream.models = deviceModelSubject.eraseToAnyPublisher()
-        interactor = .init(presenter: presenter, deviceStaticInfoProvider: deviceStaticInfoProvider, deviceModelStream: deviceModelStream)
+        interactor = .init(presenter: presenter,
+                           deviceProvider: deviceProvider,
+                           deviceModelStream: deviceModelStream)
         interactor.listener = listener
     }
 
@@ -31,8 +33,8 @@ final class DeviceIdentityInteractorTests: TestCase {
     }
 
     func test_appliesViewModel_onActivate() {
-        deviceStaticInfoProvider.deviceName = "Name"
-        deviceStaticInfoProvider.modelIdentifier = "x86_64"
+        deviceProvider.deviceName = "Name"
+        deviceProvider.modelIdentifier = "x86_64"
 
         presenter.applyHandler = { viewModel in
             XCTAssertEqual(viewModel.deviceName, "Name")
@@ -47,16 +49,16 @@ final class DeviceIdentityInteractorTests: TestCase {
     }
 
     func test_appliesViewModel_onNewModel_onNewNotification() {
-        deviceStaticInfoProvider.deviceName = "Name"
-        deviceStaticInfoProvider.modelIdentifier = "x86_64"
+        deviceProvider.deviceName = "Name"
+        deviceProvider.modelIdentifier = "x86_64"
 
         XCTAssertEqual(presenter.applyCallCount, 0)
 
         interactor.activate()
         deviceModelSubject.send([])
 
-        deviceStaticInfoProvider.deviceName = "Name2"
-        deviceStaticInfoProvider.modelIdentifier = "x86_64"
+        deviceProvider.deviceName = "Name2"
+        deviceProvider.modelIdentifier = "x86_64"
 
         presenter.applyHandler = { viewModel in
             XCTAssertEqual(viewModel.deviceName, "Name2")
@@ -68,7 +70,7 @@ final class DeviceIdentityInteractorTests: TestCase {
 
         XCTAssertEqual(presenter.applyCallCount, 2)
 
-        deviceStaticInfoProvider.deviceName = "Device3"
+        deviceProvider.deviceName = "Device3"
 
         presenter.applyHandler = { viewModel in
             XCTAssertEqual(viewModel.deviceName, "Device3")

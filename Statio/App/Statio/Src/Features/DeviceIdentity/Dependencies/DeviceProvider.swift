@@ -8,14 +8,14 @@ import StatioKit
 import UIKit
 
 /// @mockable
-protocol DeviceStaticInfoProviding: AnyObject {
+protocol DeviceProviding: AnyObject {
     var deviceName: String { get }
     var modelIdentifier: String { get }
     var os: String { get }
     var version: String { get }
 }
 
-final class DeviceStaticInfoProvider: DeviceStaticInfoProviding {
+final class DeviceProvider: DeviceProviding {
 
     // MARK: - DeviceNameProviding
 

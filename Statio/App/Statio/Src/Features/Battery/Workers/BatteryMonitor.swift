@@ -14,8 +14,10 @@ final class BatteryMonitor: Worker, BatteryMonitoring {
 
     // MARK: - Initializers
 
-    init(mutableBatteryLevelStream: MutableBatteryLevelStreaming,
+    init(batteryProvider: BatteryProviding,
+         mutableBatteryLevelStream: MutableBatteryLevelStreaming,
          mutableBatteryStateStream: MutableBatteryStateStreaming) {
+        self.batteryProvider = batteryProvider
         self.mutableBatteryLevelStream = mutableBatteryLevelStream
         self.mutableBatteryStateStream = mutableBatteryStateStream
         super.init()
@@ -35,6 +37,7 @@ final class BatteryMonitor: Worker, BatteryMonitoring {
 
     // MARK: - Private
 
+    private let batteryProvider: BatteryProviding
     private let mutableBatteryLevelStream: MutableBatteryLevelStreaming
     private let mutableBatteryStateStream: MutableBatteryStateStreaming
 
@@ -48,10 +51,10 @@ final class BatteryMonitor: Worker, BatteryMonitoring {
 
     private func startObservingBatteryLevel() {
         UIDevice.batteryLevelDidChangeNotification.asPublisher()
-            .map { _ in
-                Double(UIDevice.current.batteryLevel)
+            .map { [batteryProvider] _ in
+                batteryProvider.level
             }
-            .prepend(.init(UIDevice.current.batteryLevel))
+            .prepend(batteryProvider.level)
             .removeDuplicates()
             .sink { [mutableBatteryLevelStream] level in
                 mutableBatteryLevelStream.update(level: level)
@@ -60,12 +63,11 @@ final class BatteryMonitor: Worker, BatteryMonitoring {
     }
 
     private func startObservingBatteryState() {
-        UIDevice.batteryLevelDidChangeNotification.asPublisher()
-            .map { _ in
-                UIDevice.current.batteryState
+        UIDevice.batteryStateDidChangeNotification.asPublisher()
+            .map { [batteryProvider] _ in
+                batteryProvider.state
             }
-            .prepend(UIDevice.current.batteryState)
-            .map(\.asState)
+            .prepend(batteryProvider.state)
             .removeDuplicates()
             .sink { [mutableBatteryStateStream] state in
                 mutableBatteryStateStream.update(batteryState: state)
@@ -74,21 +76,4 @@ final class BatteryMonitor: Worker, BatteryMonitoring {
 
     }
 
-}
-
-private extension UIDevice.BatteryState {
-    var asState: BatteryState {
-        switch self {
-        case .unknown:
-            return .unknown
-        case .charging:
-            return .charging
-        case .unplugged:
-            return .discharging
-        case .full:
-            return .full
-        @unknown default:
-            return .unknown
-        }
-    }
 }
