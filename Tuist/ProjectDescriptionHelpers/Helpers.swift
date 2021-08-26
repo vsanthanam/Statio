@@ -64,6 +64,10 @@ public extension RemoteSwiftPackage {
     static let countly: RemoteSwiftPackage = .init(name: "Countly",
                                                    url: "https://github.com/Countly/countly-sdk-ios.git",
                                                    minVersion: "20.0.0")
+
+    static let snapshotTestCase: RemoteSwiftPackage = .init(name: "FBSnapshotTestCase",
+                                                            url: "https://github.com/uber/ios-snapshot-test-case.git",
+                                                            minVersion: "7.0.0")
 }
 
 public extension Package {

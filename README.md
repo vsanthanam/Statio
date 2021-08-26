@@ -12,12 +12,12 @@ The app is comprised of the primary app target, as well as several first party l
     - [CombineExt](https://github.com/CombineCommunity/CombineExt), a collection of operators, publishers and utilities for Combine, that are not provided by Apple themselves, but are common in other Reactive Frameworks and standards.
     - [Countly](https://github.com/Countly/countly-sdk-ios), Countly Product Analytics iOS SDK with macOS, watchOS and tvOS support.
     - [NeedleFoundation](https://github.com/uber/needle), Compile-time safe Swift dependency injection framework (More Details Below)
+    - [iOSSnapshotTestCase](https://github.com/uber/ios-snapshot-test-case), Snapshot Testing for iOS
 - External First Party Dependencies
     - [AppFoundation](https://github.com/vsanthanam/AppFoundation/), A set of common swift utilities
     - [Ombi](https://ombi.network), Reactive networking with Combine and Swift
     - [MaterialColors](https://swiftmaterialcolors.xyz), Material Design Colors in Swift
-- Internal Third Party Libraries
-    - [iOSSnapshotTestCase](https://github.com/uber/ios-snapshot-test-case), Snapshot Testing for iOS
+    - [StatioKit] (https://github.com/vsanthanam/StatioKit), A set of system monitoring utilities in Swift.
 - Internal First Party Libraries
     - ShortRibs, a trimmed down version of Uber's [RIBs](https://github.com/uber/ribs), wihout routers, using Combine instead of RxSwift
     - Logging, a wrapper for Apple Unified Logging

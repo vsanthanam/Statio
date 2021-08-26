@@ -17,7 +17,8 @@ let project = Project(name: "Statio",
                           .for(.ombi),
                           .for(.materialColors),
                           .for(.charts),
-                          .for(.statioKit)
+                          .for(.statioKit),
+                          .for(.snapshotTestCase)
                       ],
                       settings: .project,
                       targets: [
@@ -69,7 +70,7 @@ let project = Project(name: "Statio",
                                  dependencies: [
                                      .target(name: "Statio"),
                                      .remote(.combineSchedulers),
-                                     .project(target: "FBSnapshotTestCase", path: "../Vendor/FBSnapshotTestCase")
+                                     .remote(.snapshotTestCase)
                                  ],
                                  settings: .target(named: "StatioTests"))
                       ],
