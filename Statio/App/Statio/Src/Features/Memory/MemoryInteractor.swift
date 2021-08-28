@@ -10,7 +10,7 @@ import StatioKit
 /// @mockable
 protocol MemoryPresentable: MemoryViewControllable {
     var listener: MemoryPresentableListener? { get set }
-    func present(snapshot: Memory.Snapshot)
+    func present(snapshot: MemorySnapshot)
 }
 
 /// @mockable
@@ -55,7 +55,7 @@ final class MemoryInteractor: PresentableInteractor<MemoryPresentable>, MemoryIn
     private let memorySnapshotStream: MemorySnapshotStreaming
 
     private func startObservingMemorySnapshots() {
-        memorySnapshotStream.memorySnapshot
+        memorySnapshotStream.snapshot
             .sink { [presenter] snapshot in
                 presenter.present(snapshot: snapshot)
             }

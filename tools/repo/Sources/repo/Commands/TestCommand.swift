@@ -78,9 +78,9 @@ struct TestCommand: ParsableCommand, RepoCommand {
         let command: String
 
         if pretty {
-            command = "set -o pipefail && xcodebuild -workspace \(workspace)/Statio.xcworkspace -sdk iphonesimulator -scheme Statio -destination 'platform=iOS Simulator,name=\(device),OS=\(os)' test | xcbeautify"
+            command = "set -o pipefail && xcodebuild -workspace \(workspace)/Statio.xcworkspace -sdk iphonesimulator -disableAutomaticPackageResolution -scheme Statio -destination 'platform=iOS Simulator,name=\(device),OS=\(os)' test | xcbeautify"
         } else {
-            command = "xcodebuild -workspace \(workspace)/Statio.xcworkspace -sdk iphonesimulator -scheme Statio -destination 'platform=iOS Simulator,name=\(device),OS=\(os)' test"
+            command = "xcodebuild -workspace \(workspace)/Statio.xcworkspace -sdk iphonesimulator -disableAutomaticPackageResolution -scheme Statio -destination 'platform=iOS Simulator,name=\(device),OS=\(os)' test"
         }
 
         try shell(script: command, at: repoRoot, errorMessage: "Testing failed!", verbose: true)

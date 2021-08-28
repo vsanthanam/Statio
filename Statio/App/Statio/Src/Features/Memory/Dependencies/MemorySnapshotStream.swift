@@ -9,19 +9,19 @@ import StatioKit
 
 /// @mockable
 protocol MemorySnapshotStreaming: AnyObject {
-    var memorySnapshot: AnyPublisher<Memory.Snapshot, Never> { get }
+    var snapshot: AnyPublisher<MemorySnapshot, Never> { get }
 }
 
 /// @mockable
 protocol MutableMemorySnapshotStreaming: MemorySnapshotStreaming {
-    func send(snapshot: Memory.Snapshot)
+    func send(snapshot: MemorySnapshot)
 }
 
 final class MemorySnapshotStream: MutableMemorySnapshotStreaming {
 
     // MARK: - MemorySnapshotStreaming
 
-    var memorySnapshot: AnyPublisher<Memory.Snapshot, Never> {
+    var snapshot: AnyPublisher<MemorySnapshot, Never> {
         subject
             .filterNil()
             .eraseToAnyPublisher()
@@ -29,12 +29,12 @@ final class MemorySnapshotStream: MutableMemorySnapshotStreaming {
 
     // MARK: - MutableMemorySnapshotStreaming
 
-    func send(snapshot: Memory.Snapshot) {
+    func send(snapshot: MemorySnapshot) {
         subject.send(snapshot)
     }
 
     // MARK: - Private
 
-    private let subject = CurrentValueSubject<Memory.Snapshot?, Never>(nil)
+    private let subject = CurrentValueSubject<MemorySnapshot?, Never>(nil)
 
 }

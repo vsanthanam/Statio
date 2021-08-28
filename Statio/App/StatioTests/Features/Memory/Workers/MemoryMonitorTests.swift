@@ -28,16 +28,16 @@ final class MemoryMonitorTests: TestCase {
 
     func test_publishes() {
         let testScheduler = DispatchQueue.test
-        let subj = PassthroughSubject<Memory.Snapshot, Never>()
+        let subj = PassthroughSubject<MemorySnapshot, Never>()
         memoryProvider.recordHandler = {
             .test
         }
         mutableMemorySnapshotStream.sendHandler = { snapshot in
-            XCTAssertEqual(snapshot, .test)
+            XCTAssertEqual(snapshot.usage, .test)
             subj.send(snapshot)
         }
 
-        var emits = [Memory.Snapshot]()
+        var emits = [MemorySnapshot]()
 
         subj
             .receive(on: testScheduler)
@@ -56,7 +56,7 @@ final class MemoryMonitorTests: TestCase {
 
         XCTAssertEqual(memoryProvider.recordCallCount, 1)
         XCTAssertEqual(mutableMemorySnapshotStream.sendCallCount, 1)
-        XCTAssertEqual(emits, [.test])
+        XCTAssertEqual(emits.map(\.usage), [.test])
     }
 
 }

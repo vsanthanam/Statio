@@ -34,12 +34,18 @@ final class MemoryMonitor: Worker, MemoryMonitoring {
     private let mutableMemorySnapshotStream: MutableMemorySnapshotStreaming
 
     private func startTakingMemorySnapshots() {
-        let initialSnapshot = try? memoryProvider.record()
+        let initialSnapshot: MemorySnapshot? = {
+            guard let usage = try? memoryProvider.record() else {
+                return nil
+            }
+            return MemorySnapshot(usage: usage, timestamp: .init())
+        }()
 
         Timer.publish(every: 2, on: .main, in: .common)
             .autoconnect()
-            .tryMap { [memoryProvider] _ -> Memory.Snapshot in
-                try memoryProvider.record()
+            .tryMap { [memoryProvider] timestamp -> MemorySnapshot in
+                let usage = try memoryProvider.record()
+                return MemorySnapshot(usage: usage, timestamp: timestamp)
             }
             .replaceError(with: nil)
             .prepend(initialSnapshot)

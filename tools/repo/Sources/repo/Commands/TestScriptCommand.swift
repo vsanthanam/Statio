@@ -97,9 +97,9 @@ struct TestScriptCommand: ParsableCommand, RepoCommand {
         let testCommand: String
 
         if pretty {
-            testCommand = "xcodebuild -workspace \(workspace)/Statio.xcworkspace -sdk iphonesimulator -scheme Statio -destination 'platform=iOS Simulator,name=\(device),OS=\(os)' test | xcbeautify"
+            testCommand = "./repo test --pretty"
         } else {
-            testCommand = "xcodebuild -workspace \(workspace)/Statio.xcworkspace -sdk iphonesimulator -scheme Statio -destination 'platform=iOS Simulator,name=\(device),OS=\(os)' test"
+            testCommand = "./repo test"
         }
 
         script += "\n\(testCommand)"

@@ -59,7 +59,7 @@ final class MemoryViewController: ScopeViewController, MemoryPresentable, Memory
 
     weak var listener: MemoryPresentableListener?
 
-    func present(snapshot: Memory.Snapshot) {
+    func present(snapshot: MemorySnapshot) {
         var dataSnapshot = NSDiffableDataSourceSnapshot<MemoryListSection, MemoryListRow>()
         dataSnapshot.appendSections([.pressureChart,
                                      .overview,

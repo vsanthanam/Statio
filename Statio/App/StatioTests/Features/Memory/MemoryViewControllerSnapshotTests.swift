@@ -21,7 +21,8 @@ final class MemoryViewControllerSnapshotTests: SnapshotTestCase {
                                                   memoryListDataSource: dataSource)
         viewController.loadView()
         viewController.viewDidLoad()
-        viewController.present(snapshot: .init(physical: 500, free: 100, active: 100, inactive: 100, wired: 100, pageIns: 100, pageOuts: 100))
+        viewController.present(snapshot: .init(usage: .init(physical: 500, free: 100, active: 100, inactive: 100, wired: 100, pageIns: 100, pageOuts: 100),
+                                               timestamp: .distantPast))
         FBSnapshotVerifyViewController(viewController)
     }
 

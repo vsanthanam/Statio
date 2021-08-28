@@ -15,14 +15,14 @@ final class MemoryInteractorTests: TestCase {
     let listener = MemoryListenerMock()
     let presenter = MemoryPresentableMock()
     let memoryMonitor = MemoryMonitoringMock()
-    let snapshotSubject = PassthroughSubject<Memory.Snapshot, Never>()
+    let snapshotSubject = PassthroughSubject<MemorySnapshot, Never>()
     let memorySnapshotStream = MemorySnapshotStreamingMock()
 
     var interactor: MemoryInteractor!
 
     override func setUp() {
         super.setUp()
-        memorySnapshotStream.memorySnapshot = snapshotSubject.eraseToAnyPublisher()
+        memorySnapshotStream.snapshot = snapshotSubject.eraseToAnyPublisher()
         interactor = .init(presenter: presenter,
                            memoryMonitor: memoryMonitor,
                            memorySnapshotStream: memorySnapshotStream)

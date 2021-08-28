@@ -6,7 +6,7 @@
 import Foundation
 import StatioKit
 
-extension Memory.Snapshot {
+extension Memory.Usage {
 
     var used: UInt64 {
         wired + inactive + active
