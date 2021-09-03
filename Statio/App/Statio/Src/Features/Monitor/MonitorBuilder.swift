@@ -42,10 +42,14 @@ class MonitorComponent: Component<MonitorDependency> {
         BatteryBuilder { BatteryComponent(parent: self) }
     }
 
+    fileprivate var diskBuilder: DiskBuildable {
+        DiskBuilder { DiskComponent(parent: self) }
+    }
+
 }
 
 /// @mockable
-protocol MonitorInteractable: PresentableInteractable, MonitorListListener, DeviceIdentityListener, MemoryListener, BatteryListener {}
+protocol MonitorInteractable: PresentableInteractable, MonitorListListener, DeviceIdentityListener, MemoryListener, BatteryListener, DiskListener {}
 
 typealias MonitorDynamicBuildDependency = (
     MonitorListener
@@ -67,7 +71,8 @@ final class MonitorBuilder: ComponentizedBuilder<MonitorComponent, PresentableIn
                                            monitorListBuilder: component.monitorListBuilder,
                                            deviceIdentityBuilder: component.deviceIdentityBuilder,
                                            memoryBuilder: component.memoryBuilder,
-                                           batteryBuilder: component.batteryBuilder)
+                                           batteryBuilder: component.batteryBuilder,
+                                           diskBuilder: component.diskBuilder)
         interactor.listener = listener
         return interactor
     }

@@ -16,6 +16,7 @@ final class MonitorInteractorTests: TestCase {
     let deviceIdentityBuilder = DeviceIdentityBuildableMock()
     let memoryBuilder = MemoryBuildableMock()
     let batteryBuilder = BatteryBuildableMock()
+    let diskBuilder = DiskBuildableMock()
 
     var interactor: MonitorInteractor!
 
@@ -25,7 +26,8 @@ final class MonitorInteractorTests: TestCase {
                            monitorListBuilder: monitorListBuilder,
                            deviceIdentityBuilder: deviceIdentityBuilder,
                            memoryBuilder: memoryBuilder,
-                           batteryBuilder: batteryBuilder)
+                           batteryBuilder: batteryBuilder,
+                           diskBuilder: diskBuilder)
         interactor.listener = listener
     }
 
