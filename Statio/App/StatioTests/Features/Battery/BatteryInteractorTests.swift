@@ -14,7 +14,6 @@ final class BatteryInteractorTests: TestCase {
 
     let listener = BatteryListenerMock()
     let presenter = BatteryPresentableMock()
-    let batteryMonitor = BatteryMonitoringMock()
     let batteryLevelSubject = PassthroughSubject<Battery.Level, Never>()
     let batteryLevelStream = BatteryLevelStreamingMock()
     let batteryStateSubject = PassthroughSubject<Battery.State, Never>()
@@ -27,7 +26,6 @@ final class BatteryInteractorTests: TestCase {
         batteryLevelStream.batteryLevel = batteryLevelSubject.eraseToAnyPublisher()
         batteryStateStream.batteryState = batteryStateSubject.eraseToAnyPublisher()
         interactor = .init(presenter: presenter,
-                           batteryMonitor: batteryMonitor,
                            batteryLevelStream: batteryLevelStream,
                            batteryStateStream: batteryStateStream)
         interactor.listener = listener
@@ -41,18 +39,6 @@ final class BatteryInteractorTests: TestCase {
         XCTAssertEqual(listener.batteryDidCloseCallCount, 0)
         interactor.didTapBack()
         XCTAssertEqual(listener.batteryDidCloseCallCount, 1)
-    }
-
-    func test_activate_startsBatteryMonitor() {
-        batteryMonitor.startHandler = { [interactor] scope in
-            XCTAssert(scope === interactor)
-        }
-
-        XCTAssertEqual(batteryMonitor.startCallCount, 0)
-
-        interactor.activate()
-
-        XCTAssertEqual(batteryMonitor.startCallCount, 1)
     }
 
     func test_levelUpdate_callsPresenter() {

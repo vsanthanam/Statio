@@ -18,10 +18,17 @@ final class MemoryViewControllerSnapshotTests: SnapshotTestCase {
         let dataSource = MemoryListCollectionViewDataSource(collectionView: collectionView)
         let viewController = MemoryViewController(analyticsManager: AnalyticsManagingMock(),
                                                   memoryListCollectionView: collectionView,
-                                                  memoryListDataSource: dataSource)
+                                                  memoryListDataSource: dataSource,
+                                                  byteFormatter: ByteFormatter())
         viewController.loadView()
         viewController.viewDidLoad()
-        viewController.present(snapshot: .init(usage: .init(physical: 500, free: 100, active: 100, inactive: 100, wired: 100, pageIns: 100, pageOuts: 100),
+        viewController.present(snapshot: .init(usage: .init(physical: 500,
+                                                            free: 100,
+                                                            active: 100,
+                                                            inactive: 100,
+                                                            wired: 100,
+                                                            pageIns: 100,
+                                                            pageOuts: 100),
                                                timestamp: .distantPast))
         FBSnapshotVerifyViewController(viewController)
     }

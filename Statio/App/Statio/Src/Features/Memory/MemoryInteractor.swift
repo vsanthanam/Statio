@@ -23,9 +23,7 @@ final class MemoryInteractor: PresentableInteractor<MemoryPresentable>, MemoryIn
     // MARK: - Initializers
 
     init(presenter: MemoryPresentable,
-         memoryMonitor: MemoryMonitoring,
          memorySnapshotStream: MemorySnapshotStreaming) {
-        self.memoryMonitor = memoryMonitor
         self.memorySnapshotStream = memorySnapshotStream
         super.init(presenter: presenter)
         presenter.listener = self
@@ -36,7 +34,6 @@ final class MemoryInteractor: PresentableInteractor<MemoryPresentable>, MemoryIn
     override func didBecomeActive() {
         super.didBecomeActive()
         startObservingMemorySnapshots()
-        memoryMonitor.start(on: self)
     }
 
     // MARK: - API
@@ -51,11 +48,13 @@ final class MemoryInteractor: PresentableInteractor<MemoryPresentable>, MemoryIn
 
     // MARK: - Private
 
-    private let memoryMonitor: MemoryMonitoring
     private let memorySnapshotStream: MemorySnapshotStreaming
 
     private func startObservingMemorySnapshots() {
         memorySnapshotStream.snapshot
+            .removeDuplicates { lhs, rhs in
+                lhs.usage == rhs.usage
+            }
             .sink { [presenter] snapshot in
                 presenter.present(snapshot: snapshot)
             }

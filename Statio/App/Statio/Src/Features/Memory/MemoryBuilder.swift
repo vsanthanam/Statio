@@ -10,22 +10,11 @@ import ShortRibs
 
 protocol MemoryDependency: Dependency {
     var analyticsManager: AnalyticsManaging { get }
+    var byteFormatter: ByteFormatting { get }
+    var memorySnapshotStream: MemorySnapshotStreaming { get }
 }
 
 class MemoryComponent: Component<MemoryDependency> {
-
-    // MARK: - Published Dependencies
-
-    var memorySnapshotStream: MemorySnapshotStreaming {
-        mutableMemorySnapshotStream
-    }
-
-    // MARK: - Internal Dependencies
-
-    fileprivate var memoryMonitor: MemoryMonitoring {
-        MemoryMonitor(memoryProvider: memoryProvider,
-                      mutableMemorySnapshotStream: mutableMemorySnapshotStream)
-    }
 
     fileprivate var collectionView: MemoryListCollectionView {
         shared { MemoryListCollectionView() }
@@ -33,16 +22,6 @@ class MemoryComponent: Component<MemoryDependency> {
 
     fileprivate var dataSource: MemoryListDataSource {
         shared { MemoryListCollectionViewDataSource(collectionView: collectionView) }
-    }
-
-    // MARK: - Private Dependencies
-
-    private var memoryProvider: MemoryProviding {
-        MemoryProvider()
-    }
-
-    private var mutableMemorySnapshotStream: MutableMemorySnapshotStreaming {
-        shared { MemorySnapshotStream() }
     }
 
 }
@@ -67,9 +46,9 @@ final class MemoryBuilder: ComponentizedBuilder<MemoryComponent, PresentableInte
         let listener = dynamicBuildDependency
         let viewController = MemoryViewController(analyticsManager: component.analyticsManager,
                                                   memoryListCollectionView: component.collectionView,
-                                                  memoryListDataSource: component.dataSource)
+                                                  memoryListDataSource: component.dataSource,
+                                                  byteFormatter: component.byteFormatter)
         let interactor = MemoryInteractor(presenter: viewController,
-                                          memoryMonitor: component.memoryMonitor,
                                           memorySnapshotStream: component.memorySnapshotStream)
         interactor.listener = listener
         return interactor

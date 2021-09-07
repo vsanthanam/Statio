@@ -32,10 +32,51 @@ final class MainComponent: Component<MainDependency> {
         appStateManager
     }
 
+    var byteFormatter: ByteFormatting {
+        ByteFormatter()
+    }
+
+    var deviceProvider: DeviceProviding {
+        DeviceProvider()
+    }
+
+    var batteryProvider: BatteryProviding {
+        BatteryProvider()
+    }
+
+    var batteryLevelStream: BatteryLevelStreaming {
+        mutableBatteryLevelStream
+    }
+
+    var batteryStateStream: BatteryStateStreaming {
+        mutableBatteryStateStream
+    }
+
+    var memoryProvider: MemoryProviding {
+        MemoryProvider()
+    }
+
+    var memorySnapshotStream: MemorySnapshotStreaming {
+        mutableMemorySnapshotStream
+    }
+
+    var diskProvider: DiskProviding {
+        DiskProvider()
+    }
+
+    var diskSnapshotStream: DiskSnapshotStreaming {
+        mutableDiskSnapshotStream
+    }
+
     // MARK: - Internal Dependencies
 
+    fileprivate var appStateManager: AppStateManaging {
+        shared { AppStateManager() }
+    }
+
     fileprivate var mainDeviceModelStorageWorker: MainDeviceModelStorageWorking {
-        MainDeviceModelStorageWorker(deviceModelStream: deviceModelStream, mutableDeviceModelStorage: mutableDeviceModelStorage)
+        MainDeviceModelStorageWorker(deviceModelStream: deviceModelStream,
+                                     mutableDeviceModelStorage: mutableDeviceModelStorage)
     }
 
     fileprivate var mainDeviceModelUpdateWorker: MainDeviceModelUpdateWorking {
@@ -43,15 +84,28 @@ final class MainComponent: Component<MainDependency> {
     }
 
     fileprivate var mainDeviceBoardStorageWorker: MainDeviceBoardStorageWorking {
-        MainDeviceBoardStorageWorker(deviceBoardStream: deviceBoardStream, mutableDeviceBoardStorage: mutableDeviceBoardStorage)
+        MainDeviceBoardStorageWorker(deviceBoardStream: deviceBoardStream,
+                                     mutableDeviceBoardStorage: mutableDeviceBoardStorage)
     }
 
     fileprivate var mainDeviceBoardUpdateWorker: MainDeviceBoardUpdateWorking {
         MainDeviceBoardUpdateWorker(mutableDeviceBoardStream: mutableDeviceBoardStream)
     }
 
-    fileprivate var appStateManager: AppStateManaging {
-        shared { AppStateManager() }
+    fileprivate var batteryMonitor: BatteryMonitoring {
+        BatteryMonitor(batteryProvider: batteryProvider,
+                       mutableBatteryLevelStream: mutableBatteryLevelStream,
+                       mutableBatteryStateStream: mutableBatteryStateStream)
+    }
+
+    fileprivate var memoryMonitor: MemoryMonitoring {
+        MemoryMonitor(memoryProvider: memoryProvider,
+                      mutableMemorySnapshotStream: mutableMemorySnapshotStream)
+    }
+
+    fileprivate var diskMonitor: DiskMonitoring {
+        DiskMonitor(diskProvider: diskProvider,
+                    mutableDiskSnapshotStream: mutableDiskSnapshotStream)
     }
 
     // MARK: - Private Dependencies
@@ -78,6 +132,22 @@ final class MainComponent: Component<MainDependency> {
 
     private var deviceBoardStorage: DeviceBoardStoring {
         mutableDeviceBoardStorage
+    }
+
+    private var mutableBatteryLevelStream: MutableBatteryLevelStreaming {
+        shared { BatteryLevelStream() }
+    }
+
+    private var mutableBatteryStateStream: MutableBatteryStateStreaming {
+        shared { BatteryStateStream() }
+    }
+
+    private var mutableMemorySnapshotStream: MutableMemorySnapshotStreaming {
+        shared { MemorySnapshotStream() }
+    }
+
+    private var mutableDiskSnapshotStream: MutableDiskSnapshotStreaming {
+        shared { DiskSnapshotStream() }
     }
 
     // MARK: - Children
@@ -116,6 +186,9 @@ final class MainBuilder: ComponentizedBuilder<MainComponent, PresentableInteract
                                         mainDeviceModelUpdateWorker: component.mainDeviceModelUpdateWorker,
                                         mainDeviceBoardStorageWorker: component.mainDeviceBoardStorageWorker,
                                         mainDeviceBoardUpdateWorker: component.mainDeviceBoardUpdateWorker,
+                                        batteryMonitor: component.batteryMonitor,
+                                        memoryMonitor: component.memoryMonitor,
+                                        diskMonitor: component.diskMonitor,
                                         monitorBuilder: component.monitorBuilder,
                                         settingsBuilder: component.settingsBuilder)
         interactor.listener = listener

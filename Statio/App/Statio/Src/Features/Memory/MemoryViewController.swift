@@ -24,10 +24,12 @@ final class MemoryViewController: ScopeViewController, MemoryPresentable, Memory
 
     init(analyticsManager: AnalyticsManaging,
          memoryListCollectionView: MemoryListCollectionViewable,
-         memoryListDataSource: MemoryListDataSource) {
+         memoryListDataSource: MemoryListDataSource,
+         byteFormatter: ByteFormatting) {
         self.analyticsManager = analyticsManager
         collectionView = memoryListCollectionView
         dataSource = memoryListDataSource
+        self.byteFormatter = byteFormatter
         super.init()
     }
 
@@ -74,14 +76,14 @@ final class MemoryViewController: ScopeViewController, MemoryPresentable, Memory
             ("Free", snapshot.free)
         ])], toSection: .pressureChart)
         dataSnapshot.appendItems([
-            .legendEntry("Total", snapshot.physical.asCountedMemory),
-            .legendEntry("Free", snapshot.free.asCountedMemory),
-            .legendEntry("Reserved", snapshot.reserved.asCountedMemory),
-            .legendEntry("Used", snapshot.used.asCountedMemory)
+            .legendEntry("Total", byteFormatter.formattedBytesForMemory(snapshot.physical)),
+            .legendEntry("Free", byteFormatter.formattedBytesForMemory(snapshot.free)),
+            .legendEntry("Reserved", byteFormatter.formattedBytesForMemory(snapshot.reserved)),
+            .legendEntry("Used", byteFormatter.formattedBytesForMemory(snapshot.used))
         ], toSection: .overview)
-        dataSnapshot.appendItems([.legendEntry("Active", snapshot.active.asCountedMemory),
-                                  .legendEntry("Inactive", snapshot.inactive.asCountedMemory),
-                                  .legendEntry("Wired", snapshot.wired.asCountedMemory)],
+        dataSnapshot.appendItems([.legendEntry("Active", byteFormatter.formattedBytesForMemory(snapshot.active)),
+                                  .legendEntry("Inactive", byteFormatter.formattedBytesForMemory(snapshot.inactive)),
+                                  .legendEntry("Wired", byteFormatter.formattedBytesForMemory(snapshot.wired))],
                                  toSection: .usageBreakdown)
         let offset = collectionView.contentOffset
         dataSource.apply(dataSnapshot)
@@ -93,6 +95,7 @@ final class MemoryViewController: ScopeViewController, MemoryPresentable, Memory
     private let analyticsManager: AnalyticsManaging
     private let collectionView: MemoryListCollectionViewable
     private let dataSource: MemoryListDataSource
+    private let byteFormatter: ByteFormatting
 
     @objc
     private func didTapBack() {

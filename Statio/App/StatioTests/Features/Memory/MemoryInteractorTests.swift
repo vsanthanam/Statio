@@ -14,7 +14,6 @@ final class MemoryInteractorTests: TestCase {
 
     let listener = MemoryListenerMock()
     let presenter = MemoryPresentableMock()
-    let memoryMonitor = MemoryMonitoringMock()
     let snapshotSubject = PassthroughSubject<MemorySnapshot, Never>()
     let memorySnapshotStream = MemorySnapshotStreamingMock()
 
@@ -24,22 +23,12 @@ final class MemoryInteractorTests: TestCase {
         super.setUp()
         memorySnapshotStream.snapshot = snapshotSubject.eraseToAnyPublisher()
         interactor = .init(presenter: presenter,
-                           memoryMonitor: memoryMonitor,
                            memorySnapshotStream: memorySnapshotStream)
         interactor.listener = listener
     }
 
     func test_init_assigns_presenter_listener() {
         XCTAssertTrue(presenter.listener === interactor)
-    }
-
-    func test_didBecomeActive_startsMemoryMonitor() {
-        memoryMonitor.startHandler = { [interactor] scope in
-            XCTAssertTrue(interactor === scope)
-        }
-        XCTAssertEqual(memoryMonitor.startCallCount, 0)
-        interactor.activate()
-        XCTAssertEqual(memoryMonitor.startCallCount, 1)
     }
 
     func test_newSnapshot_callsPresenter() {
@@ -50,6 +39,17 @@ final class MemoryInteractorTests: TestCase {
         XCTAssertEqual(presenter.presentCallCount, 0)
         snapshotSubject.send(.test)
         XCTAssertEqual(presenter.presentCallCount, 1)
+        snapshotSubject.send(.test)
+        XCTAssertEqual(presenter.presentCallCount, 1)
+
+        let newSnapshot = MemorySnapshot(usage: .init(physical: 1, free: 1, active: 1, inactive: 1, wired: 1, pageIns: 1, pageOuts: 1), timestamp: .distantPast)
+
+        presenter.presentHandler = { snapshot in
+            XCTAssertEqual(snapshot, newSnapshot)
+        }
+
+        snapshotSubject.send(newSnapshot)
+        XCTAssertEqual(presenter.presentCallCount, 2)
     }
 
     func test_didTapBack_callsListener() {

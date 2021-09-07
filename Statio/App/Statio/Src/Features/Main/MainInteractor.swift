@@ -30,6 +30,9 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
          mainDeviceModelUpdateWorker: MainDeviceModelUpdateWorking,
          mainDeviceBoardStorageWorker: MainDeviceBoardStorageWorking,
          mainDeviceBoardUpdateWorker: MainDeviceBoardUpdateWorking,
+         batteryMonitor: BatteryMonitoring,
+         memoryMonitor: MemoryMonitoring,
+         diskMonitor: DiskMonitoring,
          monitorBuilder: MonitorBuildable,
          settingsBuilder: SettingsBuildable) {
         self.appStateManager = appStateManager
@@ -37,6 +40,9 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
         self.mainDeviceModelUpdateWorker = mainDeviceModelUpdateWorker
         self.mainDeviceBoardStorageWorker = mainDeviceBoardStorageWorker
         self.mainDeviceBoardUpdateWorker = mainDeviceBoardUpdateWorker
+        self.batteryMonitor = batteryMonitor
+        self.memoryMonitor = memoryMonitor
+        self.diskMonitor = diskMonitor
         self.monitorBuilder = monitorBuilder
         self.settingsBuilder = settingsBuilder
         super.init(presenter: presenter)
@@ -74,6 +80,9 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
     private let mainDeviceModelUpdateWorker: MainDeviceModelUpdateWorking
     private let mainDeviceBoardStorageWorker: MainDeviceBoardStorageWorking
     private let mainDeviceBoardUpdateWorker: MainDeviceBoardUpdateWorking
+    private let batteryMonitor: BatteryMonitoring
+    private let memoryMonitor: MemoryMonitoring
+    private let diskMonitor: DiskMonitoring
     private let monitorBuilder: MonitorBuildable
     private let settingsBuilder: SettingsBuildable
 
@@ -100,6 +109,9 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
         mainDeviceBoardStorageWorker.start(on: self)
         mainDeviceModelUpdateWorker.start(on: self)
         mainDeviceBoardUpdateWorker.start(on: self)
+        batteryMonitor.start(on: self)
+        memoryMonitor.start(on: self)
+        diskMonitor.start(on: self)
     }
 
     private func activate(_ appState: AppState) {

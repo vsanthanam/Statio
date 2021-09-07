@@ -118,4 +118,26 @@ final class MonitorInteractorTests: TestCase {
         XCTAssertEqual(interactor.children.count, 1)
     }
 
+    func test_didSelect_disk_buildsAndAttaches() {
+        let viewController = ViewControllableMock()
+        let disk = PresentableInteractableMock()
+        disk.viewControllable = viewController
+
+        diskBuilder.buildHandler = { [interactor] listener in
+            XCTAssertTrue(interactor === listener)
+            return disk
+        }
+
+        XCTAssertEqual(diskBuilder.buildCallCount, 0)
+        XCTAssertEqual(presenter.showMonitorCallCount, 0)
+        XCTAssertEqual(interactor.children.count, 0)
+
+        interactor.activate()
+        interactor.monitorListDidSelect(identifier: .disk)
+
+        XCTAssertEqual(diskBuilder.buildCallCount, 1)
+        XCTAssertEqual(presenter.showMonitorCallCount, 1)
+        XCTAssertEqual(interactor.children.count, 1)
+    }
+
 }

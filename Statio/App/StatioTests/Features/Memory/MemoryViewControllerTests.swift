@@ -15,6 +15,7 @@ final class MemoryViewControllerTests: TestCase {
     let analyticsManager = AnalyticsManagingMock()
     let memoryListCollectionView = MemoryListCollectionViewableMock()
     let memoryListDataSource = MemoryListDataSourceMock()
+    let byteFormatter = ByteFormattingMock()
 
     var viewController: MemoryViewController!
 
@@ -22,7 +23,8 @@ final class MemoryViewControllerTests: TestCase {
         super.setUp()
         viewController = .init(analyticsManager: analyticsManager,
                                memoryListCollectionView: memoryListCollectionView,
-                               memoryListDataSource: memoryListDataSource)
+                               memoryListDataSource: memoryListDataSource,
+                               byteFormatter: byteFormatter)
         viewController.listener = listener
     }
 

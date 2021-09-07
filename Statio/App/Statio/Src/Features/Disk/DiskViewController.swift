@@ -20,8 +20,10 @@ final class DiskViewController: ScopeViewController, DiskPresentable, DiskViewCo
 
     // MARK: - Initializer
 
-    init(analyticsManager: AnalyticsManaging) {
+    init(analyticsManager: AnalyticsManaging,
+         byteFormatter: ByteFormatting) {
         self.analyticsManager = analyticsManager
+        self.byteFormatter = byteFormatter
         super.init()
     }
 
@@ -46,9 +48,12 @@ final class DiskViewController: ScopeViewController, DiskPresentable, DiskViewCo
 
     weak var listener: DiskPresentableListener?
 
+    func present(snapshot: DiskSnapshot) {}
+
     // MARK: - Private
 
     private let analyticsManager: AnalyticsManaging
+    private let byteFormatter: ByteFormatting
 
     @objc
     private func didTapBack() {

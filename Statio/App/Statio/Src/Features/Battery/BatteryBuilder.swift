@@ -10,27 +10,13 @@ import ShortRibs
 
 protocol BatteryDependency: Dependency {
     var analyticsManager: AnalyticsManaging { get }
+    var batteryLevelStream: BatteryLevelStreaming { get }
+    var batteryStateStream: BatteryStateStreaming { get }
 }
 
 class BatteryComponent: Component<BatteryDependency> {
 
-    // MARK: - Published Dependencies
-
-    var batteryLevelStream: BatteryLevelStreaming {
-        mutableBatteryLevelStream
-    }
-
-    var batteryStateStream: BatteryStateStreaming {
-        mutableBatteryStateStream
-    }
-
     // MARK: - Internal Dependencies
-
-    fileprivate var batteryMonitor: BatteryMonitoring {
-        BatteryMonitor(batteryProvider: batteryProvider,
-                       mutableBatteryLevelStream: mutableBatteryLevelStream,
-                       mutableBatteryStateStream: mutableBatteryStateStream)
-    }
 
     fileprivate var colllectionView: BatteryCollectionView {
         shared { BatteryCollectionView() }
@@ -38,20 +24,6 @@ class BatteryComponent: Component<BatteryDependency> {
 
     fileprivate var dataSource: BatteryDataSource {
         shared { BatteryCollectionViewDataSource(collectionView: colllectionView) }
-    }
-
-    // MARK: - Private Dependencies
-
-    private var mutableBatteryLevelStream: MutableBatteryLevelStreaming {
-        shared { BatteryLevelStream() }
-    }
-
-    private var mutableBatteryStateStream: MutableBatteryStateStreaming {
-        shared { BatteryStateStream() }
-    }
-
-    private var batteryProvider: BatteryProviding {
-        BatteryProvider()
     }
 
 }
@@ -78,7 +50,6 @@ final class BatteryBuilder: ComponentizedBuilder<BatteryComponent, PresentableIn
                                                    collectionView: component.colllectionView,
                                                    dataSource: component.dataSource)
         let interactor = BatteryInteractor(presenter: viewController,
-                                           batteryMonitor: component.batteryMonitor,
                                            batteryLevelStream: component.batteryLevelStream,
                                            batteryStateStream: component.batteryStateStream)
         interactor.listener = listener

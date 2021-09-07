@@ -24,10 +24,8 @@ final class BatteryInteractor: PresentableInteractor<BatteryPresentable>, Batter
     // MARK: - Initializers
 
     init(presenter: BatteryPresentable,
-         batteryMonitor: BatteryMonitoring,
          batteryLevelStream: BatteryLevelStreaming,
          batteryStateStream: BatteryStateStreaming) {
-        self.batteryMonitor = batteryMonitor
         self.batteryLevelStream = batteryLevelStream
         self.batteryStateStream = batteryStateStream
         super.init(presenter: presenter)
@@ -44,7 +42,6 @@ final class BatteryInteractor: PresentableInteractor<BatteryPresentable>, Batter
         super.didBecomeActive()
         startObservingBatteryLevel()
         startObservingBatteryState()
-        batteryMonitor.start(on: self)
     }
 
     // MARK: - BatteryPresentableListener
@@ -55,7 +52,6 @@ final class BatteryInteractor: PresentableInteractor<BatteryPresentable>, Batter
 
     // MARK: - Private
 
-    private let batteryMonitor: BatteryMonitoring
     private let batteryLevelStream: BatteryLevelStreaming
     private let batteryStateStream: BatteryStateStreaming
 

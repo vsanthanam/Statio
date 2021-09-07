@@ -11,15 +11,12 @@ import ShortRibs
 protocol DeviceIdentityDependency: Dependency {
     var analyticsManager: AnalyticsManaging { get }
     var deviceModelStream: DeviceModelStreaming { get }
+    var deviceProvider: DeviceProviding { get }
 }
 
 class DeviceIdentityComponent: Component<DeviceIdentityDependency> {
 
     // MARK: - Internal Dependencies
-
-    fileprivate var deviceProvider: DeviceProviding {
-        DeviceProvider()
-    }
 
     fileprivate var collectionView: DeviceIdentityCollectionView {
         shared { DeviceIdentityCollectionView() }

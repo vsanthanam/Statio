@@ -18,6 +18,9 @@ final class MainInteractorTests: TestCase {
     let mainDeviceModelUpdateWorker = MainDeviceModelUpdateWorkingMock()
     let mainDeviceBoardStorageWorker = MainDeviceBoardStorageWorkingMock()
     let mainDeviceBoardUpdateWorker = MainDeviceBoardUpdateWorkingMock()
+    let batteryMonitor = BatteryMonitoringMock()
+    let memoryMonitor = MemoryMonitoringMock()
+    let diskMonitor = DiskMonitoringMock()
     let monitorBuilder = MonitorBuildableMock()
     let settingsBuilder = SettingsBuildableMock()
 
@@ -34,6 +37,9 @@ final class MainInteractorTests: TestCase {
                            mainDeviceModelUpdateWorker: mainDeviceModelUpdateWorker,
                            mainDeviceBoardStorageWorker: mainDeviceBoardStorageWorker,
                            mainDeviceBoardUpdateWorker: mainDeviceBoardUpdateWorker,
+                           batteryMonitor: batteryMonitor,
+                           memoryMonitor: memoryMonitor,
+                           diskMonitor: diskMonitor,
                            monitorBuilder: monitorBuilder,
                            settingsBuilder: settingsBuilder)
         interactor.listener = listener
@@ -199,4 +205,32 @@ final class MainInteractorTests: TestCase {
         interactor.activate()
         XCTAssertEqual(mainDeviceBoardUpdateWorker.startCallCount, 1)
     }
+
+    func test_activate_startsBatteryMonitor() {
+        batteryMonitor.startHandler = { [interactor] scope in
+            XCTAssertTrue(interactor === scope)
+        }
+        XCTAssertEqual(batteryMonitor.startCallCount, 0)
+        interactor.activate()
+        XCTAssertEqual(batteryMonitor.startCallCount, 1)
+    }
+
+    func test_activate_startsMemoryMonitor() {
+        memoryMonitor.startHandler = { [interactor] scope in
+            XCTAssertTrue(interactor === scope)
+        }
+        XCTAssertEqual(memoryMonitor.startCallCount, 0)
+        interactor.activate()
+        XCTAssertEqual(memoryMonitor.startCallCount, 1)
+    }
+
+    func test_activate_startsDiskMonitor() {
+        diskMonitor.startHandler = { [interactor] scope in
+            XCTAssertTrue(interactor === scope)
+        }
+        XCTAssertEqual(diskMonitor.startCallCount, 0)
+        interactor.activate()
+        XCTAssertEqual(diskMonitor.startCallCount, 1)
+    }
+
 }
