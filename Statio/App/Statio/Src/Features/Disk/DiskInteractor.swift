@@ -51,14 +51,14 @@ final class DiskInteractor: PresentableInteractor<DiskPresentable>, DiskInteract
     private let diskSnapshotStream: DiskSnapshotStreaming
 
     private func startObservingDiskSnapshot() {
-//        diskSnapshotStream.snapshot
-//            .removeDuplicates { lhs, rhs in
-//                lhs.usage == rhs.usage
-//            }
-//            .sink { [presenter] snapshot in
-//                presenter.present(snapshot: snapshot)
-//            }
-//            .cancelOnDeactivate(interactor: self)
+        diskSnapshotStream.snapshot
+            .removeDuplicates { lhs, rhs in
+                lhs.usage == rhs.usage
+            }
+            .sink { [presenter] snapshot in
+                presenter.present(snapshot: snapshot)
+            }
+            .cancelOnDeactivate(interactor: self)
     }
 
 }

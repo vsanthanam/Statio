@@ -14,7 +14,17 @@ protocol DiskDependency: Dependency {
     var byteFormatter: ByteFormatting { get }
 }
 
-class DiskComponent: Component<DiskDependency> {}
+class DiskComponent: Component<DiskDependency> {
+
+    fileprivate var collectionView: DiskListCollectionView {
+        shared { DiskListCollectionView() }
+    }
+
+    fileprivate var dataSource: DiskListDataSource {
+        shared { DiskListCollectionViewDataSource(collectionView: collectionView) }
+    }
+
+}
 
 /// @mockable
 protocol DiskInteractable: PresentableInteractable {}
@@ -35,6 +45,8 @@ final class DiskBuilder: ComponentizedBuilder<DiskComponent, PresentableInteract
     override func build(with component: DiskComponent, _ dynamicBuildDependency: DiskDynamicBuildDependency) -> PresentableInteractable {
         let listener = dynamicBuildDependency
         let presenter = DiskViewController(analyticsManager: component.analyticsManager,
+                                           diskListCollectionView: component.collectionView,
+                                           diskListDataSource: component.dataSource,
                                            byteFormatter: component.byteFormatter)
         let interactor = DiskInteractor(presenter: presenter,
                                         diskSnapshotStream: component.diskSnapshotStream)
