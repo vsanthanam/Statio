@@ -7,7 +7,7 @@ import ArgumentParser
 import Foundation
 import ShellOut
 
-struct DevelopCommand: ParsableCommand, RepoCommand {
+struct ProjectCommand: ParsableCommand, RepoCommand {
 
     // MARK: - Initializers
 
@@ -15,7 +15,7 @@ struct DevelopCommand: ParsableCommand, RepoCommand {
 
     // MARK: - API
 
-    enum DevelopCommandError: Error, RepoError {
+    enum ProjectCommandError: Error, RepoError {
         case noWorkspace
 
         var message: String {
@@ -41,12 +41,9 @@ struct DevelopCommand: ParsableCommand, RepoCommand {
     @Flag(name: .long, help: "Display verbose logging")
     var trace: Bool = false
 
-    @Flag(name: .shortAndLong, help: "Don't automatically open Xcode")
-    var dontOpenXcode: Bool = false
-
     // MARK: - ParsableCommand
 
-    static let configuration = CommandConfiguration(commandName: "develop",
+    static let configuration = CommandConfiguration(commandName: "project",
                                                     abstract: "Generate the project",
                                                     version: "2.0")
 
@@ -55,7 +52,7 @@ struct DevelopCommand: ParsableCommand, RepoCommand {
         let configuration = try fetchConfiguration(on: repoRoot, location: toolConfiguration)
 
         guard let workspace = workspaceRoot ?? configuration?.workspaceRoot else {
-            throw DevelopCommandError.noWorkspace
+            throw ProjectCommandError.noWorkspace
         }
 
         try tuist(on: repoRoot,
@@ -63,10 +60,6 @@ struct DevelopCommand: ParsableCommand, RepoCommand {
                   toolConfig: toolConfiguration,
                   workspace: workspace,
                   verbose: trace)
-
-        if !dontOpenXcode {
-            _ = try? shell(script: "open \(workspace)/Statio.xcworkspace", at: repoRoot)
-        }
 
         complete(with: "Project Generated! 🍻")
     }

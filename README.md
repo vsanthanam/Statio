@@ -49,7 +49,7 @@ The generated workspace automatically updates the Needle dependency graph everyt
 
 ```
 $ cd path/to/repo
-$ ./repo gen-deps
+$ ./repo generate deps
 ```
 
 ## Updating Mocks and Running Tests
@@ -58,13 +58,13 @@ First, generate the Xcode workspace:
 
 ```
 $ cd path/to/repo
-$ ./repo develop -d
+$ ./repo generate project
 ```
 
 Then, update the protocol mocks:
 
 ```
-$ ./repo mock
+$ ./repo generate mocks
 ```
 
 Finally, run the unit tests:

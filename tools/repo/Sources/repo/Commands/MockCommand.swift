@@ -84,7 +84,7 @@ struct MockCommand: ParsableCommand, RepoCommand {
 
     // MARK: - ParsableCommand
 
-    static let configuration: CommandConfiguration = .init(commandName: "mock",
+    static let configuration: CommandConfiguration = .init(commandName: "mocks",
                                                            abstract: "Generate mocks",
                                                            version: "2.0")
 

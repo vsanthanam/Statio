@@ -1,3 +1,3 @@
 #! /bin/sh
 set -euo pipefail
-./repo mock
+./repo generate mocks

@@ -30,18 +30,6 @@ struct TestScriptCommand: ParsableCommand, RepoCommand {
     @Option(name: .long, help: "Location of the score five repo")
     var repoRoot: String = FileManager.default.currentDirectoryPath
 
-    @Option(name: .long, help: "Location of the configuration file")
-    var toolConfiguration: String = ".repo-config"
-
-    @Option(name: .long, help: "Simulator Device Name")
-    var device: String?
-
-    @Option(name: .long, help: "Workspace Root")
-    var workspaceRoot: String?
-
-    @Option(name: .long, help: "Simulator Version")
-    var os: String?
-
     @Flag(name: .long, help: "Allow lint failure in test script")
     var relaxed: Bool = false
 
@@ -59,23 +47,6 @@ struct TestScriptCommand: ParsableCommand, RepoCommand {
     // MARK: - RepoCommand
 
     func action() throws {
-        let configuration = try fetchConfiguration(on: repoRoot, location: toolConfiguration)
-        let configDevice = self.device ?? configuration?.testConfig.device
-        let configOs = self.os ?? configuration?.testConfig.os
-        let workspaceRoot = self.workspaceRoot ?? configuration?.workspaceRoot
-
-        guard let workspace = workspaceRoot else {
-            throw TestScriptCommandError.missingWorkspace
-        }
-
-        guard let device = configDevice else {
-            throw TestScriptCommandError.missingSimulatorName
-        }
-
-        guard let os = configOs else {
-            throw TestScriptCommandError.missingOs
-        }
-
         var script: String = """
         #! /bin/sh
         set -euo pipefail
@@ -89,9 +60,9 @@ struct TestScriptCommand: ParsableCommand, RepoCommand {
 
         script += """
         ./repo analytics wipe
-        ./repo update-deps --trace
-        ./repo mock --trace
-        ./repo develop -d --trace
+        ./repo generate deps --trace
+        ./repo generate mocks --trace
+        ./repo generate project --trace
         """
 
         let testCommand: String

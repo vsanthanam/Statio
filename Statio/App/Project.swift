@@ -34,7 +34,7 @@ let project = Project(name: "Statio",
                                      "Statio/Resources/**"
                                  ],
                                  actions: [
-                                     .pre(script: "../../repo update-deps --repo-root ../../", name: "Generate DI Graph")
+                                     .pre(script: "../../repo generate deps --repo-root ../../", name: "Generate DI Graph")
                                  ],
                                  dependencies: [
                                      .remote(.needle),
@@ -64,7 +64,7 @@ let project = Project(name: "Statio",
                                      "StatioTests/**"
                                  ],
                                  actions: [
-                                     .pre(script: "../../repo mock --repo-root ../../",
+                                     .pre(script: "../../repo generate mocks --repo-root ../../",
                                           name: "Generate Mocks")
                                  ],
                                  dependencies: [

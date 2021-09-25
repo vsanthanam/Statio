@@ -26,7 +26,7 @@ struct BootstrapCommand: ParsableCommand, RepoCommand {
             throw CustomRepoError.unknown
         }
 
-        guard var developCommand = (try DevelopCommand.parseAsRoot(.init(arguments)) as? DevelopCommand) else {
+        guard let projectCommand = (try ProjectCommand.parseAsRoot(.init(arguments)) as? ProjectCommand) else {
             throw CustomRepoError.unknown
         }
 
@@ -34,8 +34,7 @@ struct BootstrapCommand: ParsableCommand, RepoCommand {
 
         try dependencyGraphCommand.action()
 
-        developCommand.dontOpenXcode = true
-        try developCommand.action()
-        complete(with: "Bootstrapping complete! 🍻\nGenerate the project with ./repo develop")
+        try projectCommand.action()
+        complete(with: "Bootstrapping complete! 🍻\nOpen Statio.xcworkspace and begin development!")
     }
 }

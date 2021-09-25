@@ -45,7 +45,7 @@ struct DependencyGraphCommand: ParsableCommand, RepoCommand {
 
     // MARK: - ParsableCommand
 
-    static let configuration: CommandConfiguration = .init(commandName: "update-deps",
+    static let configuration: CommandConfiguration = .init(commandName: "deps",
                                                            abstract: "Run needle and update the runtime dependency graph",
                                                            version: "2.0")
 
