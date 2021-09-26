@@ -9,13 +9,13 @@ import Foundation
 @testable import Statio
 import XCTest
 
-final class MainDeviceBoardStorageWorkerTests: TestCase {
+final class DeviceBoardStorageWorkerTests: TestCase {
 
     let boardsSubject = PassthroughSubject<[DeviceBoard], Never>()
     let deviceBoardStream = DeviceBoardStreamingMock()
     let mutableDeviceBoardStorage = MutableDeviceBoardStoringMock()
 
-    var worker: MainDeviceBoardStorageWorker!
+    var worker: DeviceBoardStorageWorker!
 
     override func setUp() {
         super.setUp()

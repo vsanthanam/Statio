@@ -7,9 +7,9 @@ import Foundation
 import ShortRibs
 
 /// @mockable
-protocol MainDeviceBoardStorageWorking: Working {}
+protocol DeviceBoardStorageWorking: Working {}
 
-final class MainDeviceBoardStorageWorker: Worker, MainDeviceBoardStorageWorking {
+final class DeviceBoardStorageWorker: Worker, DeviceBoardStorageWorking {
 
     // MARK: - Initializers
 

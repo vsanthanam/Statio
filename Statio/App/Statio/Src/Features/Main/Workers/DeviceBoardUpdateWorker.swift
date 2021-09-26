@@ -11,14 +11,16 @@ import os.log
 import ShortRibs
 
 /// @mockable
-protocol MainDeviceBoardUpdateWorking: Working {}
+protocol DeviceBoardUpdateWorking: Working {}
 
-final class MainDeviceBoardUpdateWorker: Worker, MainDeviceBoardUpdateWorking {
+final class DeviceBoardUpdateWorker: Worker, DeviceBoardUpdateWorking {
 
     // MARK: - Initializers
 
-    init(mutableDeviceBoardStream: MutableDeviceBoardStreaming) {
+    init(mutableDeviceBoardStream: MutableDeviceBoardStreaming,
+         deviceBoardUpdateProvider: DeviceBoardUpdateProviding) {
         self.mutableDeviceBoardStream = mutableDeviceBoardStream
+        self.deviceBoardUpdateProvider = deviceBoardUpdateProvider
         super.init()
     }
 
@@ -32,12 +34,13 @@ final class MainDeviceBoardUpdateWorker: Worker, MainDeviceBoardUpdateWorking {
     // MARK: - Private
 
     private let mutableDeviceBoardStream: MutableDeviceBoardStreaming
+    private let deviceBoardUpdateProvider: DeviceBoardUpdateProviding
 
     private func updateBoards() {
         ComposableRequest<NoBody, [DeviceBoard], HTTPError>()
-            .path("/statio-device-list/boards.json")
+            .path(deviceBoardUpdateProvider.path)
             .method(.get)
-            .send(on: "https://vsanthanam.github.io")
+            .send(on: deviceBoardUpdateProvider.host, retries: 1, sla: 20)
             .map(\.body)
             .removeDuplicates()
             .filterNil()

@@ -26,20 +26,20 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
 
     init(presenter: MainPresentable,
          appStateManager: AppStateManaging,
-         mainDeviceModelStorageWorker: MainDeviceModelStorageWorking,
-         mainDeviceModelUpdateWorker: MainDeviceModelUpdateWorking,
-         mainDeviceBoardStorageWorker: MainDeviceBoardStorageWorking,
-         mainDeviceBoardUpdateWorker: MainDeviceBoardUpdateWorking,
+         deviceModelStorageWorker: DeviceModelStorageWorking,
+         deviceModelUpdateWorker: DeviceModelUpdateWorking,
+         deviceBoardStorageWorker: DeviceBoardStorageWorking,
+         deviceBoardUpdateWorker: DeviceBoardUpdateWorking,
          batteryMonitor: BatteryMonitoring,
          memoryMonitor: MemoryMonitoring,
          diskMonitor: DiskMonitoring,
          monitorBuilder: MonitorBuildable,
          settingsBuilder: SettingsBuildable) {
         self.appStateManager = appStateManager
-        self.mainDeviceModelStorageWorker = mainDeviceModelStorageWorker
-        self.mainDeviceModelUpdateWorker = mainDeviceModelUpdateWorker
-        self.mainDeviceBoardStorageWorker = mainDeviceBoardStorageWorker
-        self.mainDeviceBoardUpdateWorker = mainDeviceBoardUpdateWorker
+        self.deviceModelStorageWorker = deviceModelStorageWorker
+        self.deviceModelUpdateWorker = deviceModelUpdateWorker
+        self.deviceBoardStorageWorker = deviceBoardStorageWorker
+        self.deviceBoardUpdateWorker = deviceBoardUpdateWorker
         self.batteryMonitor = batteryMonitor
         self.memoryMonitor = memoryMonitor
         self.diskMonitor = diskMonitor
@@ -66,7 +66,7 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
     // MARK: - MainPresentableListener
 
     func didSelectTab(withTag tag: Int) {
-        guard let state = AppState.allCases.first(where: { $0.id == tag }) else {
+        guard let state = AppState.allCases.first(where: { state in state.id == tag }) else {
             loggedAssertionFailure("Selected tab with no applicable app state!", key: "main_interactor_couldnt_find_app_state")
             return
         }
@@ -76,10 +76,10 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
     // MARK: - Private
 
     private let appStateManager: AppStateManaging
-    private let mainDeviceModelStorageWorker: MainDeviceModelStorageWorking
-    private let mainDeviceModelUpdateWorker: MainDeviceModelUpdateWorking
-    private let mainDeviceBoardStorageWorker: MainDeviceBoardStorageWorking
-    private let mainDeviceBoardUpdateWorker: MainDeviceBoardUpdateWorking
+    private let deviceModelStorageWorker: DeviceModelStorageWorking
+    private let deviceModelUpdateWorker: DeviceModelUpdateWorking
+    private let deviceBoardStorageWorker: DeviceBoardStorageWorking
+    private let deviceBoardUpdateWorker: DeviceBoardUpdateWorking
     private let batteryMonitor: BatteryMonitoring
     private let memoryMonitor: MemoryMonitoring
     private let diskMonitor: DiskMonitoring
@@ -105,10 +105,10 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
     }
 
     private func startWorkers() {
-        mainDeviceModelStorageWorker.start(on: self)
-        mainDeviceBoardStorageWorker.start(on: self)
-        mainDeviceModelUpdateWorker.start(on: self)
-        mainDeviceBoardUpdateWorker.start(on: self)
+        deviceModelStorageWorker.start(on: self)
+        deviceBoardStorageWorker.start(on: self)
+        deviceModelUpdateWorker.start(on: self)
+        deviceBoardUpdateWorker.start(on: self)
         batteryMonitor.start(on: self)
         memoryMonitor.start(on: self)
         diskMonitor.start(on: self)

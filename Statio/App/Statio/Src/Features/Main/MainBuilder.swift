@@ -74,22 +74,24 @@ final class MainComponent: Component<MainDependency> {
         shared { AppStateManager() }
     }
 
-    fileprivate var mainDeviceModelStorageWorker: MainDeviceModelStorageWorking {
-        MainDeviceModelStorageWorker(deviceModelStream: deviceModelStream,
-                                     mutableDeviceModelStorage: mutableDeviceModelStorage)
+    fileprivate var deviceModelStorageWorker: DeviceModelStorageWorking {
+        DeviceModelStorageWorker(deviceModelStream: deviceModelStream,
+                                 mutableDeviceModelStorage: mutableDeviceModelStorage)
     }
 
-    fileprivate var mainDeviceModelUpdateWorker: MainDeviceModelUpdateWorking {
-        MainDeviceModelUpdateWorker(mutableDeviceModelStream: mutableDeviceModelStream)
+    fileprivate var deviceModelUpdateWorker: DeviceModelUpdateWorking {
+        DeviceModelUpdateWorker(mutableDeviceModelStream: mutableDeviceModelStream,
+                                deviceModelUpdateProvider: deviceModelUpdateProvider)
     }
 
-    fileprivate var mainDeviceBoardStorageWorker: MainDeviceBoardStorageWorking {
-        MainDeviceBoardStorageWorker(deviceBoardStream: deviceBoardStream,
-                                     mutableDeviceBoardStorage: mutableDeviceBoardStorage)
+    fileprivate var deviceBoardStorageWorker: DeviceBoardStorageWorking {
+        DeviceBoardStorageWorker(deviceBoardStream: deviceBoardStream,
+                                 mutableDeviceBoardStorage: mutableDeviceBoardStorage)
     }
 
-    fileprivate var mainDeviceBoardUpdateWorker: MainDeviceBoardUpdateWorking {
-        MainDeviceBoardUpdateWorker(mutableDeviceBoardStream: mutableDeviceBoardStream)
+    fileprivate var deviceBoardUpdateWorker: DeviceBoardUpdateWorking {
+        DeviceBoardUpdateWorker(mutableDeviceBoardStream: mutableDeviceBoardStream,
+                                deviceBoardUpdateProvider: deviceBoardUpdateProvider)
     }
 
     fileprivate var batteryMonitor: BatteryMonitoring {
@@ -150,6 +152,14 @@ final class MainComponent: Component<MainDependency> {
         shared { DiskSnapshotStream() }
     }
 
+    private var deviceBoardUpdateProvider: DeviceBoardUpdateProviding {
+        DeviceBoardUpdateProvider()
+    }
+
+    private var deviceModelUpdateProvider: DeviceModelUpdateProviding {
+        DeviceModelUpdateProvider()
+    }
+
     // MARK: - Children
 
     fileprivate var monitorBuilder: MonitorBuildable {
@@ -182,10 +192,10 @@ final class MainBuilder: ComponentizedBuilder<MainComponent, PresentableInteract
         let viewController = MainViewController(analyticsManager: component.analyticsManager)
         let interactor = MainInteractor(presenter: viewController,
                                         appStateManager: component.appStateManager,
-                                        mainDeviceModelStorageWorker: component.mainDeviceModelStorageWorker,
-                                        mainDeviceModelUpdateWorker: component.mainDeviceModelUpdateWorker,
-                                        mainDeviceBoardStorageWorker: component.mainDeviceBoardStorageWorker,
-                                        mainDeviceBoardUpdateWorker: component.mainDeviceBoardUpdateWorker,
+                                        deviceModelStorageWorker: component.deviceModelStorageWorker,
+                                        deviceModelUpdateWorker: component.deviceModelUpdateWorker,
+                                        deviceBoardStorageWorker: component.deviceBoardStorageWorker,
+                                        deviceBoardUpdateWorker: component.deviceBoardUpdateWorker,
                                         batteryMonitor: component.batteryMonitor,
                                         memoryMonitor: component.memoryMonitor,
                                         diskMonitor: component.diskMonitor,

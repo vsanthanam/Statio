@@ -11,14 +11,16 @@ import os.log
 import ShortRibs
 
 /// @mockable
-protocol MainDeviceModelUpdateWorking: Working {}
+protocol DeviceModelUpdateWorking: Working {}
 
-final class MainDeviceModelUpdateWorker: Worker, MainDeviceModelUpdateWorking {
+final class DeviceModelUpdateWorker: Worker, DeviceModelUpdateWorking {
 
     // MARK: - Initializers
 
-    init(mutableDeviceModelStream: MutableDeviceModelStreaming) {
+    init(mutableDeviceModelStream: MutableDeviceModelStreaming,
+         deviceModelUpdateProvider: DeviceModelUpdateProviding) {
         self.mutableDeviceModelStream = mutableDeviceModelStream
+        self.deviceModelUpdateProvider = deviceModelUpdateProvider
         super.init()
     }
 
@@ -32,12 +34,13 @@ final class MainDeviceModelUpdateWorker: Worker, MainDeviceModelUpdateWorking {
     // MARK: - Private
 
     private let mutableDeviceModelStream: MutableDeviceModelStreaming
+    private let deviceModelUpdateProvider: DeviceModelUpdateProviding
 
     private func updateModels() {
         ComposableRequest<NoBody, [DeviceModel], HTTPError>()
-            .path("/statio-device-list/models.json")
+            .path(deviceModelUpdateProvider.path)
             .method(.get)
-            .send(on: "https://vsanthanam.github.io", retries: 1, sla: 20)
+            .send(on: deviceModelUpdateProvider.host, retries: 1, sla: 20)
             .map(\.body)
             .removeDuplicates()
             .filterNil()

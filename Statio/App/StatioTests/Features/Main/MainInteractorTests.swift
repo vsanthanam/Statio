@@ -14,10 +14,10 @@ final class MainInteractorTests: TestCase {
     let presenter = MainPresentableMock()
     let appStateSubject = PassthroughSubject<AppState, Never>()
     let appStateManager = AppStateManagingMock()
-    let mainDeviceModelStorageWorker = MainDeviceModelStorageWorkingMock()
-    let mainDeviceModelUpdateWorker = MainDeviceModelUpdateWorkingMock()
-    let mainDeviceBoardStorageWorker = MainDeviceBoardStorageWorkingMock()
-    let mainDeviceBoardUpdateWorker = MainDeviceBoardUpdateWorkingMock()
+    let deviceModelStorageWorker = DeviceModelStorageWorkingMock()
+    let deviceModelUpdateWorker = DeviceModelUpdateWorkingMock()
+    let deviceBoardStorageWorker = DeviceBoardStorageWorkingMock()
+    let deviceBoardUpdateWorker = DeviceBoardUpdateWorkingMock()
     let batteryMonitor = BatteryMonitoringMock()
     let memoryMonitor = MemoryMonitoringMock()
     let diskMonitor = DiskMonitoringMock()
@@ -33,10 +33,10 @@ final class MainInteractorTests: TestCase {
         appStateManager.state = appStateSubject.eraseToAnyPublisher()
         interactor = .init(presenter: presenter,
                            appStateManager: appStateManager,
-                           mainDeviceModelStorageWorker: mainDeviceModelStorageWorker,
-                           mainDeviceModelUpdateWorker: mainDeviceModelUpdateWorker,
-                           mainDeviceBoardStorageWorker: mainDeviceBoardStorageWorker,
-                           mainDeviceBoardUpdateWorker: mainDeviceBoardUpdateWorker,
+                           deviceModelStorageWorker: deviceModelStorageWorker,
+                           deviceModelUpdateWorker: deviceModelUpdateWorker,
+                           deviceBoardStorageWorker: deviceBoardStorageWorker,
+                           deviceBoardUpdateWorker: deviceBoardUpdateWorker,
                            batteryMonitor: batteryMonitor,
                            memoryMonitor: memoryMonitor,
                            diskMonitor: diskMonitor,
@@ -167,43 +167,43 @@ final class MainInteractorTests: TestCase {
     }
 
     func test_activate_startsDeviceModelStorageWorker() {
-        mainDeviceModelStorageWorker.startHandler = { [mainDeviceModelUpdateWorker, interactor] scope in
-            XCTAssertEqual(mainDeviceModelUpdateWorker.startCallCount, 0)
+        deviceModelStorageWorker.startHandler = { [deviceModelUpdateWorker, interactor] scope in
+            XCTAssertEqual(deviceModelUpdateWorker.startCallCount, 0)
             XCTAssertTrue(interactor === scope)
         }
-        XCTAssertEqual(mainDeviceModelStorageWorker.startCallCount, 0)
+        XCTAssertEqual(deviceModelStorageWorker.startCallCount, 0)
         interactor.activate()
-        XCTAssertEqual(mainDeviceModelStorageWorker.startCallCount, 1)
+        XCTAssertEqual(deviceModelStorageWorker.startCallCount, 1)
     }
 
     func test_activate_startsDeviceUpdateStorageWorker() {
-        mainDeviceModelUpdateWorker.startHandler = { [mainDeviceModelStorageWorker, interactor] scope in
-            XCTAssertEqual(mainDeviceModelStorageWorker.startCallCount, 1)
+        deviceModelUpdateWorker.startHandler = { [deviceModelStorageWorker, interactor] scope in
+            XCTAssertEqual(deviceModelStorageWorker.startCallCount, 1)
             XCTAssertTrue(interactor === scope)
         }
-        XCTAssertEqual(mainDeviceModelUpdateWorker.startCallCount, 0)
+        XCTAssertEqual(deviceModelUpdateWorker.startCallCount, 0)
         interactor.activate()
-        XCTAssertEqual(mainDeviceModelUpdateWorker.startCallCount, 1)
+        XCTAssertEqual(deviceModelUpdateWorker.startCallCount, 1)
     }
 
     func test_activate_startsDeviceBoardStorageWorker() {
-        mainDeviceBoardStorageWorker.startHandler = { [mainDeviceBoardUpdateWorker, interactor] scope in
-            XCTAssertEqual(mainDeviceBoardUpdateWorker.startCallCount, 0)
+        deviceBoardStorageWorker.startHandler = { [deviceBoardUpdateWorker, interactor] scope in
+            XCTAssertEqual(deviceBoardUpdateWorker.startCallCount, 0)
             XCTAssertTrue(interactor === scope)
         }
-        XCTAssertEqual(mainDeviceBoardStorageWorker.startCallCount, 0)
+        XCTAssertEqual(deviceBoardStorageWorker.startCallCount, 0)
         interactor.activate()
-        XCTAssertEqual(mainDeviceBoardStorageWorker.startCallCount, 1)
+        XCTAssertEqual(deviceBoardStorageWorker.startCallCount, 1)
     }
 
     func test_activate_startsDeviceBoardUpsateWorker() {
-        mainDeviceBoardUpdateWorker.startHandler = { [mainDeviceBoardStorageWorker, interactor] scope in
-            XCTAssertEqual(mainDeviceBoardStorageWorker.startCallCount, 1)
+        deviceBoardUpdateWorker.startHandler = { [deviceBoardStorageWorker, interactor] scope in
+            XCTAssertEqual(deviceBoardStorageWorker.startCallCount, 1)
             XCTAssertTrue(interactor === scope)
         }
-        XCTAssertEqual(mainDeviceBoardUpdateWorker.startCallCount, 0)
+        XCTAssertEqual(deviceBoardUpdateWorker.startCallCount, 0)
         interactor.activate()
-        XCTAssertEqual(mainDeviceBoardUpdateWorker.startCallCount, 1)
+        XCTAssertEqual(deviceBoardUpdateWorker.startCallCount, 1)
     }
 
     func test_activate_startsBatteryMonitor() {
