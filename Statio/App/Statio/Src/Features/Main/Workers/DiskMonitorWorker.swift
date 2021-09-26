@@ -8,9 +8,9 @@ import Foundation
 import ShortRibs
 
 /// @mockable
-protocol DiskMonitoring: Working {}
+protocol DiskMonitorWorking: Working {}
 
-final class DiskMonitor: Worker, DiskMonitoring {
+final class DiskMonitorWorker: Worker, DiskMonitorWorking {
 
     // MARK: - Initializers
 

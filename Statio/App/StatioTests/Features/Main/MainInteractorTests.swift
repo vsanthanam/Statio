@@ -20,7 +20,7 @@ final class MainInteractorTests: TestCase {
     let deviceBoardUpdateWorker = DeviceBoardUpdateWorkingMock()
     let batteryMonitorWorker = BatteryMonitorWorkingMock()
     let memoryMonitor = MemoryMonitoringMock()
-    let diskMonitor = DiskMonitoringMock()
+    let diskMonitorWorker = DiskMonitorWorkingMock()
     let monitorBuilder = MonitorBuildableMock()
     let settingsBuilder = SettingsBuildableMock()
 
@@ -39,7 +39,7 @@ final class MainInteractorTests: TestCase {
                            deviceBoardUpdateWorker: deviceBoardUpdateWorker,
                            batteryMonitorWorker: batteryMonitorWorker,
                            memoryMonitor: memoryMonitor,
-                           diskMonitor: diskMonitor,
+                           diskMonitorWorker: diskMonitorWorker,
                            monitorBuilder: monitorBuilder,
                            settingsBuilder: settingsBuilder)
         interactor.listener = listener
@@ -224,13 +224,13 @@ final class MainInteractorTests: TestCase {
         XCTAssertEqual(memoryMonitor.startCallCount, 1)
     }
 
-    func test_activate_startsDiskMonitor() {
-        diskMonitor.startHandler = { [interactor] scope in
+    func test_activate_startsDiskMonitorWorker() {
+        diskMonitorWorker.startHandler = { [interactor] scope in
             XCTAssertTrue(interactor === scope)
         }
-        XCTAssertEqual(diskMonitor.startCallCount, 0)
+        XCTAssertEqual(diskMonitorWorker.startCallCount, 0)
         interactor.activate()
-        XCTAssertEqual(diskMonitor.startCallCount, 1)
+        XCTAssertEqual(diskMonitorWorker.startCallCount, 1)
     }
 
 }

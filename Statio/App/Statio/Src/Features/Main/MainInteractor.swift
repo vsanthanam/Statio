@@ -32,7 +32,7 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
          deviceBoardUpdateWorker: DeviceBoardUpdateWorking,
          batteryMonitorWorker: BatteryMonitorWorking,
          memoryMonitor: MemoryMonitoring,
-         diskMonitor: DiskMonitoring,
+         diskMonitorWorker: DiskMonitorWorking,
          monitorBuilder: MonitorBuildable,
          settingsBuilder: SettingsBuildable) {
         self.appStateManager = appStateManager
@@ -42,7 +42,7 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
         self.deviceBoardUpdateWorker = deviceBoardUpdateWorker
         self.batteryMonitorWorker = batteryMonitorWorker
         self.memoryMonitor = memoryMonitor
-        self.diskMonitor = diskMonitor
+        self.diskMonitorWorker = diskMonitorWorker
         self.monitorBuilder = monitorBuilder
         self.settingsBuilder = settingsBuilder
         super.init(presenter: presenter)
@@ -82,7 +82,7 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
     private let deviceBoardUpdateWorker: DeviceBoardUpdateWorking
     private let batteryMonitorWorker: BatteryMonitorWorking
     private let memoryMonitor: MemoryMonitoring
-    private let diskMonitor: DiskMonitoring
+    private let diskMonitorWorker: DiskMonitorWorking
     private let monitorBuilder: MonitorBuildable
     private let settingsBuilder: SettingsBuildable
 
@@ -111,7 +111,7 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
         deviceBoardUpdateWorker.start(on: self)
         batteryMonitorWorker.start(on: self)
         memoryMonitor.start(on: self)
-        diskMonitor.start(on: self)
+        diskMonitorWorker.start(on: self)
     }
 
     private func activate(_ appState: AppState) {

@@ -105,9 +105,9 @@ final class MainComponent: Component<MainDependency> {
                       mutableMemorySnapshotStream: mutableMemorySnapshotStream)
     }
 
-    fileprivate var diskMonitor: DiskMonitoring {
-        DiskMonitor(diskProvider: diskProvider,
-                    mutableDiskSnapshotStream: mutableDiskSnapshotStream)
+    fileprivate var diskMonitorWorker: DiskMonitorWorking {
+        DiskMonitorWorker(diskProvider: diskProvider,
+                          mutableDiskSnapshotStream: mutableDiskSnapshotStream)
     }
 
     // MARK: - Private Dependencies
@@ -198,7 +198,7 @@ final class MainBuilder: ComponentizedBuilder<MainComponent, PresentableInteract
                                         deviceBoardUpdateWorker: component.deviceBoardUpdateWorker,
                                         batteryMonitorWorker: component.batteryMonitorWorker,
                                         memoryMonitor: component.memoryMonitor,
-                                        diskMonitor: component.diskMonitor,
+                                        diskMonitorWorker: component.diskMonitorWorker,
                                         monitorBuilder: component.monitorBuilder,
                                         settingsBuilder: component.settingsBuilder)
         interactor.listener = listener

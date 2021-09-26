@@ -11,18 +11,18 @@ import ShortRibs
 import StatioKit
 import XCTest
 
-final class DiskMonitorTests: TestCase {
+final class DiskMonitorWorkerTests: TestCase {
 
     let interactor = Interactor()
     let diskProvider = DiskProvidingMock()
     let mutableDiskSnapshotStream = MutableDiskSnapshotStreamingMock()
 
-    var monitor: DiskMonitor!
+    var worker: DiskMonitorWorker!
 
     override func setUp() {
         super.setUp()
-        monitor = .init(diskProvider: diskProvider,
-                        mutableDiskSnapshotStream: mutableDiskSnapshotStream)
+        worker = .init(diskProvider: diskProvider,
+                       mutableDiskSnapshotStream: mutableDiskSnapshotStream)
         interactor.activate()
     }
 
@@ -50,7 +50,7 @@ final class DiskMonitorTests: TestCase {
         XCTAssertEqual(mutableDiskSnapshotStream.sendCallCount, 0)
         XCTAssertEqual(emits, [])
 
-        monitor.start(on: interactor)
+        worker.start(on: interactor)
 
         testScheduler.advance()
 
