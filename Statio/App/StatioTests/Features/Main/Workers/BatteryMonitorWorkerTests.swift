@@ -9,14 +9,14 @@ import ShortRibs
 @testable import Statio
 import XCTest
 
-final class BatteryMonitorTests: TestCase {
+final class BatteryWorkerMonitorTests: TestCase {
 
     let interactor = Interactor()
     let batteryProvider = BatteryProvidingMock()
     let mutableBatteryLevelStream = MutableBatteryLevelStreamingMock()
     let mutableBatteryStateStream = MutableBatteryStateStreamingMock()
 
-    var worker: BatteryMonitor!
+    var worker: BatteryMonitorWorker!
 
     override func setUp() {
         super.setUp()

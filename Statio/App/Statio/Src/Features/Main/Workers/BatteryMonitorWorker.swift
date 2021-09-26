@@ -8,9 +8,9 @@ import ShortRibs
 import UIKit
 
 /// @mockable
-protocol BatteryMonitoring: Working {}
+protocol BatteryMonitorWorking: Working {}
 
-final class BatteryMonitor: Worker, BatteryMonitoring {
+final class BatteryMonitorWorker: Worker, BatteryMonitorWorking {
 
     // MARK: - Initializers
 

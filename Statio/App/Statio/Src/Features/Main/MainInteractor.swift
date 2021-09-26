@@ -30,7 +30,7 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
          deviceModelUpdateWorker: DeviceModelUpdateWorking,
          deviceBoardStorageWorker: DeviceBoardStorageWorking,
          deviceBoardUpdateWorker: DeviceBoardUpdateWorking,
-         batteryMonitor: BatteryMonitoring,
+         batteryMonitorWorker: BatteryMonitorWorking,
          memoryMonitor: MemoryMonitoring,
          diskMonitor: DiskMonitoring,
          monitorBuilder: MonitorBuildable,
@@ -40,7 +40,7 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
         self.deviceModelUpdateWorker = deviceModelUpdateWorker
         self.deviceBoardStorageWorker = deviceBoardStorageWorker
         self.deviceBoardUpdateWorker = deviceBoardUpdateWorker
-        self.batteryMonitor = batteryMonitor
+        self.batteryMonitorWorker = batteryMonitorWorker
         self.memoryMonitor = memoryMonitor
         self.diskMonitor = diskMonitor
         self.monitorBuilder = monitorBuilder
@@ -80,7 +80,7 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
     private let deviceModelUpdateWorker: DeviceModelUpdateWorking
     private let deviceBoardStorageWorker: DeviceBoardStorageWorking
     private let deviceBoardUpdateWorker: DeviceBoardUpdateWorking
-    private let batteryMonitor: BatteryMonitoring
+    private let batteryMonitorWorker: BatteryMonitorWorking
     private let memoryMonitor: MemoryMonitoring
     private let diskMonitor: DiskMonitoring
     private let monitorBuilder: MonitorBuildable
@@ -109,7 +109,7 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
         deviceBoardStorageWorker.start(on: self)
         deviceModelUpdateWorker.start(on: self)
         deviceBoardUpdateWorker.start(on: self)
-        batteryMonitor.start(on: self)
+        batteryMonitorWorker.start(on: self)
         memoryMonitor.start(on: self)
         diskMonitor.start(on: self)
     }
