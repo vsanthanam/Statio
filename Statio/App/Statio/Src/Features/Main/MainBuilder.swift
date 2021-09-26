@@ -100,9 +100,9 @@ final class MainComponent: Component<MainDependency> {
                              mutableBatteryStateStream: mutableBatteryStateStream)
     }
 
-    fileprivate var memoryMonitor: MemoryMonitoring {
-        MemoryMonitor(memoryProvider: memoryProvider,
-                      mutableMemorySnapshotStream: mutableMemorySnapshotStream)
+    fileprivate var memoryMonitorWorker: MemoryMonitorWorking {
+        MemoryMonitorWorker(memoryProvider: memoryProvider,
+                            mutableMemorySnapshotStream: mutableMemorySnapshotStream)
     }
 
     fileprivate var diskMonitorWorker: DiskMonitorWorking {
@@ -197,7 +197,7 @@ final class MainBuilder: ComponentizedBuilder<MainComponent, PresentableInteract
                                         deviceBoardStorageWorker: component.deviceBoardStorageWorker,
                                         deviceBoardUpdateWorker: component.deviceBoardUpdateWorker,
                                         batteryMonitorWorker: component.batteryMonitorWorker,
-                                        memoryMonitor: component.memoryMonitor,
+                                        memoryMonitorWorker: component.memoryMonitorWorker,
                                         diskMonitorWorker: component.diskMonitorWorker,
                                         monitorBuilder: component.monitorBuilder,
                                         settingsBuilder: component.settingsBuilder)

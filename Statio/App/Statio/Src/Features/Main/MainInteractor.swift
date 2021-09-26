@@ -31,7 +31,7 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
          deviceBoardStorageWorker: DeviceBoardStorageWorking,
          deviceBoardUpdateWorker: DeviceBoardUpdateWorking,
          batteryMonitorWorker: BatteryMonitorWorking,
-         memoryMonitor: MemoryMonitoring,
+         memoryMonitorWorker: MemoryMonitorWorking,
          diskMonitorWorker: DiskMonitorWorking,
          monitorBuilder: MonitorBuildable,
          settingsBuilder: SettingsBuildable) {
@@ -41,7 +41,7 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
         self.deviceBoardStorageWorker = deviceBoardStorageWorker
         self.deviceBoardUpdateWorker = deviceBoardUpdateWorker
         self.batteryMonitorWorker = batteryMonitorWorker
-        self.memoryMonitor = memoryMonitor
+        self.memoryMonitorWorker = memoryMonitorWorker
         self.diskMonitorWorker = diskMonitorWorker
         self.monitorBuilder = monitorBuilder
         self.settingsBuilder = settingsBuilder
@@ -76,13 +76,15 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
     // MARK: - Private
 
     private let appStateManager: AppStateManaging
+
     private let deviceModelStorageWorker: DeviceModelStorageWorking
     private let deviceModelUpdateWorker: DeviceModelUpdateWorking
     private let deviceBoardStorageWorker: DeviceBoardStorageWorking
     private let deviceBoardUpdateWorker: DeviceBoardUpdateWorking
     private let batteryMonitorWorker: BatteryMonitorWorking
-    private let memoryMonitor: MemoryMonitoring
+    private let memoryMonitorWorker: MemoryMonitorWorking
     private let diskMonitorWorker: DiskMonitorWorking
+
     private let monitorBuilder: MonitorBuildable
     private let settingsBuilder: SettingsBuildable
 
@@ -110,7 +112,7 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
         deviceModelUpdateWorker.start(on: self)
         deviceBoardUpdateWorker.start(on: self)
         batteryMonitorWorker.start(on: self)
-        memoryMonitor.start(on: self)
+        memoryMonitorWorker.start(on: self)
         diskMonitorWorker.start(on: self)
     }
 

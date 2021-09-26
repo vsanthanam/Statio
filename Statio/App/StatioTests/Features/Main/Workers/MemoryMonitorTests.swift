@@ -17,7 +17,7 @@ final class MemoryMonitorTests: TestCase {
     let memoryProvider = MemoryProvidingMock()
     let mutableMemorySnapshotStream = MutableMemorySnapshotStreamingMock()
 
-    var monitor: MemoryMonitor!
+    var monitor: MemoryMonitorWorker!
 
     override func setUp() {
         super.setUp()

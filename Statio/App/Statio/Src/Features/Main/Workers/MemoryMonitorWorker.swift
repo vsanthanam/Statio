@@ -8,9 +8,9 @@ import ShortRibs
 import StatioKit
 
 /// @mockable
-protocol MemoryMonitoring: Working {}
+protocol MemoryMonitorWorking: Working {}
 
-final class MemoryMonitor: Worker, MemoryMonitoring {
+final class MemoryMonitorWorker: Worker, MemoryMonitorWorking {
 
     // MARK: - Initializers
 
