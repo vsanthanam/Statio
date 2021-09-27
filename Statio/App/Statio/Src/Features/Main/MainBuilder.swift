@@ -72,6 +72,10 @@ final class MainComponent: Component<MainDependency> {
         ProcessorProvider()
     }
 
+    var processorSnapshotStream: ProcessorSnapshotStreaming {
+        mutableProcessorSnapshotStream
+    }
+
     // MARK: - Internal Dependencies
 
     fileprivate var appStateManager: AppStateManaging {
@@ -154,6 +158,10 @@ final class MainComponent: Component<MainDependency> {
 
     private var mutableDiskSnapshotStream: MutableDiskSnapshotStreaming {
         shared { DiskSnapshotStream() }
+    }
+
+    private var mutableProcessorSnapshotStream: MutableProcessorSnapshotStreaming {
+        shared { ProcessorSnapshotStream() }
     }
 
     private var deviceBoardUpdateProvider: DeviceBoardUpdateProviding {
