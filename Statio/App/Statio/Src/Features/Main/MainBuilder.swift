@@ -68,6 +68,10 @@ final class MainComponent: Component<MainDependency> {
         mutableDiskSnapshotStream
     }
 
+    var processorProvider: ProcessorProviding {
+        ProcessorProvider()
+    }
+
     // MARK: - Internal Dependencies
 
     fileprivate var appStateManager: AppStateManaging {
