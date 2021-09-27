@@ -51,7 +51,7 @@ final class MemoryInteractor: PresentableInteractor<MemoryPresentable>, MemoryIn
     private let memorySnapshotStream: MemorySnapshotStreaming
 
     private func startObservingMemorySnapshots() {
-        memorySnapshotStream.snapshot
+        memorySnapshotStream.snapshots
             .removeDuplicates { lhs, rhs in
                 lhs.usage == rhs.usage
             }

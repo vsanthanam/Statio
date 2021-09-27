@@ -21,7 +21,7 @@ final class MemoryInteractorTests: TestCase {
 
     override func setUp() {
         super.setUp()
-        memorySnapshotStream.snapshot = snapshotSubject.eraseToAnyPublisher()
+        memorySnapshotStream.snapshots = snapshotSubject.eraseToAnyPublisher()
         interactor = .init(presenter: presenter,
                            memorySnapshotStream: memorySnapshotStream)
         interactor.listener = listener

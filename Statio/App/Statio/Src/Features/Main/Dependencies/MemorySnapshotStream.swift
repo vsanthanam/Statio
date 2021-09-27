@@ -9,7 +9,7 @@ import StatioKit
 
 /// @mockable
 protocol MemorySnapshotStreaming: AnyObject {
-    var snapshot: AnyPublisher<MemorySnapshot, Never> { get }
+    var snapshots: AnyPublisher<MemorySnapshot, Never> { get }
 }
 
 /// @mockable
@@ -21,7 +21,7 @@ final class MemorySnapshotStream: MutableMemorySnapshotStreaming {
 
     // MARK: - MemorySnapshotStreaming
 
-    var snapshot: AnyPublisher<MemorySnapshot, Never> {
+    var snapshots: AnyPublisher<MemorySnapshot, Never> {
         subject
             .filterNil()
             .eraseToAnyPublisher()

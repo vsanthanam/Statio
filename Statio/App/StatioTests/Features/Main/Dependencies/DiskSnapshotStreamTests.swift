@@ -20,7 +20,7 @@ final class DiskSnapshotStreamTests: TestCase {
 
     func test_send_emits() {
         var emits = [DiskSnapshot]()
-        diskSnapshotStream.snapshot
+        diskSnapshotStream.snapshots
             .sink { snapshot in
                 emits.append(snapshot)
             }

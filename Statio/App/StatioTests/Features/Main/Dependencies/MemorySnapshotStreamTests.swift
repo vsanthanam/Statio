@@ -20,7 +20,7 @@ final class MemorySnapshotStreamTests: TestCase {
 
     func test_send_emits() {
         var emits = [MemorySnapshot]()
-        memorySnapshotStream.snapshot
+        memorySnapshotStream.snapshots
             .sink { snapshot in
                 emits.append(snapshot)
             }

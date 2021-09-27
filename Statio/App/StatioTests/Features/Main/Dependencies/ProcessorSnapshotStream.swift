@@ -28,7 +28,7 @@ final class ProcessorSnapshotStreamTests: TestCase {
 
         let snapshot = ProcessorSnapshot(usage: .init(usage: []), timestamp: .distantFuture)
 
-        stream.update(snapshot: snapshot)
+        stream.send(snapshot: snapshot)
 
         XCTAssertEqual(emits, [snapshot])
     }

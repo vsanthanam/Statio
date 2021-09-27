@@ -8,7 +8,7 @@ import Foundation
 
 /// @mockable
 protocol DiskSnapshotStreaming: AnyObject {
-    var snapshot: AnyPublisher<DiskSnapshot, Never> { get }
+    var snapshots: AnyPublisher<DiskSnapshot, Never> { get }
 }
 
 /// @mockable
@@ -20,7 +20,7 @@ final class DiskSnapshotStream: MutableDiskSnapshotStreaming {
 
     // MARK: - DiskSnapshotStreaming
 
-    var snapshot: AnyPublisher<DiskSnapshot, Never> {
+    var snapshots: AnyPublisher<DiskSnapshot, Never> {
         subject
             .filterNil()
             .eraseToAnyPublisher()

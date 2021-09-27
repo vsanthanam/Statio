@@ -7,12 +7,14 @@ import Combine
 import CombineExt
 import Foundation
 
+/// @mockable
 protocol ProcessorSnapshotStreaming: AnyObject {
     var snapshots: AnyPublisher<ProcessorSnapshot, Never> { get }
 }
 
+/// @mockable
 protocol MutableProcessorSnapshotStreaming: ProcessorSnapshotStreaming {
-    func update(snapshot: ProcessorSnapshot)
+    func send(snapshot: ProcessorSnapshot)
 }
 
 final class ProcessorSnapshotStream: MutableProcessorSnapshotStreaming {
@@ -29,7 +31,7 @@ final class ProcessorSnapshotStream: MutableProcessorSnapshotStreaming {
 
     // MARK: - MutableProcessorSnapshotStreaming
 
-    func update(snapshot: ProcessorSnapshot) {
+    func send(snapshot: ProcessorSnapshot) {
         subject.send(snapshot)
     }
 
