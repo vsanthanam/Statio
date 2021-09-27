@@ -12,7 +12,9 @@ protocol ProcessorPresentable: ProcessorViewControllable {
 }
 
 /// @mockable
-protocol ProcessorListener: AnyObject {}
+protocol ProcessorListener: AnyObject {
+    func processorDidClose()
+}
 
 final class ProcessorInteractor: PresentableInteractor<ProcessorPresentable>, ProcessorInteractable, ProcessorPresentableListener {
 
@@ -26,5 +28,11 @@ final class ProcessorInteractor: PresentableInteractor<ProcessorPresentable>, Pr
     // MARK: - API
 
     weak var listener: ProcessorListener?
+
+    // MARK: - ProcessorPresentableListener
+
+    func didTapBack() {
+        listener?.processorDidClose()
+    }
 
 }
