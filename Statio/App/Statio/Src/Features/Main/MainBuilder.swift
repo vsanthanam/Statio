@@ -118,6 +118,11 @@ final class MainComponent: Component<MainDependency> {
                           mutableDiskSnapshotStream: mutableDiskSnapshotStream)
     }
 
+    fileprivate var processorMonitorWorker: ProcessorMonitorWorking {
+        ProcessorMonitorWorker(processorProvider: processorProvider,
+                               mutableProcessorSnapshotStream: mutableProcessorSnapshotStream)
+    }
+
     // MARK: - Private Dependencies
 
     private var mutableDeviceModelStream: MutableDeviceModelStreaming {
@@ -211,6 +216,7 @@ final class MainBuilder: ComponentizedBuilder<MainComponent, PresentableInteract
                                         batteryMonitorWorker: component.batteryMonitorWorker,
                                         memoryMonitorWorker: component.memoryMonitorWorker,
                                         diskMonitorWorker: component.diskMonitorWorker,
+                                        processorMonitorWorker: component.processorMonitorWorker,
                                         monitorBuilder: component.monitorBuilder,
                                         settingsBuilder: component.settingsBuilder)
         interactor.listener = listener
