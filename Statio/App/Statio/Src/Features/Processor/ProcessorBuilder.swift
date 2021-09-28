@@ -3,11 +3,14 @@
 // Varun Santhanam
 //
 
+import Analytics
 import Foundation
 import NeedleFoundation
 import ShortRibs
 
-protocol ProcessorDependency: Dependency {}
+protocol ProcessorDependency: Dependency {
+    var analyticsManager: AnalyticsManaging { get }
+}
 
 class ProcessorComponent: Component<ProcessorDependency> {}
 
@@ -29,7 +32,7 @@ final class ProcessorBuilder: ComponentizedBuilder<ProcessorComponent, Presentab
 
     override func build(with component: ProcessorComponent, _ dynamicBuildDependency: ProcessorDynamicBuildDependency) -> PresentableInteractable {
         let listener = dynamicBuildDependency
-        let viewController = ProcessorViewController()
+        let viewController = ProcessorViewController(analyticsManager: component.analyticsManager)
         let interactor = ProcessorInteractor(presenter: viewController)
         interactor.listener = listener
         return interactor
