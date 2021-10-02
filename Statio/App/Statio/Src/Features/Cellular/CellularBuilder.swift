@@ -3,11 +3,14 @@
 // Varun Santhanam
 //
 
+import Analytics
 import Foundation
 import NeedleFoundation
 import ShortRibs
 
-protocol CellularDependency: Dependency {}
+protocol CellularDependency: Dependency {
+    var analyticsManager: AnalyticsManaging { get }
+}
 
 class CellularComponent: Component<CellularDependency> {}
 
@@ -29,7 +32,7 @@ final class CellularBuilder: ComponentizedBuilder<CellularComponent, Presentable
 
     override func build(with component: CellularComponent, _ dynamicBuildDependency: CellularDynamicBuildDependency) -> PresentableInteractable {
         let listener = dynamicBuildDependency
-        let viewController = CellularViewControler()
+        let viewController = CellularViewControler(analyticsManager: component.analyticsManager)
         let interactor = CellularInteractor(presenter: viewController)
         interactor.listener = listener
         return interactor

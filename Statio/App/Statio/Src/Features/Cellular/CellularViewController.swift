@@ -3,6 +3,7 @@
 // Varun Santhanam
 //
 
+import Analytics
 import Foundation
 import ShortRibs
 
@@ -14,8 +15,26 @@ protocol CellularPresentableListener: AnyObject {}
 
 final class CellularViewControler: ScopeViewController, CellularPresentable {
 
+    // MARK: - Initializers
+
+    init(analyticsManager: AnalyticsManaging) {
+        self.analyticsManager = analyticsManager
+        super.init()
+    }
+
+    // MARK: - UIViewController
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        analyticsManager.send(event: AnalyticsEvent.cellular_vc_impression)
+    }
+
     // MARK: - CellularPresentable
 
     weak var listener: CellularPresentableListener?
+
+    // MARK: - Private
+
+    private let analyticsManager: AnalyticsManaging
 
 }
