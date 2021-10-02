@@ -35,6 +35,7 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
          diskMonitorWorker: DiskMonitorWorking,
          processorMonitorWorker: ProcessorMonitorWorking,
          monitorBuilder: MonitorBuildable,
+         reporterBuilder: ReporterBuildable,
          settingsBuilder: SettingsBuildable) {
         self.appStateManager = appStateManager
         self.deviceModelStorageWorker = deviceModelStorageWorker
@@ -46,6 +47,7 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
         self.diskMonitorWorker = diskMonitorWorker
         self.processorMonitorWorker = processorMonitorWorker
         self.monitorBuilder = monitorBuilder
+        self.reporterBuilder = reporterBuilder
         self.settingsBuilder = settingsBuilder
         super.init(presenter: presenter)
         presenter.listener = self
@@ -89,19 +91,19 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
     private let processorMonitorWorker: ProcessorMonitorWorking
 
     private let monitorBuilder: MonitorBuildable
+    private let reporterBuilder: ReporterBuildable
     private let settingsBuilder: SettingsBuildable
 
-    private var monitor: PresentableInteractable?
-    private var settings: PresentableInteractable?
+    private lazy var monitor = monitorBuilder.build(withListener: self)
+    private lazy var reporter = reporterBuilder.build(withListener: self)
+    private lazy var settings = settingsBuilder.build(withListener: self)
 
     private var currentState: PresentableInteractable?
 
     private func startObservingAppState() {
         appStateManager.state
             .removeDuplicates()
-            .sink { state in
-                self.activate(state)
-            }
+            .sink(receiveValue: activate)
             .cancelOnDeactivate(interactor: self)
     }
 
@@ -134,18 +136,10 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
     private func interactor(for appState: AppState) -> PresentableInteractable {
         switch appState {
         case .monitor:
-            if let monitor = monitor {
-                return monitor
-            }
-            let monitor = self.monitor ?? monitorBuilder.build(withListener: self)
-            self.monitor = monitor
             return monitor
+        case .reporter:
+            return reporter
         case .settings:
-            if let settings = settings {
-                return settings
-            }
-            let settings = self.settings ?? settingsBuilder.build(withListener: self)
-            self.settings = settings
             return settings
         }
     }

@@ -23,6 +23,7 @@ final class MainInteractorTests: TestCase {
     let diskMonitorWorker = DiskMonitorWorkingMock()
     let processorMonitorWorker = ProcessorMonitorWorkingMock()
     let monitorBuilder = MonitorBuildableMock()
+    let reporterBuilder = ReporterBuildableMock()
     let settingsBuilder = SettingsBuildableMock()
 
     let listener = MainListenerMock()
@@ -43,6 +44,7 @@ final class MainInteractorTests: TestCase {
                            diskMonitorWorker: diskMonitorWorker,
                            processorMonitorWorker: processorMonitorWorker,
                            monitorBuilder: monitorBuilder,
+                           reporterBuilder: reporterBuilder,
                            settingsBuilder: settingsBuilder)
         interactor.listener = listener
     }
@@ -71,11 +73,17 @@ final class MainInteractorTests: TestCase {
 
     func test_stateSwitchching_buildsOnce_presents_attaches() {
         let monitor = MonitorInteractableMock()
+        let reporter = ReporterInteractableMock()
         let settings = SettingsInteractableMock()
 
         monitorBuilder.buildHandler = { [interactor] listener in
             XCTAssertTrue(interactor === listener)
             return monitor
+        }
+
+        reporterBuilder.buildHandler = { [interactor] listener in
+            XCTAssertTrue(interactor === listener)
+            return reporter
         }
 
         settingsBuilder.buildHandler = { [interactor] listener in
@@ -84,6 +92,7 @@ final class MainInteractorTests: TestCase {
         }
 
         XCTAssertEqual(monitorBuilder.buildCallCount, 0)
+        XCTAssertEqual(reporterBuilder.buildCallCount, 0)
         XCTAssertEqual(settingsBuilder.buildCallCount, 0)
         XCTAssertEqual(presenter.embedCallCount, 0)
         XCTAssertEqual(interactor.children.count, 0)
@@ -91,6 +100,7 @@ final class MainInteractorTests: TestCase {
         interactor.activate()
 
         XCTAssertEqual(monitorBuilder.buildCallCount, 0)
+        XCTAssertEqual(reporterBuilder.buildCallCount, 0)
         XCTAssertEqual(settingsBuilder.buildCallCount, 0)
         XCTAssertEqual(presenter.embedCallCount, 0)
         XCTAssertEqual(interactor.children.count, 0)
@@ -102,6 +112,7 @@ final class MainInteractorTests: TestCase {
         appStateSubject.send(.monitor)
 
         XCTAssertEqual(monitorBuilder.buildCallCount, 1)
+        XCTAssertEqual(reporterBuilder.buildCallCount, 0)
         XCTAssertEqual(settingsBuilder.buildCallCount, 0)
         XCTAssertEqual(presenter.embedCallCount, 1)
         XCTAssertEqual(presenter.activateTabCallCount, 1)
@@ -109,17 +120,18 @@ final class MainInteractorTests: TestCase {
         XCTAssertTrue(interactor.children.first === monitor)
 
         presenter.activateTabHandler = { id in
-            XCTAssertEqual(AppState.settings.id, id)
+            XCTAssertEqual(AppState.reporter.id, id)
         }
 
-        appStateSubject.send(.settings)
+        appStateSubject.send(.reporter)
 
         XCTAssertEqual(monitorBuilder.buildCallCount, 1)
-        XCTAssertEqual(settingsBuilder.buildCallCount, 1)
+        XCTAssertEqual(reporterBuilder.buildCallCount, 1)
+        XCTAssertEqual(settingsBuilder.buildCallCount, 0)
         XCTAssertEqual(presenter.embedCallCount, 2)
         XCTAssertEqual(presenter.activateTabCallCount, 2)
         XCTAssertEqual(interactor.children.count, 1)
-        XCTAssertTrue(interactor.children.first === settings)
+        XCTAssertTrue(interactor.children.first === reporter)
 
         presenter.activateTabHandler = { id in
             XCTAssertEqual(AppState.monitor.id, id)
@@ -128,7 +140,8 @@ final class MainInteractorTests: TestCase {
         appStateSubject.send(.monitor)
 
         XCTAssertEqual(monitorBuilder.buildCallCount, 1)
-        XCTAssertEqual(settingsBuilder.buildCallCount, 1)
+        XCTAssertEqual(reporterBuilder.buildCallCount, 1)
+        XCTAssertEqual(settingsBuilder.buildCallCount, 0)
         XCTAssertEqual(presenter.embedCallCount, 3)
         XCTAssertEqual(presenter.activateTabCallCount, 3)
         XCTAssertEqual(interactor.children.count, 1)
@@ -141,6 +154,7 @@ final class MainInteractorTests: TestCase {
         appStateSubject.send(.settings)
 
         XCTAssertEqual(monitorBuilder.buildCallCount, 1)
+        XCTAssertEqual(reporterBuilder.buildCallCount, 1)
         XCTAssertEqual(settingsBuilder.buildCallCount, 1)
         XCTAssertEqual(presenter.embedCallCount, 4)
         XCTAssertEqual(presenter.activateTabCallCount, 4)
@@ -166,6 +180,14 @@ final class MainInteractorTests: TestCase {
         interactor.didSelectTab(withTag: AppState.monitor.id)
 
         XCTAssertEqual(appStateManager.updateCallCount, 2)
+
+        appStateManager.updateHandler = { state in
+            XCTAssertEqual(state, .reporter)
+        }
+
+        interactor.didSelectTab(withTag: AppState.reporter.id)
+
+        XCTAssertEqual(appStateManager.updateCallCount, 3)
     }
 
     func test_activate_startsDeviceModelStorageWorker() {

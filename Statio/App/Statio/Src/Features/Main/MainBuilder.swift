@@ -183,13 +183,17 @@ final class MainComponent: Component<MainDependency> {
         MonitorBuilder { MonitorComponent(parent: self) }
     }
 
+    fileprivate var reporterBuilder: ReporterBuildable {
+        ReporterBuilder { ReporterComponent(parent: self) }
+    }
+
     fileprivate var settingsBuilder: SettingsBuildable {
         SettingsBuilder { SettingsComponent(parent: self) }
     }
 }
 
 /// @mockable
-protocol MainInteractable: PresentableInteractable, MonitorListener, SettingsListener {}
+protocol MainInteractable: PresentableInteractable, MonitorListener, ReporterListener, SettingsListener {}
 
 typealias MainDynamicBuildDependency = (
     MainListener
@@ -218,6 +222,7 @@ final class MainBuilder: ComponentizedBuilder<MainComponent, PresentableInteract
                                         diskMonitorWorker: component.diskMonitorWorker,
                                         processorMonitorWorker: component.processorMonitorWorker,
                                         monitorBuilder: component.monitorBuilder,
+                                        reporterBuilder: component.reporterBuilder,
                                         settingsBuilder: component.settingsBuilder)
         interactor.listener = listener
         return interactor

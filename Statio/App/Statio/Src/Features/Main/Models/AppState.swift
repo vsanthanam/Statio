@@ -12,6 +12,8 @@ enum AppState: CaseIterable, Identifiable, Equatable, Hashable {
 
     case monitor
 
+    case reporter
+
     case settings
 
     // MARK: - API
@@ -23,11 +25,16 @@ enum AppState: CaseIterable, Identifiable, Equatable, Hashable {
                          image: UIImage(systemName: "magnifyingglass",
                                         withConfiguration: UIImage.SymbolConfiguration(weight: .regular))!.imageWithoutBaseline(),
                          tag: 0)
+        case .reporter:
+            return .init(title: "Reporter",
+                         image: UIImage(systemName: "magnifyingglass",
+                                        withConfiguration: UIImage.SymbolConfiguration(weight: .regular))!.imageWithoutBaseline(),
+                         tag: 1)
         case .settings:
             return .init(title: "Settings",
                          image: UIImage(systemName: "gear",
                                         withConfiguration: UIImage.SymbolConfiguration(weight: .regular))!.imageWithoutBaseline(),
-                         tag: 1)
+                         tag: 2)
         }
     }
 
