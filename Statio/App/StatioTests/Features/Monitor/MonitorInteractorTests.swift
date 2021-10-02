@@ -18,6 +18,7 @@ final class MonitorInteractorTests: TestCase {
     let batteryBuilder = BatteryBuildableMock()
     let diskBuilder = DiskBuildableMock()
     let processorBuilder = ProcessorBuildableMock()
+    let cellularBuilder = CellularBuildableMock()
 
     var interactor: MonitorInteractor!
 
@@ -29,7 +30,8 @@ final class MonitorInteractorTests: TestCase {
                            memoryBuilder: memoryBuilder,
                            batteryBuilder: batteryBuilder,
                            diskBuilder: diskBuilder,
-                           processorBuilder: processorBuilder)
+                           processorBuilder: processorBuilder,
+                           cellularBuilder: cellularBuilder)
         interactor.listener = listener
     }
 
@@ -160,6 +162,28 @@ final class MonitorInteractorTests: TestCase {
         interactor.monitorListDidSelect(identifier: .processor)
 
         XCTAssertEqual(processorBuilder.buildCallCount, 1)
+        XCTAssertEqual(presenter.showMonitorCallCount, 1)
+        XCTAssertEqual(interactor.children.count, 1)
+    }
+
+    func test_didSelect_cellular_buildsAndAttaches() {
+        let viewController = ViewControllableMock()
+        let cellular = PresentableInteractableMock()
+        cellular.viewControllable = viewController
+
+        processorBuilder.buildHandler = { [interactor] listener in
+            XCTAssertTrue(interactor === listener)
+            return cellular
+        }
+
+        XCTAssertEqual(cellularBuilder.buildCallCount, 0)
+        XCTAssertEqual(presenter.showMonitorCallCount, 0)
+        XCTAssertEqual(interactor.children.count, 0)
+
+        interactor.activate()
+        interactor.monitorListDidSelect(identifier: .cellular)
+
+        XCTAssertEqual(cellularBuilder.buildCallCount, 1)
         XCTAssertEqual(presenter.showMonitorCallCount, 1)
         XCTAssertEqual(interactor.children.count, 1)
     }
