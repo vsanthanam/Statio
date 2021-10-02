@@ -10,13 +10,13 @@
    "unit.engine.multi-test.engines": [
       {
          "engine": "CommandUnitTestEngine",
-         "unit.engine.command": "./tools/arcscripts/gen-deps.sh",
-         "unit.engine.command.name": "gen-deps.sh"
+         "unit.engine.command": "./tools/arcscripts/gen-mocks.sh",
+         "unit.engine.command.name": "gen-mocks.sh"
       },
       {
          "engine": "CommandUnitTestEngine",
-         "unit.engine.command": "./tools/arcscripts/gen-deps.sh",
-         "unit.engine.command.name": "gen-mocks.sh"
+         "unit.engine.command": "./tools/arcscripts/gen-dig.sh",
+         "unit.engine.command.name": "gen-dig.sh"
       }
    ]
 }

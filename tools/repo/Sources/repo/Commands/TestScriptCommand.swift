@@ -60,7 +60,7 @@ struct TestScriptCommand: ParsableCommand, RepoCommand {
 
         script += """
         ./repo analytics wipe
-        ./repo generate deps --trace
+        ./repo generate dig --trace
         ./repo generate mocks --trace
         ./repo generate project --trace
         """

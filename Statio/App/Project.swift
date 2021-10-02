@@ -34,7 +34,7 @@ let project = Project(name: "Statio",
                                      "Statio/Resources/**"
                                  ],
                                  actions: [
-                                     .pre(script: "../../repo generate deps --repo-root ../../", name: "Generate DI Graph")
+                                     .pre(script: "../../repo generate dig --repo-root ../../", name: "Generate DI Graph")
                                  ],
                                  dependencies: [
                                      .remote(.needle),
