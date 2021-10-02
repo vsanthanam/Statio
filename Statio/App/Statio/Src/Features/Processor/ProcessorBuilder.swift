@@ -10,6 +10,7 @@ import ShortRibs
 
 protocol ProcessorDependency: Dependency {
     var analyticsManager: AnalyticsManaging { get }
+    var processorSnapshotStream: ProcessorSnapshotStreaming { get }
 }
 
 class ProcessorComponent: Component<ProcessorDependency> {}
@@ -33,7 +34,8 @@ final class ProcessorBuilder: ComponentizedBuilder<ProcessorComponent, Presentab
     override func build(with component: ProcessorComponent, _ dynamicBuildDependency: ProcessorDynamicBuildDependency) -> PresentableInteractable {
         let listener = dynamicBuildDependency
         let viewController = ProcessorViewController(analyticsManager: component.analyticsManager)
-        let interactor = ProcessorInteractor(presenter: viewController)
+        let interactor = ProcessorInteractor(presenter: viewController,
+                                             processorSnapshotStream: component.processorSnapshotStream)
         interactor.listener = listener
         return interactor
     }

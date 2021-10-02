@@ -58,18 +58,14 @@ final class BatteryInteractor: PresentableInteractor<BatteryPresentable>, Batter
     private func startObservingBatteryLevel() {
         batteryLevelStream.batteryLevel
             .removeDuplicates()
-            .sink { [presenter] level in
-                presenter.update(level: level)
-            }
+            .sink(receiveValue: presenter.update(level:))
             .cancelOnDeactivate(interactor: self)
     }
 
     private func startObservingBatteryState() {
         batteryStateStream.batteryState
             .removeDuplicates()
-            .sink { [presenter] state in
-                presenter.update(state: state)
-            }
+            .sink(receiveValue: presenter.update(state:))
             .cancelOnDeactivate(interactor: self)
     }
 }

@@ -34,6 +34,8 @@ final class ProcessorViewController: ScopeViewController, ProcessorPresentable {
 
     weak var listener: ProcessorPresentableListener?
 
+    func present(snapshot: ProcessorSnapshot) {}
+
     // MARK: - Private
 
     private let analyticsManager: AnalyticsManaging

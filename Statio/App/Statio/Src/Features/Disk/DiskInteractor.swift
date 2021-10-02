@@ -55,9 +55,7 @@ final class DiskInteractor: PresentableInteractor<DiskPresentable>, DiskInteract
             .removeDuplicates { lhs, rhs in
                 lhs.usage == rhs.usage
             }
-            .sink { [presenter] snapshot in
-                presenter.present(snapshot: snapshot)
-            }
+            .sink(receiveValue: presenter.present)
             .cancelOnDeactivate(interactor: self)
     }
 
