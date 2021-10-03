@@ -32,7 +32,8 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
          batteryBuilder: BatteryBuildable,
          diskBuilder: DiskBuildable,
          processorBuilder: ProcessorBuildable,
-         cellularBuilder: CellularBuildable) {
+         cellularBuilder: CellularBuildable,
+         wifiBuilder: WiFiBuildable) {
         self.batteryMonitorWorker = batteryMonitorWorker
         self.diskMonitorWorker = diskMonitorWorker
         self.memoryMonitorWorker = memoryMonitorWorker
@@ -44,6 +45,7 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
         self.diskBuilder = diskBuilder
         self.processorBuilder = processorBuilder
         self.cellularBuilder = cellularBuilder
+        self.wifiBuilder = wifiBuilder
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -102,6 +104,11 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
             attach(child: monitor)
             presenter.showMonitor(monitor.viewControllable)
             activeMonitor = monitor
+        case .wifi:
+            let monitor = wifiBuilder.build(withListener: self)
+            attach(child: monitor)
+            presenter.showMonitor(monitor.viewControllable)
+            activeMonitor = monitor
         default:
             fatalError()
         }
@@ -151,6 +158,7 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
     private let diskBuilder: DiskBuildable
     private let processorBuilder: ProcessorBuildable
     private let cellularBuilder: CellularBuildable
+    private let wifiBuilder: WiFiBuildable
 
     private var monitorList: MonitorListInteractable?
     private var activeMonitor: PresentableInteractable?

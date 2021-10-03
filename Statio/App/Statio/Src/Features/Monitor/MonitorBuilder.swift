@@ -122,10 +122,14 @@ class MonitorComponent: Component<MonitorDependency> {
     fileprivate var cellularBuilder: CellularBuildable {
         CellularBuilder { CellularComponent(parent: self) }
     }
+
+    fileprivate var wifiBuilder: WiFiBuildable {
+        WiFiBuilder { WiFiComponent(parent: self) }
+    }
 }
 
 /// @mockable
-protocol MonitorInteractable: PresentableInteractable, MonitorListListener, DeviceIdentityListener, MemoryListener, BatteryListener, DiskListener, ProcessorListener, CellularListener {}
+protocol MonitorInteractable: PresentableInteractable, MonitorListListener, DeviceIdentityListener, MemoryListener, BatteryListener, DiskListener, ProcessorListener, CellularListener, WiFiListener {}
 
 typealias MonitorDynamicBuildDependency = (
     MonitorListener
@@ -154,7 +158,8 @@ final class MonitorBuilder: ComponentizedBuilder<MonitorComponent, PresentableIn
                                            batteryBuilder: component.batteryBuilder,
                                            diskBuilder: component.diskBuilder,
                                            processorBuilder: component.processorBuilder,
-                                           cellularBuilder: component.cellularBuilder)
+                                           cellularBuilder: component.cellularBuilder,
+                                           wifiBuilder: component.wifiBuilder)
         interactor.listener = listener
         return interactor
     }
