@@ -22,6 +22,10 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
     // MARK: - Initializers
 
     init(presenter: MonitorPresentable,
+         batteryMonitorWorker: BatteryMonitorWorking,
+         diskMonitorWorker: DiskMonitorWorking,
+         memoryMonitorWorker: MemoryMonitorWorking,
+         processorMonitorWorker: ProcessorMonitorWorking,
          monitorListBuilder: MonitorListBuildable,
          deviceIdentityBuilder: DeviceIdentityBuildable,
          memoryBuilder: MemoryBuildable,
@@ -29,6 +33,10 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
          diskBuilder: DiskBuildable,
          processorBuilder: ProcessorBuildable,
          cellularBuilder: CellularBuildable) {
+        self.batteryMonitorWorker = batteryMonitorWorker
+        self.diskMonitorWorker = diskMonitorWorker
+        self.memoryMonitorWorker = memoryMonitorWorker
+        self.processorMonitorWorker = processorMonitorWorker
         self.monitorListBuilder = monitorListBuilder
         self.deviceIdentityBuilder = deviceIdentityBuilder
         self.memoryBuilder = memoryBuilder
@@ -48,6 +56,7 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
 
     override func didBecomeActive() {
         super.didBecomeActive()
+        startWorkers()
         if activeMonitor == nil {
             attachMonitorList()
         }
@@ -130,6 +139,11 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
 
     // MARK: - Private
 
+    private let batteryMonitorWorker: BatteryMonitorWorking
+    private let diskMonitorWorker: DiskMonitorWorking
+    private let memoryMonitorWorker: MemoryMonitorWorking
+    private let processorMonitorWorker: ProcessorMonitorWorking
+
     private let monitorListBuilder: MonitorListBuildable
     private let deviceIdentityBuilder: DeviceIdentityBuildable
     private let memoryBuilder: MemoryBuildable
@@ -140,6 +154,13 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
 
     private var monitorList: MonitorListInteractable?
     private var activeMonitor: PresentableInteractable?
+
+    private func startWorkers() {
+        batteryMonitorWorker.start(on: self)
+        diskMonitorWorker.start(on: self)
+        memoryMonitorWorker.start(on: self)
+        processorMonitorWorker.start(on: self)
+    }
 
     private func attachMonitorList() {
         if let activeMonitor = activeMonitor {

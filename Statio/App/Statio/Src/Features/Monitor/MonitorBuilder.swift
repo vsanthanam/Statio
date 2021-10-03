@@ -10,6 +10,10 @@ import ShortRibs
 
 protocol MonitorDependency: Dependency {
     var analyticsManager: AnalyticsManaging { get }
+    var batteryProvider: BatteryProviding { get }
+    var diskProvider: DiskProviding { get }
+    var memoryProvider: MemoryProviding { get }
+    var processorProvider: ProcessorProviding { get }
 }
 
 class MonitorComponent: Component<MonitorDependency> {
@@ -22,6 +26,71 @@ class MonitorComponent: Component<MonitorDependency> {
 
     var monitorIconProvider: MonitorIconProviding {
         MonitorIconProvider()
+    }
+
+    var batteryLevelStream: BatteryLevelStreaming {
+        mutableBatteryLevelStream
+    }
+
+    var batteryStateStream: BatteryStateStreaming {
+        mutableBatteryStateStream
+    }
+
+    var diskSnapshotStream: DiskSnapshotStreaming {
+        mutableDiskSnapshotStream
+    }
+
+    var memorySnapshotStream: MemorySnapshotStreaming {
+        mutableMemorySnapshotStream
+    }
+
+    var processorSnapshotStream: ProcessorSnapshotStreaming {
+        mutableProcessorSnapshotStream
+    }
+
+    // MARK: - Internal Dependencies
+
+    fileprivate var batteryMonitorWorker: BatteryMonitorWorking {
+        BatteryMonitorWorker(batteryProvider: dependency.batteryProvider,
+                             mutableBatteryLevelStream: mutableBatteryLevelStream,
+                             mutableBatteryStateStream: mutableBatteryStateStream)
+    }
+
+    fileprivate var diskMonitorWorker: DiskMonitorWorking {
+        DiskMonitorWorker(diskProvider: dependency.diskProvider,
+                          mutableDiskSnapshotStream: mutableDiskSnapshotStream)
+    }
+
+    fileprivate var memoryMonitorWorker: MemoryMonitorWorking {
+        MemoryMonitorWorker(memoryProvider: dependency.memoryProvider,
+                            mutableMemorySnapshotStream: mutableMemorySnapshotStream)
+    }
+
+    fileprivate var processorMonitorWorker: ProcessorMonitorWorking {
+        ProcessorMonitorWorker(processorProvider: dependency.processorProvider,
+                               mutableProcessorSnapshotStream: mutableProcessorSnapshotStream)
+    }
+
+    // MARK: - Private Dependencies
+
+    private var mutableBatteryLevelStream: MutableBatteryLevelStreaming {
+        shared { BatteryLevelStream() }
+    }
+
+    private var mutableBatteryStateStream: MutableBatteryStateStreaming {
+        shared { BatteryStateStream() }
+    }
+
+    private var mutableDiskSnapshotStream: MutableDiskSnapshotStreaming {
+        shared { DiskSnapshotStream() }
+    }
+
+    private var mutableMemorySnapshotStream: MutableMemorySnapshotStreaming {
+        shared { MemorySnapshotStream() }
+    }
+
+    private var mutableProcessorSnapshotStream: MutableProcessorSnapshotStreaming {
+        shared { ProcessorSnapshotStream() }
     }
 
     // MARK: - Children
@@ -75,6 +144,10 @@ final class MonitorBuilder: ComponentizedBuilder<MonitorComponent, PresentableIn
         let listener = dynamicBuildDependency
         let viewController = MonitorViewController(analyticsManager: component.analyticsManager)
         let interactor = MonitorInteractor(presenter: viewController,
+                                           batteryMonitorWorker: component.batteryMonitorWorker,
+                                           diskMonitorWorker: component.diskMonitorWorker,
+                                           memoryMonitorWorker: component.memoryMonitorWorker,
+                                           processorMonitorWorker: component.processorMonitorWorker,
                                            monitorListBuilder: component.monitorListBuilder,
                                            deviceIdentityBuilder: component.deviceIdentityBuilder,
                                            memoryBuilder: component.memoryBuilder,

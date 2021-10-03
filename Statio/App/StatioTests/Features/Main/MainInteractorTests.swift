@@ -18,10 +18,6 @@ final class MainInteractorTests: TestCase {
     let deviceModelUpdateWorker = DeviceModelUpdateWorkingMock()
     let deviceBoardStorageWorker = DeviceBoardStorageWorkingMock()
     let deviceBoardUpdateWorker = DeviceBoardUpdateWorkingMock()
-    let batteryMonitorWorker = BatteryMonitorWorkingMock()
-    let memoryMonitorWorker = MemoryMonitorWorkingMock()
-    let diskMonitorWorker = DiskMonitorWorkingMock()
-    let processorMonitorWorker = ProcessorMonitorWorkingMock()
     let monitorBuilder = MonitorBuildableMock()
     let reporterBuilder = ReporterBuildableMock()
     let settingsBuilder = SettingsBuildableMock()
@@ -39,10 +35,6 @@ final class MainInteractorTests: TestCase {
                            deviceModelUpdateWorker: deviceModelUpdateWorker,
                            deviceBoardStorageWorker: deviceBoardStorageWorker,
                            deviceBoardUpdateWorker: deviceBoardUpdateWorker,
-                           batteryMonitorWorker: batteryMonitorWorker,
-                           memoryMonitorWorker: memoryMonitorWorker,
-                           diskMonitorWorker: diskMonitorWorker,
-                           processorMonitorWorker: processorMonitorWorker,
                            monitorBuilder: monitorBuilder,
                            reporterBuilder: reporterBuilder,
                            settingsBuilder: settingsBuilder)
@@ -228,41 +220,5 @@ final class MainInteractorTests: TestCase {
         XCTAssertEqual(deviceBoardUpdateWorker.startCallCount, 0)
         interactor.activate()
         XCTAssertEqual(deviceBoardUpdateWorker.startCallCount, 1)
-    }
-
-    func test_activate_startsBatteryMonitorWorker() {
-        batteryMonitorWorker.startHandler = { [interactor] scope in
-            XCTAssertTrue(interactor === scope)
-        }
-        XCTAssertEqual(batteryMonitorWorker.startCallCount, 0)
-        interactor.activate()
-        XCTAssertEqual(batteryMonitorWorker.startCallCount, 1)
-    }
-
-    func test_activate_startsMemoryMonitorWorker() {
-        memoryMonitorWorker.startHandler = { [interactor] scope in
-            XCTAssertTrue(interactor === scope)
-        }
-        XCTAssertEqual(memoryMonitorWorker.startCallCount, 0)
-        interactor.activate()
-        XCTAssertEqual(memoryMonitorWorker.startCallCount, 1)
-    }
-
-    func test_activate_startsDiskMonitorWorker() {
-        diskMonitorWorker.startHandler = { [interactor] scope in
-            XCTAssertTrue(interactor === scope)
-        }
-        XCTAssertEqual(diskMonitorWorker.startCallCount, 0)
-        interactor.activate()
-        XCTAssertEqual(diskMonitorWorker.startCallCount, 1)
-    }
-
-    func test_activate_startsProcessorMonitorWorker() {
-        processorMonitorWorker.startHandler = { [interactor] scope in
-            XCTAssertTrue(interactor === scope)
-        }
-        XCTAssertEqual(processorMonitorWorker.startCallCount, 0)
-        interactor.activate()
-        XCTAssertEqual(processorMonitorWorker.startCallCount, 1)
     }
 }

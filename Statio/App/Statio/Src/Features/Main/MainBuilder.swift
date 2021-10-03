@@ -44,36 +44,16 @@ final class MainComponent: Component<MainDependency> {
         BatteryProvider()
     }
 
-    var batteryLevelStream: BatteryLevelStreaming {
-        mutableBatteryLevelStream
-    }
-
-    var batteryStateStream: BatteryStateStreaming {
-        mutableBatteryStateStream
-    }
-
     var memoryProvider: MemoryProviding {
         MemoryProvider()
-    }
-
-    var memorySnapshotStream: MemorySnapshotStreaming {
-        mutableMemorySnapshotStream
     }
 
     var diskProvider: DiskProviding {
         DiskProvider()
     }
 
-    var diskSnapshotStream: DiskSnapshotStreaming {
-        mutableDiskSnapshotStream
-    }
-
     var processorProvider: ProcessorProviding {
         ProcessorProvider()
-    }
-
-    var processorSnapshotStream: ProcessorSnapshotStreaming {
-        mutableProcessorSnapshotStream
     }
 
     // MARK: - Internal Dependencies
@@ -102,27 +82,6 @@ final class MainComponent: Component<MainDependency> {
                                 deviceBoardUpdateProvider: deviceBoardUpdateProvider)
     }
 
-    fileprivate var batteryMonitorWorker: BatteryMonitorWorking {
-        BatteryMonitorWorker(batteryProvider: batteryProvider,
-                             mutableBatteryLevelStream: mutableBatteryLevelStream,
-                             mutableBatteryStateStream: mutableBatteryStateStream)
-    }
-
-    fileprivate var memoryMonitorWorker: MemoryMonitorWorking {
-        MemoryMonitorWorker(memoryProvider: memoryProvider,
-                            mutableMemorySnapshotStream: mutableMemorySnapshotStream)
-    }
-
-    fileprivate var diskMonitorWorker: DiskMonitorWorking {
-        DiskMonitorWorker(diskProvider: diskProvider,
-                          mutableDiskSnapshotStream: mutableDiskSnapshotStream)
-    }
-
-    fileprivate var processorMonitorWorker: ProcessorMonitorWorking {
-        ProcessorMonitorWorker(processorProvider: processorProvider,
-                               mutableProcessorSnapshotStream: mutableProcessorSnapshotStream)
-    }
-
     // MARK: - Private Dependencies
 
     private var mutableDeviceModelStream: MutableDeviceModelStreaming {
@@ -147,26 +106,6 @@ final class MainComponent: Component<MainDependency> {
 
     private var deviceBoardStorage: DeviceBoardStoring {
         mutableDeviceBoardStorage
-    }
-
-    private var mutableBatteryLevelStream: MutableBatteryLevelStreaming {
-        shared { BatteryLevelStream() }
-    }
-
-    private var mutableBatteryStateStream: MutableBatteryStateStreaming {
-        shared { BatteryStateStream() }
-    }
-
-    private var mutableMemorySnapshotStream: MutableMemorySnapshotStreaming {
-        shared { MemorySnapshotStream() }
-    }
-
-    private var mutableDiskSnapshotStream: MutableDiskSnapshotStreaming {
-        shared { DiskSnapshotStream() }
-    }
-
-    private var mutableProcessorSnapshotStream: MutableProcessorSnapshotStreaming {
-        shared { ProcessorSnapshotStream() }
     }
 
     private var deviceBoardUpdateProvider: DeviceBoardUpdateProviding {
@@ -217,10 +156,6 @@ final class MainBuilder: ComponentizedBuilder<MainComponent, PresentableInteract
                                         deviceModelUpdateWorker: component.deviceModelUpdateWorker,
                                         deviceBoardStorageWorker: component.deviceBoardStorageWorker,
                                         deviceBoardUpdateWorker: component.deviceBoardUpdateWorker,
-                                        batteryMonitorWorker: component.batteryMonitorWorker,
-                                        memoryMonitorWorker: component.memoryMonitorWorker,
-                                        diskMonitorWorker: component.diskMonitorWorker,
-                                        processorMonitorWorker: component.processorMonitorWorker,
                                         monitorBuilder: component.monitorBuilder,
                                         reporterBuilder: component.reporterBuilder,
                                         settingsBuilder: component.settingsBuilder)

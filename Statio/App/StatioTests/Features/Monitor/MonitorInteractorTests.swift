@@ -12,6 +12,10 @@ final class MonitorInteractorTests: TestCase {
 
     let presenter = MonitorPresentableMock()
     let listener = MonitorListenerMock()
+    let batteryMonitorWorker = BatteryMonitorWorkingMock()
+    let diskMonitorWorker = DiskMonitorWorkingMock()
+    let memoryMonitorWorker = MemoryMonitorWorkingMock()
+    let processorMonitorWorker = ProcessorMonitorWorkingMock()
     let monitorListBuilder = MonitorListBuildableMock()
     let deviceIdentityBuilder = DeviceIdentityBuildableMock()
     let memoryBuilder = MemoryBuildableMock()
@@ -25,6 +29,10 @@ final class MonitorInteractorTests: TestCase {
     override func setUp() {
         super.setUp()
         interactor = .init(presenter: presenter,
+                           batteryMonitorWorker: batteryMonitorWorker,
+                           diskMonitorWorker: diskMonitorWorker,
+                           memoryMonitorWorker: memoryMonitorWorker,
+                           processorMonitorWorker: processorMonitorWorker,
                            monitorListBuilder: monitorListBuilder,
                            deviceIdentityBuilder: deviceIdentityBuilder,
                            memoryBuilder: memoryBuilder,
@@ -37,6 +45,42 @@ final class MonitorInteractorTests: TestCase {
 
     func test_init_assigns_presenter_listener() {
         XCTAssertTrue(presenter.listener === interactor)
+    }
+
+    func test_activate_startsBatteryMonitorWorker() {
+        batteryMonitorWorker.startHandler = { [interactor] scope in
+            XCTAssertTrue(interactor === scope)
+        }
+        XCTAssertEqual(batteryMonitorWorker.startCallCount, 0)
+        interactor.activate()
+        XCTAssertEqual(batteryMonitorWorker.startCallCount, 1)
+    }
+
+    func test_activate_startsDiskMonitorWorker() {
+        diskMonitorWorker.startHandler = { [interactor] scope in
+            XCTAssertTrue(interactor === scope)
+        }
+        XCTAssertEqual(diskMonitorWorker.startCallCount, 0)
+        interactor.activate()
+        XCTAssertEqual(diskMonitorWorker.startCallCount, 1)
+    }
+
+    func test_activate_startsMemoryMonitorWorker() {
+        memoryMonitorWorker.startHandler = { [interactor] scope in
+            XCTAssertTrue(interactor === scope)
+        }
+        XCTAssertEqual(memoryMonitorWorker.startCallCount, 0)
+        interactor.activate()
+        XCTAssertEqual(memoryMonitorWorker.startCallCount, 1)
+    }
+
+    func test_activate_startsProcessorMonitorWorker() {
+        processorMonitorWorker.startHandler = { [interactor] scope in
+            XCTAssertTrue(interactor === scope)
+        }
+        XCTAssertEqual(processorMonitorWorker.startCallCount, 0)
+        interactor.activate()
+        XCTAssertEqual(processorMonitorWorker.startCallCount, 1)
     }
 
     func test_activate_buildsAndPresents_monitorList() {

@@ -30,10 +30,6 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
          deviceModelUpdateWorker: DeviceModelUpdateWorking,
          deviceBoardStorageWorker: DeviceBoardStorageWorking,
          deviceBoardUpdateWorker: DeviceBoardUpdateWorking,
-         batteryMonitorWorker: BatteryMonitorWorking,
-         memoryMonitorWorker: MemoryMonitorWorking,
-         diskMonitorWorker: DiskMonitorWorking,
-         processorMonitorWorker: ProcessorMonitorWorking,
          monitorBuilder: MonitorBuildable,
          reporterBuilder: ReporterBuildable,
          settingsBuilder: SettingsBuildable) {
@@ -42,10 +38,6 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
         self.deviceModelUpdateWorker = deviceModelUpdateWorker
         self.deviceBoardStorageWorker = deviceBoardStorageWorker
         self.deviceBoardUpdateWorker = deviceBoardUpdateWorker
-        self.batteryMonitorWorker = batteryMonitorWorker
-        self.memoryMonitorWorker = memoryMonitorWorker
-        self.diskMonitorWorker = diskMonitorWorker
-        self.processorMonitorWorker = processorMonitorWorker
         self.monitorBuilder = monitorBuilder
         self.reporterBuilder = reporterBuilder
         self.settingsBuilder = settingsBuilder
@@ -85,10 +77,6 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
     private let deviceModelUpdateWorker: DeviceModelUpdateWorking
     private let deviceBoardStorageWorker: DeviceBoardStorageWorking
     private let deviceBoardUpdateWorker: DeviceBoardUpdateWorking
-    private let batteryMonitorWorker: BatteryMonitorWorking
-    private let memoryMonitorWorker: MemoryMonitorWorking
-    private let diskMonitorWorker: DiskMonitorWorking
-    private let processorMonitorWorker: ProcessorMonitorWorking
 
     private let monitorBuilder: MonitorBuildable
     private let reporterBuilder: ReporterBuildable
@@ -116,10 +104,6 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
         deviceBoardStorageWorker.start(on: self)
         deviceModelUpdateWorker.start(on: self)
         deviceBoardUpdateWorker.start(on: self)
-        batteryMonitorWorker.start(on: self)
-        memoryMonitorWorker.start(on: self)
-        diskMonitorWorker.start(on: self)
-        processorMonitorWorker.start(on: self)
     }
 
     private func activate(_ appState: AppState) {
