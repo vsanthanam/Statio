@@ -17,7 +17,13 @@ final class ReporterViewControllerTests: TestCase {
 
     override func setUp() {
         super.setUp()
+        viewController = .init()
         viewController.listener = listener
+    }
+
+    func test_viewDidLoad_prefersLargeTitles() {
+        viewController.viewDidLoad()
+        XCTAssertTrue(viewController.navigationBar.prefersLargeTitles)
     }
 
 }

@@ -13,7 +13,14 @@ protocol ReporterViewControllable: ViewControllable {}
 /// @mockable
 protocol ReporterPresentableListener: AnyObject {}
 
-final class ReporterViewController: ScopeViewController, ReporterPresentable {
+final class ReporterViewController: ParentScopeNavigationController, ReporterPresentable {
+
+    // MARK: - UIViewController
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationBar.prefersLargeTitles = true
+    }
 
     // MARK: - ReporterPresentable
 
