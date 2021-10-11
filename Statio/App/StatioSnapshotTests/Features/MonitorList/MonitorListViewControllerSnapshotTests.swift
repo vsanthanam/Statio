@@ -5,6 +5,7 @@
 
 import FBSnapshotTestCase
 @testable import Statio
+@testable import StatioMocks
 
 final class MonitorListViewControllerSnapshotTests: FBSnapshotTestCase {
 

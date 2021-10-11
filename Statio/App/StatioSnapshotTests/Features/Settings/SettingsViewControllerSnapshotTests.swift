@@ -5,19 +5,19 @@
 
 import FBSnapshotTestCase
 @testable import Statio
+@testable import StatioMocks
 
-final class MainViewControllerSnapshotTests: SnapshotTestCase {
+final class SettingsViewControllerSnapshotTests: FBSnapshotTestCase {
 
     override func setUp() {
         super.setUp()
         recordMode = false
     }
 
-    func test_mainViewController() {
-        let viewController = MainViewController(analyticsManager: AnalyticsManagingMock())
+    func test_settingsViewController() {
+        let viewController = SettingsViewController(analyticsManager: AnalyticsManagingMock())
         viewController.loadView()
         viewController.viewDidLoad()
-        viewController.showTabs(AppState.allCases.map(\.viewModel))
         FBSnapshotVerifyViewController(viewController)
     }
 

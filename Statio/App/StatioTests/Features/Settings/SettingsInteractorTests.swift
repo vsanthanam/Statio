@@ -6,6 +6,7 @@
 import Combine
 import Foundation
 @testable import Statio
+@testable import StatioMocks
 import XCTest
 
 final class SettingsInteractorTests: TestCase {

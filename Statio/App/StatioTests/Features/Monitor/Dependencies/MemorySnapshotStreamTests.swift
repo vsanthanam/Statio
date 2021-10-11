@@ -7,6 +7,7 @@ import Combine
 import Foundation
 @testable import Statio
 import StatioKit
+@testable import StatioMocks
 import XCTest
 
 final class MemorySnapshotStreamTests: TestCase {

@@ -7,6 +7,7 @@
 import Foundation
 @testable import ShortRibs
 @testable import Statio
+@testable import StatioMocks
 import XCTest
 
 final class MemoryViewControllerTests: TestCase {

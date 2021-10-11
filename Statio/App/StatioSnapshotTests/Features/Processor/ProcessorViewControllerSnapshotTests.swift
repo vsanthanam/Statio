@@ -5,16 +5,17 @@
 
 import FBSnapshotTestCase
 @testable import Statio
+@testable import StatioMocks
 
-final class MonitorViewControllerSnapshotTests: FBSnapshotTestCase {
+final class ProcessorControllerSnapshotTests: SnapshotTestCase {
 
     override func setUp() {
         super.setUp()
         recordMode = false
     }
 
-    func test_monitorViewController() {
-        let viewController = MonitorViewController(analyticsManager: AnalyticsManagingMock())
+    func test_processorViewController() {
+        let viewController = ProcessorViewController(analyticsManager: AnalyticsManagingMock())
         viewController.loadView()
         viewController.viewDidLoad()
         FBSnapshotVerifyViewController(viewController)

@@ -8,6 +8,7 @@ import Foundation
 @testable import ShortRibs
 @testable import Statio
 import StatioKit
+@testable import StatioMocks
 import XCTest
 
 final class MemoryInteractorTests: TestCase {

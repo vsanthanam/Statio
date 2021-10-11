@@ -69,18 +69,51 @@ let project = Project(name: "Statio",
                                  ],
                                  dependencies: [
                                      .target(name: "Statio"),
+                                     .target(name: "StatioMocks"),
+                                     .remote(.combineSchedulers)
+                                 ],
+                                 settings: .target(named: "StatioTests")),
+                          Target(name: "StatioSnapshotTests",
+                                 platform: .iOS,
+                                 product: .unitTests,
+                                 bundleId: "com.varunsanthanam.StatioSnapshotTests",
+                                 infoPlist: "StatioSnapshotTests/Info.plist",
+                                 sources: [
+                                     "StatioSnapshotTests/**"
+                                 ],
+                                 actions: [
+                                     .pre(script: "../../repo generate mocks --repo-root ../../",
+                                          name: "Generate Mocks")
+                                 ],
+                                 dependencies: [
+                                     .target(name: "Statio"),
+                                     .target(name: "StatioMocks"),
                                      .remote(.combineSchedulers),
                                      .remote(.snapshotTestCase)
                                  ],
-                                 settings: .target(named: "StatioTests"))
+                                 settings: .target(named: "StatioSnapshotTests")),
+                          Target(name: "StatioMocks",
+                                 platform: .iOS,
+                                 product: .staticLibrary,
+                                 bundleId: "com.varunsanthanam.StatioMocks",
+                                 infoPlist: "StatioMocks/Info.plist",
+                                 sources: [
+                                     "StatioMocks/**"
+                                 ],
+                                 dependencies: [
+                                     .project(target: "Analytics", path: "../Libraries/Analytics"),
+                                     .project(target: "Logging", path: "../Libraries/Logging"),
+                                     .project(target: "ShortRibs", path: "../Libraries/ShortRibs")
+                                 ],
+                                 settings: .target(named: "StatioMocks"))
                       ],
                       schemes: [
                           .init(name: "App",
                                 shared: true,
                                 buildAction: BuildAction(targets: ["Statio"]),
-                                testAction: TestAction(targets: ["StatioTests"]),
+                                testAction: TestAction(targets: ["StatioTests", "StatioSnapshotTests"]),
                                 runAction: RunAction(executable: "Statio",
-                                                     arguments: .init(environment: ["FB_REFERENCE_IMAGE_DIR": "$(SOURCE_ROOT)/$(PROJECT_NAME)Tests/ReferenceImages",
-                                                                                    "IMAGE_DIFF_DIR": "$(SOURCE_ROOT)/$(PROJECT_NAME)Tests/FailureDiffs",
+                                                     arguments: .init(environment: ["FB_REFERENCE_IMAGE_DIR": "$(SOURCE_ROOT)/$(PROJECT_NAME)SnapshotTests/ReferenceImages",
+                                                                                    "IMAGE_DIFF_DIR": "$(SOURCE_ROOT)/$(PROJECT_NAME)ShapshotTests/FailureDiffs",
                                                                                     "AN_SEND_IN_DEBUG": "NO"])))
                       ])

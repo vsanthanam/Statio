@@ -17,12 +17,13 @@ let workspace = Workspace(name: "Statio",
                                     shared: true,
                                     buildAction: BuildAction(targets: [.project(path: "App", target: "Statio")]),
                                     testAction: TestAction(targets: [
-                                        .init(target: .project(path: "App", target: "StatioTests"))
+                                        .init(target: .project(path: "App", target: "StatioTests")),
+                                        .init(target: .project(path: "App", target: "StatioSnapshotTests"))
                                     ]),
                                     runAction: RunAction(executable: .project(path: "App",
                                                                               target: "Statio"),
-                                                         arguments: .init(environment: ["FB_REFERENCE_IMAGE_DIR": "$(SOURCE_ROOT)/$(PROJECT_NAME)Tests/ReferenceImages",
-                                                                                        "IMAGE_DIFF_DIR": "$(SOURCE_ROOT)/$(PROJECT_NAME)Tests/FailureDiffs",
+                                                         arguments: .init(environment: ["FB_REFERENCE_IMAGE_DIR": "$(SOURCE_ROOT)/$(PROJECT_NAME)SnapshotTests/ReferenceImages",
+                                                                                        "IMAGE_DIFF_DIR": "$(SOURCE_ROOT)/$(PROJECT_NAME)SnapshotTests/FailureDiffs",
                                                                                         "AN_SEND_IN_DEBUG": "NO"])))
                           ],
                           additionalFiles: [])

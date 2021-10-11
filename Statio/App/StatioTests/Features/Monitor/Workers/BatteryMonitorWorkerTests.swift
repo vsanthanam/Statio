@@ -7,6 +7,7 @@ import Combine
 import Foundation
 import ShortRibs
 @testable import Statio
+@testable import StatioMocks
 import XCTest
 
 final class BatteryWorkerMonitorTests: TestCase {

@@ -26,6 +26,8 @@ enum AnalyticsEvent: String, Event, Equatable, Hashable, CustomStringConvertible
     case processor_vc_dismiss
     case cellular_vc_impression
     case cellular_vc_dismiss
+    case wifi_vc_impression
+    case wifi_vc_dismiss
 
     // MARK: - Event
 

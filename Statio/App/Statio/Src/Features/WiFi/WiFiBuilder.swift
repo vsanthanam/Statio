@@ -3,11 +3,14 @@
 // Varun Santhanam
 //
 
+import Analytics
 import Foundation
 import NeedleFoundation
 import ShortRibs
 
-protocol WiFiDependency: Dependency {}
+protocol WiFiDependency: Dependency {
+    var analyticsManager: AnalyticsManaging { get }
+}
 
 class WiFiComponent: Component<WiFiDependency> {}
 
@@ -29,7 +32,7 @@ final class WiFiBuilder: ComponentizedBuilder<WiFiComponent, PresentableInteract
 
     override func build(with component: WiFiComponent, _ dynamicBuildDependency: WiFiDynamicBuildDependency) -> PresentableInteractable {
         let listener = dynamicBuildDependency
-        let viewController = WiFiViewController()
+        let viewController = WiFiViewController(analyticsManager: component.analyticsManager)
         let interactor = WiFiInteractor(presenter: viewController)
         interactor.listener = listener
         return interactor

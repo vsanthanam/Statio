@@ -58,7 +58,7 @@
          "Analytics"
       ],
       "destinations": [
-         "Statio/App/StatioTests/Mocks.swift"
+         "Statio/App/StatioMocks/Mocks.swift"
       ]
    },
    "testConfig": {
@@ -68,7 +68,7 @@
    "vendorCodePath": "Statio/Vendor",
    "diCodePath": "Statio/App/Statio/Src/Features/",
    "diGraphPath": "Statio/App/Statio/Src/Infra/DependencyGraph.swift",
-   "mockPath": "Statio/App/StatioTests/Mocks.swift",
+   "mockPath": "Statio/App/StatioMocks/Mocks.swift",
    "featureCodePath": "Statio/App/Statio/Src",
    "libraryCodePath": "Statio/Libraries",
    "workspaceRoot": "Statio"
