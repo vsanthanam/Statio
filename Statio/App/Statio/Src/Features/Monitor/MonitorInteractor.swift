@@ -144,6 +144,18 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
         attachMonitorList()
     }
 
+    // MARK: - CellularListener
+
+    func cellularDidClose() {
+        attachMonitorList()
+    }
+
+    // MARK: - WiFiListener
+
+    func wifiDidClose() {
+        attachMonitorList()
+    }
+
     // MARK: - Private
 
     private let batteryMonitorWorker: BatteryMonitorWorking

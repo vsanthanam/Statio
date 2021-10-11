@@ -12,7 +12,9 @@ protocol CellularPresentable: CellularViewControllable {
 }
 
 /// @mockable
-protocol CellularListener: AnyObject {}
+protocol CellularListener: AnyObject {
+    func cellularDidClose()
+}
 
 final class CellularInteractor: PresentableInteractor<CellularPresentable>, CellularInteractable, CellularPresentableListener {
 
@@ -26,4 +28,10 @@ final class CellularInteractor: PresentableInteractor<CellularPresentable>, Cell
     // MARK: - API
 
     weak var listener: CellularListener?
+
+    // MARK: - CellularPresentableListener
+
+    func didTapBack() {
+        listener?.cellularDidClose()
+    }
 }

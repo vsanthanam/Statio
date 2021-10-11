@@ -12,7 +12,9 @@ protocol WiFiPresentable: WiFiViewControllable {
 }
 
 /// @mockable
-protocol WiFiListener: AnyObject {}
+protocol WiFiListener: AnyObject {
+    func wifiDidClose()
+}
 
 final class WiFiInteractor: PresentableInteractor<WiFiPresentable>, WiFiInteractable, WiFiPresentableListener {
 
@@ -26,5 +28,11 @@ final class WiFiInteractor: PresentableInteractor<WiFiPresentable>, WiFiInteract
     // MARK: - API
 
     weak var listener: WiFiListener?
+
+    // MARK: - WiFiPresentableListener
+
+    func didTapBack() {
+        listener?.wifiDidClose()
+    }
 
 }

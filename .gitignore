@@ -5,7 +5,7 @@
 Statio/.package.resolved
 Statio/App/Statio/Resources/analytics_config.json
 Statio/App/Statio/Src/Infra/DependencyGraph.swift
-Statio/App/StatioTests/Mocks.swift
+Statio/App/StatioMocks/Mocks.swift
 Statio/App/StatioTests/FailureDiffs/
 Statio/App/Derived/*
 

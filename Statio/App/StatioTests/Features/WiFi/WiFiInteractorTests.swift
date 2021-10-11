@@ -26,4 +26,9 @@ final class WiFiInteractorTests: TestCase {
         XCTAssertTrue(presenter.listener === interactor)
     }
 
+    func test_didTapBack_callsListener() {
+        XCTAssertEqual(listener.wifiDidCloseCallCount, 0)
+        interactor.didTapBack()
+        XCTAssertEqual(listener.wifiDidCloseCallCount, 1)
+    }
 }

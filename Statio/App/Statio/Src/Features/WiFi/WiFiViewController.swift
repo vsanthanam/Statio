@@ -12,9 +12,13 @@ import UIKit
 protocol WiFiViewControllable: ViewControllable {}
 
 /// @mockable
-protocol WiFiPresentableListener: AnyObject {}
+protocol WiFiPresentableListener: AnyObject {
+    func didTapBack()
+}
 
 final class WiFiViewController: ScopeViewController, WiFiPresentable {
+
+    // MARK: - Initializers
 
     init(analyticsManager: AnalyticsManaging) {
         self.analyticsManager = analyticsManager
@@ -22,6 +26,16 @@ final class WiFiViewController: ScopeViewController, WiFiPresentable {
     }
 
     // MARK: - UIViewController
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        title = "WiFi"
+        let leadingItem = UIBarButtonItem(barButtonSystemItem: .close,
+                                          target: self,
+                                          action: #selector(didTapBack))
+        navigationItem.leftBarButtonItem = leadingItem
+        specializedView.backgroundColor = .systemBackground
+    }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -35,4 +49,10 @@ final class WiFiViewController: ScopeViewController, WiFiPresentable {
     // MARK: - Private
 
     private let analyticsManager: AnalyticsManaging
+
+    @objc
+    private func didTapBack() {
+        analyticsManager.send(event: AnalyticsEvent.wifi_vc_dismiss)
+        listener?.didTapBack()
+    }
 }

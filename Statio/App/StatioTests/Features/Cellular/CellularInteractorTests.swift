@@ -25,4 +25,9 @@ final class CellularInteractorTests: TestCase {
         XCTAssertTrue(presenter.listener === interactor)
     }
 
+    func test_didTapBack_callsListener() {
+        XCTAssertEqual(listener.cellularDidCloseCallCount, 0)
+        interactor.didTapBack()
+        XCTAssertEqual(listener.cellularDidCloseCallCount, 1)
+    }
 }
