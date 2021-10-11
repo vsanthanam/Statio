@@ -52,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             guard let file = Bundle.main.url(forResource: "analytics_config", withExtension: "json") else {
                 fatalError("""
                 Fatal: Invalid Analytics Configuration Resource
-                Run `./dasut bootstrap` and regenerate the project
+                Run `./repo bootstrap` to regenerate the project
                 """)
             }
             let data = try Data(contentsOf: file)

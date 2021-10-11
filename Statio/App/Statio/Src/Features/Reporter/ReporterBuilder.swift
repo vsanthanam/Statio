@@ -3,11 +3,14 @@
 // Varun Santhanam
 //
 
+import Analytics
 import Foundation
 import NeedleFoundation
 import ShortRibs
 
-protocol ReporterDependency: Dependency {}
+protocol ReporterDependency: Dependency {
+    var analyticsManager: AnalyticsManaging { get }
+}
 
 class ReporterComponent: Component<ReporterDependency> {}
 
@@ -29,7 +32,7 @@ final class ReporterBuilder: ComponentizedBuilder<ReporterComponent, Presentable
 
     override func build(with component: ReporterComponent, _ dynamicBuildDependency: ReporterDynamicBuildDependency) -> PresentableInteractable {
         let listener = dynamicBuildDependency
-        let viewController = ReporterViewController()
+        let viewController = ReporterViewController(analyticsManager: component.analyticsManager)
         let interactor = ReporterInteractor(presenter: viewController)
         interactor.listener = listener
         return interactor

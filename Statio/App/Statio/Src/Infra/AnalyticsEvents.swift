@@ -10,9 +10,10 @@ enum AnalyticsEvent: String, Event, Equatable, Hashable, CustomStringConvertible
 
     case root_become_active
     case main_vc_impression
+    case settings_vc_impression
+    case reporter_vc_impression
     case monitor_vc_impression
     case monitor_list_vc_impression
-    case settings_vc_impression
     case device_identity_vc_impression
     case device_identity_vc_dismiss
     case memory_vc_impression

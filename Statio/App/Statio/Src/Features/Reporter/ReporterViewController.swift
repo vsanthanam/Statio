@@ -3,6 +3,7 @@
 // Varun Santhanam
 //
 
+import Analytics
 import Foundation
 import ShortRibs
 import UIKit
@@ -15,6 +16,11 @@ protocol ReporterPresentableListener: AnyObject {}
 
 final class ReporterViewController: ParentScopeNavigationController, ReporterPresentable {
 
+    init(analyticsManager: AnalyticsManaging) {
+        self.analyticsManager = analyticsManager
+        super.init()
+    }
+
     // MARK: - UIViewController
 
     override func viewDidLoad() {
@@ -22,8 +28,17 @@ final class ReporterViewController: ParentScopeNavigationController, ReporterPre
         navigationBar.prefersLargeTitles = true
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        analyticsManager.send(event: AnalyticsEvent.reporter_vc_impression)
+    }
+
     // MARK: - ReporterPresentable
 
     weak var listener: ReporterPresentableListener?
+
+    // MARK: - Private
+
+    private let analyticsManager: AnalyticsManaging
 
 }
