@@ -7,12 +7,12 @@ import Analytics
 import Foundation
 import Logging
 
-/// @mockable
+/// @CreateMock
 protocol DeviceBoardStoring: AnyObject {
     func retrieveCachedBoards() throws -> [DeviceBoard]
 }
 
-/// @mockable
+/// @CreateMock
 protocol MutableDeviceBoardStoring: DeviceBoardStoring {
     func storeBoards(_ boards: [DeviceBoard]) throws
 }

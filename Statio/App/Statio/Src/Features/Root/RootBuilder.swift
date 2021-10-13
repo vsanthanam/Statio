@@ -36,14 +36,14 @@ final class RootComponent: BootstrapComponent, ShortRibs.RootComponent {
     private let dynamicDependency: RootDynamicComponentDependency
 }
 
-/// @mockable
+/// @CreateMock
 protocol RootInteractable: PresentableInteractable, MainListener {}
 
 typealias RootDynamicBuildDependency = (
     UIWindow
 )
 
-/// @mockable
+/// @CreateMock
 protocol RootBuildable: AnyObject {
     func build(onWindow window: UIWindow,
                analyticsManager: AnalyticsManaging) -> PresentableInteractable

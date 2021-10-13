@@ -5,7 +5,7 @@
 
 import Foundation
 
-/// @mockable
+/// @CreateMock
 protocol DeviceBoardUpdateProviding: AnyObject {
     var host: String { get }
     var path: String { get }

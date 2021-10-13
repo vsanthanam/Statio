@@ -8,10 +8,10 @@ import Foundation
 import ShortRibs
 import UIKit
 
-/// @mockable
+/// @CreateMock
 protocol WiFiViewControllable: ViewControllable {}
 
-/// @mockable
+/// @CreateMock
 protocol WiFiPresentableListener: AnyObject {
     func didTapBack()
 }

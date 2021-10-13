@@ -7,7 +7,7 @@ import CoreGraphics
 import Foundation
 import UIKit
 
-/// @mockable
+/// @CreateMock
 protocol MonitorIconProviding: AnyObject {
     func drawIcon(forIdentifier identifier: MonitorIdentifier,
                   targetFrame: CGRect,

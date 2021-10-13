@@ -14,14 +14,14 @@ protocol CellularDependency: Dependency {
 
 class CellularComponent: Component<CellularDependency> {}
 
-/// @mockable
+/// @CreateMock
 protocol CellularInteractable: PresentableInteractable {}
 
 typealias CellularDynamicBuildDependency = (
     CellularListener
 )
 
-/// @mockable
+/// @CreateMock
 protocol CellularBuildable: AnyObject {
     func build(withListener listener: CellularListener) -> PresentableInteractable
 }

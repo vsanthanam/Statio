@@ -6,7 +6,7 @@
 import Foundation
 import StatioKit
 
-/// @mockable
+/// @CreateMock
 protocol MemoryProviding: AnyObject {
     func record() throws -> Memory.Usage
 }

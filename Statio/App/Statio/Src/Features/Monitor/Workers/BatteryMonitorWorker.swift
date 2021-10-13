@@ -7,7 +7,7 @@ import Foundation
 import ShortRibs
 import UIKit
 
-/// @mockable
+/// @CreateMock
 protocol BatteryMonitorWorking: Working {}
 
 final class BatteryMonitorWorker: Worker, BatteryMonitorWorking {

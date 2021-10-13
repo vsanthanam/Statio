@@ -128,14 +128,14 @@ class MonitorComponent: Component<MonitorDependency> {
     }
 }
 
-/// @mockable
+/// @CreateMock
 protocol MonitorInteractable: PresentableInteractable, MonitorListListener, DeviceIdentityListener, MemoryListener, BatteryListener, DiskListener, ProcessorListener, CellularListener, WiFiListener {}
 
 typealias MonitorDynamicBuildDependency = (
     MonitorListener
 )
 
-/// @mockable
+/// @CreateMock
 protocol MonitorBuildable: AnyObject {
     func build(withListener listener: MonitorListener) -> PresentableInteractable
 }

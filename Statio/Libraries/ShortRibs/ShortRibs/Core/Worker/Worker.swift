@@ -7,7 +7,7 @@ import Combine
 import Foundation
 
 /// A protocol defining an object that a `Worker` can work on
-/// @mockable
+/// @CreateMock
 public protocol Workable: AnyObject {
 
     /// Whether or not the workable scope is active
@@ -19,7 +19,7 @@ public protocol Workable: AnyObject {
 }
 
 /// A protocol describing a worker
-/// @mockable
+/// @CreateMock
 public protocol Working: AnyObject {
 
     /// Start the worker

@@ -85,16 +85,20 @@ public extension Package {
 }
 
 public extension Settings {
-    static let project: Settings = .init(base: [:],
-                                         debug: .settings([:], xcconfig: .projectConfig),
-                                         release: .settings([:], xcconfig: .projectConfig),
-                                         defaultSettings: .recommended)
+    static let project: Settings = .settings(base: [:],
+                                             configurations: [
+                                                 .debug(name: "Debug", xcconfig: .projectConfig),
+                                                 .release(name: "Release", xcconfig: .projectConfig)
+                                             ],
+                                             defaultSettings: .recommended)
 
     static func target(named targetName: String) -> Settings {
-        .init(base: [:],
-              debug: .settings([:], xcconfig: .targetConfig(named: targetName)),
-              release: .settings([:], xcconfig: .targetConfig(named: targetName)),
-              defaultSettings: .recommended)
+        .settings(base: [:],
+                  configurations: [
+                      .debug(name: "Debug", xcconfig: .targetConfig(named: targetName)),
+                      .release(name: "Release", xcconfig: .targetConfig(named: targetName))
+                  ],
+                  defaultSettings: .recommended)
     }
 }
 

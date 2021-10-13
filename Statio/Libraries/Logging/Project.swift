@@ -25,5 +25,5 @@ let project = Project(name: "Logging",
                       schemes: [
                           .init(name: "Logging",
                                 shared: true,
-                                buildAction: BuildAction(targets: ["Logging"]))
+                                buildAction: .buildAction(targets: ["Logging"]))
                       ])

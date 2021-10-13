@@ -8,7 +8,7 @@
     import CoreData
     import Foundation
 
-    /// @mockable
+    /// @CreateMock
     public protocol PersistentContaining: AnyObject {
         var name: String { get }
         var managedObejctModel: NSManagedObjectModel { get }

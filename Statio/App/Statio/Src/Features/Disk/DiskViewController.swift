@@ -8,10 +8,10 @@ import Foundation
 import ShortRibs
 import UIKit
 
-/// @mockable
+/// @CreateMock
 protocol DiskViewControllable: ViewControllable {}
 
-/// @mockable
+/// @CreateMock
 protocol DiskPresentableListener: AnyObject {
     func didTapBack()
 }

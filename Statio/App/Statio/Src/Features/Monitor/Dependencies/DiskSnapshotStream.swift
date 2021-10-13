@@ -6,12 +6,12 @@
 import Combine
 import Foundation
 
-/// @mockable
+/// @CreateMock
 protocol DiskSnapshotStreaming: AnyObject {
     var snapshots: AnyPublisher<DiskSnapshot, Never> { get }
 }
 
-/// @mockable
+/// @CreateMock
 protocol MutableDiskSnapshotStreaming: DiskSnapshotStreaming {
     func send(snapshot: DiskSnapshot)
 }

@@ -9,7 +9,6 @@ import Foundation
 import ShortRibs
 @testable import Statio
 import StatioKit
-@testable import StatioMocks
 import XCTest
 
 final class ProcessorMonitorWorkerTests: TestCase {

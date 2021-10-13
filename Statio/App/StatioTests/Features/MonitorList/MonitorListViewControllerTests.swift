@@ -6,7 +6,6 @@
 @testable import Analytics
 import Foundation
 @testable import Statio
-@testable import StatioMocks
 import XCTest
 
 final class MonitorListViewControllerTests: TestCase {

@@ -1,7 +1,8 @@
 # Statio 2
 [![Build status](https://badge.buildkite.com/ccfb90471cd44a5cfcab3e2841fd6eceb47d2b315aee7c1d31.svg)](https://buildkite.com/varun-santhanam/statio-main-branch)
 [![license](https://img.shields.io/github/license/vsanthanam/vsalert.svg)](https://en.wikipedia.org/wiki/MIT_License)
-[![swift-version](https://img.shields.io/badge/Swift-5.4-orange)](https://www.swift.org)
+[![swift-version](https://img.shields.io/badge/Swift-5.5-orange)](https://www.swift.org)
+[![xcode-version](https://img.shields.io/badge/Xcode-13.0-blue)](https://developer.apple.com)
 
 Statio is a system activity monitor for iOS devices. It is a Swift rewrite of the existing Objective-C app of the same name 9that is already available on the app store today.
 

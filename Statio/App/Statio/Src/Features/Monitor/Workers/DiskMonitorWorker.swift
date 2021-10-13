@@ -7,7 +7,7 @@ import Combine
 import Foundation
 import ShortRibs
 
-/// @mockable
+/// @CreateMock
 protocol DiskMonitorWorking: Working {}
 
 final class DiskMonitorWorker: Worker, DiskMonitorWorking {

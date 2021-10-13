@@ -6,12 +6,12 @@
 import Foundation
 import ShortRibs
 
-/// @mockable
+/// @CreateMock
 protocol WiFiPresentable: WiFiViewControllable {
     var listener: WiFiPresentableListener? { get set }
 }
 
-/// @mockable
+/// @CreateMock
 protocol WiFiListener: AnyObject {
     func wifiDidClose()
 }

@@ -42,6 +42,6 @@ let project = Project(name: "ShortRibs",
                       schemes: [
                           .init(name: "ShortRibs",
                                 shared: true,
-                                buildAction: BuildAction(targets: ["ShortRibs"]),
-                                testAction: TestAction(targets: ["ShortRibsTests"]))
+                                buildAction: .buildAction(targets: ["ShortRibs"]),
+                                testAction: .targets(["ShortRibsTests"]))
                       ])

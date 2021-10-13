@@ -26,14 +26,14 @@ class DiskComponent: Component<DiskDependency> {
 
 }
 
-/// @mockable
+/// @CreateMock
 protocol DiskInteractable: PresentableInteractable {}
 
 typealias DiskDynamicBuildDependency = (
     DiskListener
 )
 
-/// @mockable
+/// @CreateMock
 protocol DiskBuildable: AnyObject {
     func build(withListener listener: DiskListener) -> PresentableInteractable
 }

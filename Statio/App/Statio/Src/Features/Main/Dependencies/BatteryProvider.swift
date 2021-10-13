@@ -6,7 +6,7 @@
 import Foundation
 import StatioKit
 
-/// @mockable
+/// @CreateMock
 protocol BatteryProviding: AnyObject {
     var state: Battery.State { get }
     var level: Battery.Level { get }

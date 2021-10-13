@@ -33,7 +33,7 @@ let project = Project(name: "Statio",
                                  resources: [
                                      "Statio/Resources/**"
                                  ],
-                                 actions: [
+                                 scripts: [
                                      .pre(script: "../../repo generate dig --repo-root ../../", name: "Generate DI Graph")
                                  ],
                                  dependencies: [
@@ -63,13 +63,12 @@ let project = Project(name: "Statio",
                                  sources: [
                                      "StatioTests/**"
                                  ],
-                                 actions: [
+                                 scripts: [
                                      .pre(script: "../../repo generate mocks --repo-root ../../",
                                           name: "Generate Mocks")
                                  ],
                                  dependencies: [
                                      .target(name: "Statio"),
-                                     .target(name: "StatioMocks"),
                                      .remote(.combineSchedulers)
                                  ],
                                  settings: .target(named: "StatioTests")),
@@ -81,39 +80,23 @@ let project = Project(name: "Statio",
                                  sources: [
                                      "StatioSnapshotTests/**"
                                  ],
-                                 actions: [
+                                 scripts: [
                                      .pre(script: "../../repo generate mocks --repo-root ../../",
                                           name: "Generate Mocks")
                                  ],
                                  dependencies: [
                                      .target(name: "Statio"),
-                                     .target(name: "StatioMocks"),
-                                     .remote(.combineSchedulers),
                                      .remote(.snapshotTestCase)
                                  ],
-                                 settings: .target(named: "StatioSnapshotTests")),
-                          Target(name: "StatioMocks",
-                                 platform: .iOS,
-                                 product: .staticLibrary,
-                                 bundleId: "com.varunsanthanam.StatioMocks",
-                                 infoPlist: "StatioMocks/Info.plist",
-                                 sources: [
-                                     "StatioMocks/**"
-                                 ],
-                                 dependencies: [
-                                     .project(target: "Analytics", path: "../Libraries/Analytics"),
-                                     .project(target: "Logging", path: "../Libraries/Logging"),
-                                     .project(target: "ShortRibs", path: "../Libraries/ShortRibs")
-                                 ],
-                                 settings: .target(named: "StatioMocks"))
+                                 settings: .target(named: "StatioSnapshotTests"))
                       ],
                       schemes: [
                           .init(name: "App",
                                 shared: true,
                                 buildAction: BuildAction(targets: ["Statio"]),
-                                testAction: TestAction(targets: ["StatioTests", "StatioSnapshotTests"]),
-                                runAction: RunAction(executable: "Statio",
-                                                     arguments: .init(environment: ["FB_REFERENCE_IMAGE_DIR": "$(SOURCE_ROOT)/$(PROJECT_NAME)SnapshotTests/ReferenceImages",
-                                                                                    "IMAGE_DIFF_DIR": "$(SOURCE_ROOT)/$(PROJECT_NAME)ShapshotTests/FailureDiffs",
-                                                                                    "AN_SEND_IN_DEBUG": "NO"])))
+                                testAction: .targets(["StatioTests", "StatioSnapshotTests"]),
+                                runAction: .runAction(executable: "Statio",
+                                                      arguments: .init(environment: ["FB_REFERENCE_IMAGE_DIR": "$(SOURCE_ROOT)/$(PROJECT_NAME)SnapshotTests/ReferenceImages",
+                                                                                     "IMAGE_DIFF_DIR": "$(SOURCE_ROOT)/$(PROJECT_NAME)ShapshotTests/FailureDiffs",
+                                                                                     "AN_SEND_IN_DEBUG": "NO"])))
                       ])

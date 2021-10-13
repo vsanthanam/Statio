@@ -16,7 +16,7 @@ public protocol Trace: Equatable {
     var key: String { get }
 }
 
-/// @mockable
+/// @CreateMock
 public protocol AnalyticsManaging: AnyObject {
     func send<T>(event: T, segmentation: [String: String]?, count: UInt, sum: Double, duration: TimeInterval) where T: Analytics.Event
     func start<T>(trace: T) where T: Analytics.Trace
@@ -131,19 +131,21 @@ public final class AnalyticsManager: AnalyticsManaging {
         #endif
     }
 
-    internal func logAssertError(key: String, file: StaticString, function: StaticString, line: UInt) {
+    internal func logAssertError(key: String, file: StaticString, function: StaticString, line: UInt, column: UInt) {
         let meta = ["key": "\(key)",
                     "file": "\(file)",
                     "function": "\(function)",
-                    "line": String(line)]
+                    "line": String(line),
+                    "column": String(column)]
         send(key: "failure_\(key)", segmentation: meta)
     }
 
-    internal func logFatalError(key: String, file: StaticString, function: StaticString, line: UInt) {
+    internal func logFatalError(key: String, file: StaticString, function: StaticString, line: UInt, column: UInt) {
         let meta = ["key": "\(key)",
                     "file": "\(file)",
                     "function": "\(function)",
-                    "line": String(line)]
+                    "line": String(line),
+                    "column": String(column)]
         send(key: "fatal_\(key)", segmentation: meta)
     }
 

@@ -6,7 +6,7 @@
 import Foundation
 import UIKit
 
-/// @mockable
+/// @CreateMock
 protocol DeviceIdentityDataSource: AnyObject {
     func apply(_ snapshot: NSDiffableDataSourceSnapshot<DeviceIdentityCategory, DeviceIdentityRow>)
 }

@@ -11,7 +11,7 @@ IPHONEOS_DEPLOYMENT_TARGET=14.1
 PRODUCT_BUNDLE_IDENTIFIER=com.varunsanthanam.Logging
 PRODUCT_NAME=$(TARGET_NAME:c99extidentifier)
 SKIP_INSTALL=YES
-SWIFT_VERSION=5.0
+SWIFT_VERSION=5.5
 TARGETED_DEVICE_FAMILY=1,2
 
 LD_RUNPATH_SEARCH_PATHS[config=Debug]=["$(inherited)", "@executable_path/Frameworks", "@loader_path/Frameworks"]

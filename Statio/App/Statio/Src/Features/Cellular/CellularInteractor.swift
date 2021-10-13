@@ -6,12 +6,12 @@
 import Foundation
 import ShortRibs
 
-/// @mockable
+/// @CreateMock
 protocol CellularPresentable: CellularViewControllable {
     var listener: CellularPresentableListener? { get set }
 }
 
-/// @mockable
+/// @CreateMock
 protocol CellularListener: AnyObject {
     func cellularDidClose()
 }

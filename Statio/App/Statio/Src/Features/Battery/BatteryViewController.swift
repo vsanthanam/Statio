@@ -10,10 +10,10 @@ import SnapKit
 import StatioKit
 import UIKit
 
-/// @mockable
+/// @CreateMock
 protocol BatteryViewControllable: ViewControllable {}
 
-/// @mockable
+/// @CreateMock
 protocol BatteryPresentableListener: AnyObject {
     func didTapBack()
 }

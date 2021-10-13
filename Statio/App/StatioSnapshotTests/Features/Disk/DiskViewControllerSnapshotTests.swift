@@ -5,8 +5,6 @@
 
 import FBSnapshotTestCase
 @testable import Statio
-@testable import StatioMocks
-
 final class DiskViewControllerSnapshotTests: SnapshotTestCase {
 
     override func setUp() {

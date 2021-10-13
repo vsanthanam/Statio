@@ -6,7 +6,7 @@
 import Foundation
 import ShortRibs
 
-/// @mockable
+/// @CreateMock
 protocol DeviceModelStorageWorking: Working {}
 
 final class DeviceModelStorageWorker: Worker, DeviceModelStorageWorking {

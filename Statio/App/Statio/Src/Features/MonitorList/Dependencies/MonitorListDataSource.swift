@@ -6,7 +6,7 @@
 import Foundation
 import UIKit
 
-/// @mockable
+/// @CreateMock
 protocol MonitorListDataSource: AnyObject {
     func itemIdentifier(for indexPath: IndexPath) -> MonitorListRow?
     func apply(_ snapshot: NSDiffableDataSourceSnapshot<MonitorCategoryIdentifier, MonitorListRow>)

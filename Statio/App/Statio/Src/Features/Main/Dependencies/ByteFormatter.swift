@@ -5,7 +5,7 @@
 
 import Foundation
 
-/// @mockable
+/// @CreateMock
 protocol ByteFormatting: AnyObject {
     func formattedBytesForDisk(_ bytes: UInt64) -> String
     func formattedBytesForMemory(_ bytes: UInt64) -> String

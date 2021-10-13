@@ -8,12 +8,12 @@ import CombineExt
 import Foundation
 import StatioKit
 
-/// @mockable
+/// @CreateMock
 protocol BatteryLevelStreaming: AnyObject {
     var batteryLevel: AnyPublisher<Battery.Level, Never> { get }
 }
 
-/// @mockable
+/// @CreateMock
 protocol MutableBatteryLevelStreaming: BatteryLevelStreaming {
     func update(level: Battery.Level)
 }

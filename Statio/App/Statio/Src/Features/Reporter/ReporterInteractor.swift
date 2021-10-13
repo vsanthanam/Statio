@@ -6,12 +6,12 @@
 import Foundation
 import ShortRibs
 
-/// @mockable
+/// @CreateMock
 protocol ReporterPresentable: ReporterViewControllable {
     var listener: ReporterPresentableListener? { get set }
 }
 
-/// @mockable
+/// @CreateMock
 protocol ReporterListener: AnyObject {}
 
 final class ReporterInteractor: PresentableInteractor<ReporterPresentable>, ReporterInteractable, ReporterPresentableListener {

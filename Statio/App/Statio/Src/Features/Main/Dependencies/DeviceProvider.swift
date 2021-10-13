@@ -7,7 +7,7 @@ import Foundation
 import StatioKit
 import UIKit
 
-/// @mockable
+/// @CreateMock
 protocol DeviceProviding: AnyObject {
     var deviceName: String { get }
     var modelIdentifier: String { get }

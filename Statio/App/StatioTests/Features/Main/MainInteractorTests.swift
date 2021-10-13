@@ -7,13 +7,11 @@ import Combine
 import Foundation
 @testable import ShortRibs
 @testable import Statio
-@testable import StatioMocks
 import XCTest
 
 final class MainInteractorTests: TestCase {
 
     let presenter = MainPresentableMock()
-    let appStateSubject = PassthroughSubject<AppState, Never>()
     let appStateManager = AppStateManagingMock()
     let deviceModelStorageWorker = DeviceModelStorageWorkingMock()
     let deviceModelUpdateWorker = DeviceModelUpdateWorkingMock()
@@ -29,7 +27,6 @@ final class MainInteractorTests: TestCase {
 
     override func setUp() {
         super.setUp()
-        appStateManager.state = appStateSubject.eraseToAnyPublisher()
         interactor = .init(presenter: presenter,
                            appStateManager: appStateManager,
                            deviceModelStorageWorker: deviceModelStorageWorker,
@@ -102,7 +99,7 @@ final class MainInteractorTests: TestCase {
             XCTAssertEqual(AppState.monitor.id, id)
         }
 
-        appStateSubject.send(.monitor)
+        appStateManager.stateSubject.send(.monitor)
 
         XCTAssertEqual(monitorBuilder.buildCallCount, 1)
         XCTAssertEqual(reporterBuilder.buildCallCount, 0)
@@ -116,7 +113,7 @@ final class MainInteractorTests: TestCase {
             XCTAssertEqual(AppState.reporter.id, id)
         }
 
-        appStateSubject.send(.reporter)
+        appStateManager.stateSubject.send(.reporter)
 
         XCTAssertEqual(monitorBuilder.buildCallCount, 1)
         XCTAssertEqual(reporterBuilder.buildCallCount, 1)
@@ -130,7 +127,7 @@ final class MainInteractorTests: TestCase {
             XCTAssertEqual(AppState.monitor.id, id)
         }
 
-        appStateSubject.send(.monitor)
+        appStateManager.stateSubject.send(.monitor)
 
         XCTAssertEqual(monitorBuilder.buildCallCount, 1)
         XCTAssertEqual(reporterBuilder.buildCallCount, 1)
@@ -144,7 +141,7 @@ final class MainInteractorTests: TestCase {
             XCTAssertEqual(AppState.settings.id, id)
         }
 
-        appStateSubject.send(.settings)
+        appStateManager.stateSubject.send(.settings)
 
         XCTAssertEqual(monitorBuilder.buildCallCount, 1)
         XCTAssertEqual(reporterBuilder.buildCallCount, 1)

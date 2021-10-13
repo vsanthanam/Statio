@@ -7,7 +7,7 @@ import Foundation
 import ShortRibs
 import UIKit
 
-/// @mockable
+/// @CreateMock
 protocol BatteryCollectionViewable: Viewable {
     var delegate: UICollectionViewDelegate? { get set }
 }

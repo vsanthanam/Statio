@@ -9,10 +9,10 @@ import ShortRibs
 import SnapKit
 import UIKit
 
-/// @mockable
+/// @CreateMock
 protocol DeviceIdentityViewControllable: ViewControllable {}
 
-/// @mockable
+/// @CreateMock
 protocol DeviceIdentityPresentableListener: AnyObject {
     func didTapBack()
 }

@@ -6,13 +6,13 @@
 import Foundation
 import ShortRibs
 
-/// @mockable
+/// @CreateMock
 protocol DiskPresentable: DiskViewControllable {
     var listener: DiskPresentableListener? { get set }
     func present(snapshot: DiskSnapshot)
 }
 
-/// @mockable
+/// @CreateMock
 protocol DiskListener: AnyObject {
     func diskDidClose()
 }

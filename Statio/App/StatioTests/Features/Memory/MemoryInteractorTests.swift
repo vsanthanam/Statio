@@ -8,21 +8,18 @@ import Foundation
 @testable import ShortRibs
 @testable import Statio
 import StatioKit
-@testable import StatioMocks
 import XCTest
 
 final class MemoryInteractorTests: TestCase {
 
     let listener = MemoryListenerMock()
     let presenter = MemoryPresentableMock()
-    let snapshotSubject = PassthroughSubject<MemorySnapshot, Never>()
     let memorySnapshotStream = MemorySnapshotStreamingMock()
 
     var interactor: MemoryInteractor!
 
     override func setUp() {
         super.setUp()
-        memorySnapshotStream.snapshots = snapshotSubject.eraseToAnyPublisher()
         interactor = .init(presenter: presenter,
                            memorySnapshotStream: memorySnapshotStream)
         interactor.listener = listener
@@ -38,9 +35,9 @@ final class MemoryInteractorTests: TestCase {
             XCTAssertEqual(snapshot, .test)
         }
         XCTAssertEqual(presenter.presentCallCount, 0)
-        snapshotSubject.send(.test)
+        memorySnapshotStream.snapshotsSubject.send(.test)
         XCTAssertEqual(presenter.presentCallCount, 1)
-        snapshotSubject.send(.test)
+        memorySnapshotStream.snapshotsSubject.send(.test)
         XCTAssertEqual(presenter.presentCallCount, 1)
 
         let newSnapshot = MemorySnapshot(usage: .init(physical: 1, free: 1, active: 1, inactive: 1, wired: 1, pageIns: 1, pageOuts: 1), timestamp: .distantPast)
@@ -49,7 +46,7 @@ final class MemoryInteractorTests: TestCase {
             XCTAssertEqual(snapshot, newSnapshot)
         }
 
-        snapshotSubject.send(newSnapshot)
+        memorySnapshotStream.snapshotsSubject.send(newSnapshot)
         XCTAssertEqual(presenter.presentCallCount, 2)
     }
 

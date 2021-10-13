@@ -19,10 +19,10 @@ typealias ProcessorDynamicBuildDependency = (
     ProcessorListener
 )
 
-/// @mockable
+/// @CreateMock
 protocol ProcessorInteractable: PresentableInteractable {}
 
-/// @mockable
+/// @CreateMock
 protocol ProcessorBuildable: AnyObject {
     func build(withListener listener: ProcessorListener) -> PresentableInteractable
 }

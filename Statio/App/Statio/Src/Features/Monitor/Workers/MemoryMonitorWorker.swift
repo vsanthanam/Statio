@@ -7,7 +7,7 @@ import Foundation
 import ShortRibs
 import StatioKit
 
-/// @mockable
+/// @CreateMock
 protocol MemoryMonitorWorking: Working {}
 
 final class MemoryMonitorWorker: Worker, MemoryMonitorWorking {

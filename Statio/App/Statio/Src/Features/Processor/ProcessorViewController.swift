@@ -8,10 +8,10 @@ import Foundation
 import ShortRibs
 import UIKit
 
-/// @mockable
+/// @CreateMock
 protocol ProcessorViewControllable: ViewControllable {}
 
-/// @mockable
+/// @CreateMock
 protocol ProcessorPresentableListener: AnyObject {
     func didTapBack()
 }

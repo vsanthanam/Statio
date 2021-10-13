@@ -8,7 +8,7 @@ import Charts
 import Foundation
 import UIKit
 
-/// @mockable
+/// @CreateMock
 protocol DiskListDataSource: AnyObject {
     func apply(_ snapshot: NSDiffableDataSourceSnapshot<DiskListSection, DiskListRow>)
 }

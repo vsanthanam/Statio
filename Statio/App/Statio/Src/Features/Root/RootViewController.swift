@@ -9,10 +9,10 @@ import ShortRibs
 import SnapKit
 import UIKit
 
-/// @mockable
+/// @CreateMock
 protocol RootViewControllable: ViewControllable {}
 
-/// @mockable
+/// @CreateMock
 protocol RootPresentableListener: AnyObject {}
 
 final class RootViewController: ScopeViewController, RootPresentable, RootViewControllable {

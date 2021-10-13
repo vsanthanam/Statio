@@ -13,7 +13,7 @@
 import Foundation
 import StatioKit
 
-/// @mockable
+/// @CreateMock
 protocol DiskProviding: AnyObject {
     func record() throws -> Disk.Usage
 }

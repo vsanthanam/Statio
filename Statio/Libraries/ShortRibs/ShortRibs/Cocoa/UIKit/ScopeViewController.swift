@@ -7,7 +7,7 @@ import Combine
 import Foundation
 import UIKit
 
-/// @mockable
+/// @CreateMock
 public protocol ViewControllable: AnyObject {
     var uiviewController: UIViewController { get }
 }

@@ -6,13 +6,13 @@
 import Foundation
 import ShortRibs
 
-/// @mockable
+/// @CreateMock
 protocol MonitorListPresentable: MonitorListViewControllable {
     var listener: MonitorListPresentableListener? { get set }
     func applyIdentifiers(_ identifiers: [MonitorIdentifier], categories: [MonitorCategoryIdentifier])
 }
 
-/// @mockable
+/// @CreateMock
 protocol MonitorListListener: AnyObject {
     func monitorListDidSelect(identifier: MonitorIdentifier)
 }

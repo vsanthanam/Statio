@@ -28,14 +28,14 @@ class DeviceIdentityComponent: Component<DeviceIdentityDependency> {
 
 }
 
-/// @mockable
+/// @CreateMock
 protocol DeviceIdentityInteractable: PresentableInteractable {}
 
 typealias DeviceIdentityDynamicBuildDependency = (
     DeviceIdentityListener
 )
 
-/// @mockable
+/// @CreateMock
 protocol DeviceIdentityBuildable: AnyObject {
     func build(withListener listener: DeviceIdentityListener) -> PresentableInteractable
 }

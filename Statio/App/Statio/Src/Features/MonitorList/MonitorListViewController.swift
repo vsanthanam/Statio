@@ -9,10 +9,10 @@ import ShortRibs
 import SnapKit
 import UIKit
 
-/// @mockable
+/// @CreateMock
 protocol MonitorListViewControllable: ViewControllable {}
 
-/// @mockable
+/// @CreateMock
 protocol MonitorListPresentableListener: AnyObject {
     func didSelectMonitor(withIdentifier identifier: MonitorIdentifier)
 }

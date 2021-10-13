@@ -67,14 +67,17 @@ struct MockCommand: ParsableCommand, RepoCommand {
             throw MockCommandError.noOutputs
         }
 
-        let baseCommand = "\(bin) -s \(paths.joined(separator: " "))"
+        let joinedPaths = paths.map { ["--sourcedirs", $0].joined(separator: " ") }.joined(separator: " ")
+        let baseCommand = "\(bin) " + joinedPaths
 
         for destination in destinations {
-            var command = baseCommand + " -d \(destination)"
+            var command = baseCommand + " --destination \(destination)"
             if let imports = configuration?.mockolo.testableImports {
                 command += " "
-                command += (["-i"] + imports).joined(separator: " ")
+                let imports = imports.map { ["--testable-imports", $0].joined(separator: " ") }.joined(separator: " ")
+                command += imports
             }
+            command += " --macro DEBUG --annotation CreateMock"
             try shell(script: command,
                       at: repoRoot,
                       errorMessage: "Mockolo failed!",

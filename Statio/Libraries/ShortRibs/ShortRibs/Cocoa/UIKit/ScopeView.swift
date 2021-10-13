@@ -7,7 +7,7 @@ import Combine
 import Foundation
 import UIKit
 
-/// @mockable
+/// @CreateMock
 public protocol Viewable: AnyObject {
     var uiview: UIView { get }
 }

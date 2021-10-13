@@ -7,12 +7,12 @@ import Combine
 import CombineExt
 import Foundation
 
-/// @mockable
+/// @CreateMock
 protocol DeviceBoardStreaming: AnyObject {
     var boards: AnyPublisher<[DeviceBoard], Never> { get }
 }
 
-/// @mockable
+/// @CreateMock
 protocol MutableDeviceBoardStreaming: DeviceBoardStreaming {
     func update(boards: [DeviceBoard])
 }

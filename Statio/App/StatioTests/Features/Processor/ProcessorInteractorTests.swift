@@ -6,21 +6,18 @@
 import Combine
 import ShortRibs
 @testable import Statio
-@testable import StatioMocks
 import XCTest
 
 final class ProcessorInteractorTests: TestCase {
 
     let listener = ProcessorListenerMock()
     let presenter = ProcessorPresentableMock()
-    let subject = PassthroughSubject<ProcessorSnapshot, Never>()
     let processorSnapshotStream = ProcessorSnapshotStreamingMock()
 
     var interactor: ProcessorInteractor!
 
     override func setUp() {
         super.setUp()
-        processorSnapshotStream.snapshots = subject.eraseToAnyPublisher()
         interactor = .init(presenter: presenter,
                            processorSnapshotStream: processorSnapshotStream)
         interactor.listener = listener
@@ -43,7 +40,7 @@ final class ProcessorInteractorTests: TestCase {
         }
         interactor.activate()
         XCTAssertEqual(presenter.presentCallCount, 0)
-        subject.send(snapshot)
+        processorSnapshotStream.snapshotsSubject.send(snapshot)
         XCTAssertEqual(presenter.presentCallCount, 1)
     }
 }

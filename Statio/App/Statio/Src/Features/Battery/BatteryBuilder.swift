@@ -28,14 +28,14 @@ class BatteryComponent: Component<BatteryDependency> {
 
 }
 
-/// @mockable
+/// @CreateMock
 protocol BatteryInteractable: PresentableInteractable {}
 
 typealias BatteryDynamicBuildDependency = (
     BatteryListener
 )
 
-/// @mockable
+/// @CreateMock
 protocol BatteryBuildable: AnyObject {
     func build(withListener listener: BatteryListener) -> PresentableInteractable
 }

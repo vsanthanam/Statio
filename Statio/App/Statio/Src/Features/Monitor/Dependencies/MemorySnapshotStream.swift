@@ -7,12 +7,12 @@ import Combine
 import Foundation
 import StatioKit
 
-/// @mockable
+/// @CreateMock
 protocol MemorySnapshotStreaming: AnyObject {
     var snapshots: AnyPublisher<MemorySnapshot, Never> { get }
 }
 
-/// @mockable
+/// @CreateMock
 protocol MutableMemorySnapshotStreaming: MemorySnapshotStreaming {
     func send(snapshot: MemorySnapshot)
 }

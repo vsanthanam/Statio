@@ -10,7 +10,7 @@ import Ombi
 import os.log
 import ShortRibs
 
-/// @mockable
+/// @CreateMock
 protocol DeviceModelUpdateWorking: Working {}
 
 final class DeviceModelUpdateWorker: Worker, DeviceModelUpdateWorking {

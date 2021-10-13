@@ -7,12 +7,12 @@ import Combine
 import CombineExt
 import Foundation
 
-/// @mockable
+/// @CreateMock
 public protocol DeviceModelStreaming: AnyObject {
     var models: AnyPublisher<[DeviceModel], Never> { get }
 }
 
-/// @mockable
+/// @CreateMock
 public protocol MutableDeviceModelStreaming: DeviceModelStreaming {
     func update(models: [DeviceModel])
 }

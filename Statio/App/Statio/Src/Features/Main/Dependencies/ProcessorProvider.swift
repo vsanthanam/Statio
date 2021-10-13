@@ -6,7 +6,7 @@
 import Foundation
 import StatioKit
 
-/// @mockable
+/// @CreateMock
 protocol ProcessorProviding: AnyObject {
     func record() throws -> Processor.Usage
 }

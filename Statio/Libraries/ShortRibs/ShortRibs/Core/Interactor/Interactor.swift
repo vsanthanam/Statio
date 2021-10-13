@@ -8,7 +8,7 @@ import Foundation
 
 /// A protocol that defines the public interface of an `Interactor` available to other classes
 ///
-/// @mockable
+/// @CreateMock
 public protocol Interactable: Workable {
 
     /// Activate the interactor
@@ -27,7 +27,7 @@ public protocol Interactable: Workable {
 /// An `Interactor`  is node in the application's state tree.
 /// It is activated by its parent, and is responsible for activating its children.
 ///
-/// @mockable
+/// @CreateMock
 open class Interactor: Interactable {
 
     // MARK: - Initializers

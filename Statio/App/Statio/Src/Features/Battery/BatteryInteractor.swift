@@ -7,14 +7,14 @@ import Foundation
 import ShortRibs
 import StatioKit
 
-/// @mockable
+/// @CreateMock
 protocol BatteryPresentable: BatteryViewControllable {
     var listener: BatteryPresentableListener? { get set }
     func update(level: Battery.Level)
     func update(state: Battery.State)
 }
 
-/// @mockable
+/// @CreateMock
 protocol BatteryListener: AnyObject {
     func batteryDidClose()
 }

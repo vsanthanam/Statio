@@ -7,7 +7,7 @@ import Foundation
 import ShortRibs
 import UIKit
 
-/// @mockable
+/// @CreateMock
 protocol DiskListCollectionViewable: Viewable {
     var contentOffset: CGPoint { get set }
     var delegate: UICollectionViewDelegate? { get set }

@@ -7,14 +7,14 @@ import Foundation
 import Logging
 import ShortRibs
 
-/// @mockable
+/// @CreateMock
 protocol MonitorPresentable: MonitorViewControllable {
     var listener: MonitorPresentableListener? { get set }
     func showList(_ monitorList: MonitorListViewControllable)
     func showMonitor(_ viewController: ViewControllable)
 }
 
-/// @mockable
+/// @CreateMock
 protocol MonitorListener: AnyObject {}
 
 final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, MonitorInteractable, MonitorPresentableListener {

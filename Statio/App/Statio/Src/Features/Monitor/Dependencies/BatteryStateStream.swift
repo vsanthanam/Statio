@@ -8,12 +8,12 @@ import CombineExt
 import Foundation
 import StatioKit
 
-/// @mockable
+/// @CreateMock
 protocol BatteryStateStreaming: AnyObject {
     var batteryState: AnyPublisher<Battery.State, Never> { get }
 }
 
-/// @mockable
+/// @CreateMock
 protocol MutableBatteryStateStreaming: BatteryStateStreaming {
     func update(batteryState: Battery.State)
 }

@@ -131,14 +131,14 @@ final class MainComponent: Component<MainDependency> {
     }
 }
 
-/// @mockable
+/// @CreateMock
 protocol MainInteractable: PresentableInteractable, MonitorListener, ReporterListener, SettingsListener {}
 
 typealias MainDynamicBuildDependency = (
     MainListener
 )
 
-/// @mockable
+/// @CreateMock
 protocol MainBuildable: Buildable {
     func build(withListener listener: MainListener) -> PresentableInteractable
 }

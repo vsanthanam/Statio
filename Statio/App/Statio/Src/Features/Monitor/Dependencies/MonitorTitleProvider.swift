@@ -5,7 +5,7 @@
 
 import Foundation
 
-/// @mockable
+/// @CreateMock
 protocol MonitorTitleProviding: AnyObject {
     func title(for identifier: MonitorIdentifier) -> String
 }

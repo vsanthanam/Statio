@@ -19,7 +19,7 @@
             "trailingCommas",
             "braces"
          ],
-         "swiftVersion": "5.4"
+         "swiftVersion": "5.5"
       },
       "swiftlint": {
          "disabledRules": [
@@ -54,21 +54,20 @@
    "mockolo": {
       "testableImports": [
          "ShortRibs",
-         "Statio",
          "Analytics"
       ],
       "destinations": [
-         "Statio/App/StatioMocks/Mocks.swift"
+         "Statio/App/Statio/Src/Infra/Mocks.swift"
       ]
    },
    "testConfig": {
       "device": "iPhone 8 Plus",
-      "os": "14.5"
+      "os": "15.0"
    },
    "vendorCodePath": "Statio/Vendor",
    "diCodePath": "Statio/App/Statio/Src/Features/",
    "diGraphPath": "Statio/App/Statio/Src/Infra/DependencyGraph.swift",
-   "mockPath": "Statio/App/StatioMocks/Mocks.swift",
+   "mockPath": "Statio/App/Statio/Src/Infra/Mocks.swift",
    "featureCodePath": "Statio/App/Statio/Src",
    "libraryCodePath": "Statio/Libraries",
    "workspaceRoot": "Statio"

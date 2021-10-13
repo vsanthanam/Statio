@@ -5,7 +5,7 @@
 
 import Foundation
 
-/// @mockable
+/// @CreateMock
 public protocol PresentableInteractable: Interactable {
     var viewControllable: ViewControllable { get }
 }

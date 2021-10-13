@@ -8,10 +8,10 @@ import Foundation
 import ShortRibs
 import UIKit
 
-/// @mockable
+/// @CreateMock
 protocol SettingsViewControllable: ViewControllable {}
 
-/// @mockable
+/// @CreateMock
 protocol SettingsPresentableListener: AnyObject {}
 
 final class SettingsViewController: ParentScopeNavigationController, SettingsPresentable, SettingsViewControllable {

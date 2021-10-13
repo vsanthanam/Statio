@@ -26,14 +26,14 @@ class MemoryComponent: Component<MemoryDependency> {
 
 }
 
-/// @mockable
+/// @CreateMock
 protocol MemoryInteractable: PresentableInteractable {}
 
 typealias MemoryDynamicBuildDependency = (
     MemoryListener
 )
 
-/// @mockable
+/// @CreateMock
 protocol MemoryBuildable: AnyObject {
     func build(withListener listener: MemoryListener) -> PresentableInteractable
 }

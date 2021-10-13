@@ -6,13 +6,13 @@
 import Foundation
 import ShortRibs
 
-/// @mockable
+/// @CreateMock
 protocol ProcessorPresentable: ProcessorViewControllable {
     var listener: ProcessorPresentableListener? { get set }
     func present(snapshot: ProcessorSnapshot)
 }
 
-/// @mockable
+/// @CreateMock
 protocol ProcessorListener: AnyObject {
     func processorDidClose()
 }

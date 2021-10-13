@@ -7,12 +7,12 @@ import Combine
 import CombineExt
 import Foundation
 
-/// @mockable
+/// @CreateMock
 protocol AppStateProviding: AnyObject {
     var state: AnyPublisher<AppState, Never> { get }
 }
 
-/// @mockable
+/// @CreateMock
 protocol AppStateManaging: AppStateProviding {
     func update(state: AppState)
 }

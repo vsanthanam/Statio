@@ -10,10 +10,10 @@ import ShortRibs
 import StatioKit
 import UIKit
 
-/// @mockable
+/// @CreateMock
 protocol MemoryViewControllable: ViewControllable {}
 
-/// @mockable
+/// @CreateMock
 protocol MemoryPresentableListener: AnyObject {
     func didTapBack()
 }

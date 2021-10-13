@@ -8,24 +8,19 @@ import Foundation
 @testable import ShortRibs
 @testable import Statio
 import StatioKit
-@testable import StatioMocks
 import XCTest
 
 final class BatteryInteractorTests: TestCase {
 
     let listener = BatteryListenerMock()
     let presenter = BatteryPresentableMock()
-    let batteryLevelSubject = PassthroughSubject<Battery.Level, Never>()
     let batteryLevelStream = BatteryLevelStreamingMock()
-    let batteryStateSubject = PassthroughSubject<Battery.State, Never>()
     let batteryStateStream = BatteryStateStreamingMock()
 
     var interactor: BatteryInteractor!
 
     override func setUp() {
         super.setUp()
-        batteryLevelStream.batteryLevel = batteryLevelSubject.eraseToAnyPublisher()
-        batteryStateStream.batteryState = batteryStateSubject.eraseToAnyPublisher()
         interactor = .init(presenter: presenter,
                            batteryLevelStream: batteryLevelStream,
                            batteryStateStream: batteryStateStream)
@@ -53,7 +48,7 @@ final class BatteryInteractorTests: TestCase {
 
         XCTAssertEqual(presenter.updateCallCount, 0)
 
-        batteryLevelSubject.send(0.5)
+        batteryLevelStream.batteryLevelSubject.send(0.5)
 
         XCTAssertEqual(presenter.updateCallCount, 1)
     }
@@ -69,7 +64,7 @@ final class BatteryInteractorTests: TestCase {
 
         XCTAssertEqual(presenter.updateStateCallCount, 0)
 
-        batteryStateSubject.send(.charging)
+        batteryStateStream.batteryStateSubject.send(.charging)
 
         XCTAssertEqual(presenter.updateStateCallCount, 1)
     }

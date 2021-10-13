@@ -8,10 +8,10 @@ import Foundation
 import ShortRibs
 import UIKit
 
-/// @mockable
+/// @CreateMock
 protocol MonitorViewControllable: ViewControllable {}
 
-/// @mockable
+/// @CreateMock
 protocol MonitorPresentableListener: AnyObject {}
 
 final class MonitorViewController: ParentScopeNavigationController, MonitorPresentable, MonitorViewControllable {

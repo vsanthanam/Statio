@@ -14,14 +14,14 @@ protocol ReporterDependency: Dependency {
 
 class ReporterComponent: Component<ReporterDependency> {}
 
-/// @mockable
+/// @CreateMock
 protocol ReporterInteractable: PresentableInteractable {}
 
 typealias ReporterDynamicBuildDependency = (
     ReporterListener
 )
 
-/// @mockable
+/// @CreateMock
 protocol ReporterBuildable: AnyObject {
     func build(withListener listener: ReporterListener) -> PresentableInteractable
 }

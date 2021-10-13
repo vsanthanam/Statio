@@ -14,14 +14,14 @@ protocol WiFiDependency: Dependency {
 
 class WiFiComponent: Component<WiFiDependency> {}
 
-/// @mockable
+/// @CreateMock
 protocol WiFiInteractable: PresentableInteractable {}
 
 typealias WiFiDynamicBuildDependency = (
     WiFiListener
 )
 
-/// @mockable
+/// @CreateMock
 protocol WiFiBuildable: AnyObject {
     func build(withListener listener: WiFiListener) -> PresentableInteractable
 }

@@ -7,12 +7,10 @@ import Combine
 import Foundation
 @testable import ShortRibs
 @testable import Statio
-@testable import StatioMocks
 import XCTest
 
 final class DeviceModelStorageWorkerTests: TestCase {
 
-    let modelsSubject = PassthroughSubject<[DeviceModel], Never>()
     let deviceModelStream = DeviceModelStreamingMock()
     let mutableDeviceModelStorage = MutableDeviceModelStoringMock()
 
@@ -20,7 +18,6 @@ final class DeviceModelStorageWorkerTests: TestCase {
 
     override func setUp() {
         super.setUp()
-        deviceModelStream.models = modelsSubject.eraseToAnyPublisher()
         worker = .init(deviceModelStream: deviceModelStream,
                        mutableDeviceModelStorage: mutableDeviceModelStorage)
     }
@@ -38,7 +35,7 @@ final class DeviceModelStorageWorkerTests: TestCase {
             XCTAssertEqual(models, newModels)
         }
 
-        modelsSubject.send(newModels)
+        deviceModelStream.modelsSubject.send(newModels)
 
         XCTAssertEqual(mutableDeviceModelStorage.storeModelsCallCount, 1)
     }

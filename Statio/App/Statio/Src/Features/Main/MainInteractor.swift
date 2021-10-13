@@ -9,7 +9,7 @@ import os.log
 import ShortRibs
 import UIKit
 
-/// @mockable
+/// @CreateMock
 protocol MainPresentable: MainViewControllable {
     var listener: MainPresentableListener? { get set }
     func embed(_ viewController: ViewControllable)
@@ -17,7 +17,7 @@ protocol MainPresentable: MainViewControllable {
     func activateTab(_ id: Int)
 }
 
-/// @mockable
+/// @CreateMock
 protocol MainListener: AnyObject {}
 
 final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteractable, MainPresentableListener {

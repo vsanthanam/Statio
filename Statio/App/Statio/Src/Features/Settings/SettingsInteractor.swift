@@ -6,12 +6,12 @@
 import Foundation
 import ShortRibs
 
-/// @mockable
+/// @CreateMock
 protocol SettingsPresentable: SettingsViewControllable {
     var listener: SettingsPresentableListener? { get set }
 }
 
-/// @mockable
+/// @CreateMock
 protocol SettingsListener: AnyObject {}
 
 final class SettingsInteractor: PresentableInteractor<SettingsPresentable>, SettingsInteractable, SettingsPresentableListener {

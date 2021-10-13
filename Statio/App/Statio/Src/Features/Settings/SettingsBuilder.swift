@@ -14,14 +14,14 @@ protocol SettingsDependency: Dependency {
 
 class SettingsComponent: Component<SettingsDependency> {}
 
-/// @mockable
+/// @CreateMock
 protocol SettingsInteractable: PresentableInteractable {}
 
 typealias SettingsDynamicBuildDependency = (
     SettingsListener
 )
 
-/// @mockable
+/// @CreateMock
 protocol SettingsBuildable: AnyObject {
     func build(withListener listener: SettingsListener) -> PresentableInteractable
 }

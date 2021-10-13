@@ -6,7 +6,7 @@
 import Foundation
 import ShortRibs
 
-/// @mockable
+/// @CreateMock
 protocol ProcessorMonitorWorking: Working {}
 
 final class ProcessorMonitorWorker: Worker, ProcessorMonitorWorking {

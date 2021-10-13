@@ -7,7 +7,7 @@ import Analytics
 import Foundation
 import ShortRibs
 
-/// @mockable
+/// @CreateMock
 protocol RootPresentable: RootViewControllable {
     var listener: RootPresentableListener? { get set }
     func showMain(_ viewControllable: ViewControllable)

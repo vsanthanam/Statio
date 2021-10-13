@@ -5,7 +5,7 @@
 
 import Foundation
 
-/// @mockable
+/// @CreateMock
 protocol ResourceProviding: AnyObject {
     func url(forResource name: String, type: String) -> URL?
     func data(forURL url: URL) -> Data?

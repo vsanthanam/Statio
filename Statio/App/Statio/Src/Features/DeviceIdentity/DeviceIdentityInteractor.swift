@@ -8,13 +8,13 @@ import Foundation
 import ShortRibs
 import UIKit
 
-/// @mockable
+/// @CreateMock
 protocol DeviceIdentityPresentable: DeviceIdentityViewControllable {
     var listener: DeviceIdentityPresentableListener? { get set }
     func apply(viewModel: DeviceIdentityViewModel)
 }
 
-/// @mockable
+/// @CreateMock
 protocol DeviceIdentityListener: AnyObject {
     func deviceIdentityDidClose()
 }

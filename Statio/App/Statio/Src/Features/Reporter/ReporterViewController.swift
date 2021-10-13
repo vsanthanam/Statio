@@ -8,10 +8,10 @@ import Foundation
 import ShortRibs
 import UIKit
 
-/// @mockable
+/// @CreateMock
 protocol ReporterViewControllable: ViewControllable {}
 
-/// @mockable
+/// @CreateMock
 protocol ReporterPresentableListener: AnyObject {}
 
 final class ReporterViewController: ParentScopeNavigationController, ReporterPresentable {

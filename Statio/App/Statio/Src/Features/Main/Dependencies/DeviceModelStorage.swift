@@ -6,12 +6,12 @@
 import Analytics
 import Foundation
 
-/// @mockable
+/// @CreateMock
 protocol DeviceModelStoring: AnyObject {
     func retrieveCachedModels() throws -> [DeviceModel]
 }
 
-/// @mockable
+/// @CreateMock
 protocol MutableDeviceModelStoring: DeviceModelStoring {
     func storeModels(_ models: [DeviceModel]) throws
 }

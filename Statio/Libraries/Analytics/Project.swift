@@ -43,6 +43,6 @@ let project = Project(name: "Analytics",
                       schemes: [
                           .init(name: "Analytics",
                                 shared: true,
-                                buildAction: BuildAction(targets: ["Analytics"]),
-                                testAction: TestAction(targets: ["AnalyticsTests"]))
+                                buildAction: .buildAction(targets: ["Analytics"]),
+                                testAction: .targets(["AnalyticsTests"]))
                       ])

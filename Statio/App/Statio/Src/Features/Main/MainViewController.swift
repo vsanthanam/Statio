@@ -9,10 +9,10 @@ import ShortRibs
 import SnapKit
 import UIKit
 
-/// @mockable
+/// @CreateMock
 protocol MainViewControllable: ViewControllable {}
 
-/// @mockable
+/// @CreateMock
 protocol MainPresentableListener: AnyObject {
     func didSelectTab(withTag tag: Int)
 }

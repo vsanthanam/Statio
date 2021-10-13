@@ -33,7 +33,7 @@ class MonitorListComponent: Component<MonitorListDependency> {
 
 }
 
-/// @mockable
+/// @CreateMock
 protocol MonitorListInteractable: PresentableInteractable {
     var viewController: MonitorListViewControllable { get }
 }
@@ -42,7 +42,7 @@ typealias MonitorListDynamicBuildDependency = (
     MonitorListListener
 )
 
-/// @mockable
+/// @CreateMock
 protocol MonitorListBuildable: AnyObject {
     func build(withListener listener: MonitorListListener) -> MonitorListInteractable
 }
