@@ -154,6 +154,12 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
         attachMonitorList()
     }
 
+    // MARK: - GyroscopeListener
+
+    func gyroscopeDidClose() {
+        attachMonitorList()
+    }
+
     // MARK: - Private
 
     private let batteryMonitorWorker: BatteryMonitorWorking

@@ -6,12 +6,15 @@
 import Analytics
 import Foundation
 import ShortRibs
+import UIKit
 
 /// @CreateMock
 protocol GyroscopeViewControllable: ViewControllable {}
 
 /// @CreateMock
-protocol GyroscopePresentableListener: AnyObject {}
+protocol GyroscopePresentableListener: AnyObject {
+    func didTapBack()
+}
 
 final class GyroscopeViewController: ScopeViewController, GyroscopePresentable {
 
@@ -23,6 +26,16 @@ final class GyroscopeViewController: ScopeViewController, GyroscopePresentable {
     }
 
     // MARK: - UIViewController
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        title = "Gyroscope"
+        let leadingItem = UIBarButtonItem(barButtonSystemItem: .close,
+                                          target: self,
+                                          action: #selector(didTapBack))
+        navigationItem.leftBarButtonItem = leadingItem
+        specializedView.backgroundColor = .systemBackground
+    }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -36,4 +49,10 @@ final class GyroscopeViewController: ScopeViewController, GyroscopePresentable {
     // MARK: - Private
 
     private let analyticsManager: AnalyticsManaging
+
+    @objc
+    private func didTapBack() {
+        analyticsManager.send(event: AnalyticsEvent.gyroscope_vc_dismiss)
+        listener?.didTapBack()
+    }
 }

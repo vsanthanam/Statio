@@ -25,4 +25,10 @@ final class GyroscopeInteractorTests: TestCase {
         XCTAssertTrue(presenter.listener === interactor)
     }
 
+    func test_didTapBack_callsPresenter() {
+        XCTAssertEqual(listener.gyroscopeDidCloseCallCount, 0)
+        interactor.didTapBack()
+        XCTAssertEqual(listener.gyroscopeDidCloseCallCount, 1)
+    }
+
 }

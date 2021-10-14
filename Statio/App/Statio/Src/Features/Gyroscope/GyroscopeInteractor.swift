@@ -12,7 +12,9 @@ protocol GyroscopePresentable: AnyObject {
 }
 
 /// @CreateMock
-protocol GyroscopeListener: AnyObject {}
+protocol GyroscopeListener: AnyObject {
+    func gyroscopeDidClose()
+}
 
 final class GyroscopeInteractor: PresentableInteractor<GyroscopePresentable>, GyroscopeInteractable, GyroscopePresentableListener {
 
@@ -26,5 +28,11 @@ final class GyroscopeInteractor: PresentableInteractor<GyroscopePresentable>, Gy
     // MARK: - API
 
     weak var listener: GyroscopeListener?
+
+    // MARK: - GyroscopePresentableListener
+
+    func didTapBack() {
+        listener?.gyroscopeDidClose()
+    }
 
 }
