@@ -33,7 +33,8 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
          diskBuilder: DiskBuildable,
          processorBuilder: ProcessorBuildable,
          cellularBuilder: CellularBuildable,
-         wifiBuilder: WiFiBuildable) {
+         wifiBuilder: WiFiBuildable,
+         accelerometerBuilder: AccelerometerBuildable) {
         self.batteryMonitorWorker = batteryMonitorWorker
         self.diskMonitorWorker = diskMonitorWorker
         self.memoryMonitorWorker = memoryMonitorWorker
@@ -46,6 +47,7 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
         self.processorBuilder = processorBuilder
         self.cellularBuilder = cellularBuilder
         self.wifiBuilder = wifiBuilder
+        self.accelerometerBuilder = accelerometerBuilder
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -73,45 +75,31 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
         if let activeMonitor = activeMonitor {
             detach(child: activeMonitor)
         }
+        let monitor: PresentableInteractable
         switch identifier {
         case .identity:
-            let monitor = deviceIdentityBuilder.build(withListener: self)
-            attach(child: monitor)
-            presenter.showMonitor(monitor.viewControllable)
-            activeMonitor = monitor
+            monitor = deviceIdentityBuilder.build(withListener: self)
         case .memory:
-            let monitor = memoryBuilder.build(withListener: self)
-            attach(child: monitor)
-            presenter.showMonitor(monitor.viewControllable)
-            activeMonitor = monitor
+            monitor = memoryBuilder.build(withListener: self)
         case .battery:
-            let monitor = batteryBuilder.build(withListener: self)
-            attach(child: monitor)
-            presenter.showMonitor(monitor.viewControllable)
-            activeMonitor = monitor
+            monitor = batteryBuilder.build(withListener: self)
         case .disk:
-            let monitor = diskBuilder.build(withListener: self)
-            attach(child: monitor)
-            presenter.showMonitor(monitor.viewControllable)
-            activeMonitor = monitor
+            monitor = diskBuilder.build(withListener: self)
         case .processor:
-            let monitor = processorBuilder.build(withListener: self)
-            attach(child: monitor)
-            presenter.showMonitor(monitor.viewControllable)
-            activeMonitor = monitor
+            monitor = processorBuilder.build(withListener: self)
         case .cellular:
-            let monitor = cellularBuilder.build(withListener: self)
-            attach(child: monitor)
-            presenter.showMonitor(monitor.viewControllable)
-            activeMonitor = monitor
+            monitor = cellularBuilder.build(withListener: self)
         case .wifi:
-            let monitor = wifiBuilder.build(withListener: self)
-            attach(child: monitor)
-            presenter.showMonitor(monitor.viewControllable)
-            activeMonitor = monitor
+            monitor = wifiBuilder.build(withListener: self)
+        case .accelerometer:
+            monitor = accelerometerBuilder.build(withListener: self)
         default:
             fatalError()
         }
+
+        attach(child: monitor)
+        presenter.showMonitor(monitor.viewControllable)
+        activeMonitor = monitor
     }
 
     // MARK: - DeviceIdentityListener
@@ -156,6 +144,12 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
         attachMonitorList()
     }
 
+    // MARK: - AccelerometerListener
+
+    func accelerometerDidClose() {
+        attachMonitorList()
+    }
+
     // MARK: - Private
 
     private let batteryMonitorWorker: BatteryMonitorWorking
@@ -171,6 +165,7 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
     private let processorBuilder: ProcessorBuildable
     private let cellularBuilder: CellularBuildable
     private let wifiBuilder: WiFiBuildable
+    private let accelerometerBuilder: AccelerometerBuildable
 
     private var monitorList: MonitorListInteractable?
     private var activeMonitor: PresentableInteractable?

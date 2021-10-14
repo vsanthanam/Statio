@@ -33,15 +33,14 @@ extension UICollectionViewDiffableDataSource: MemoryListDataSource where Section
             }
             cell.apply(data)
         }
-        self.init(collectionView: collectionView,
-                  cellProvider: { view, indexPath, model in
-                      switch model {
-                      case .legendEntry:
-                          return view.dequeueConfiguredReusableCell(using: legendRegistration, for: indexPath, item: model)
-                      case .chartData:
-                          return view.dequeueConfiguredReusableCell(using: chartRegistration, for: indexPath, item: model)
-                      }
-                  })
+        self.init(collectionView: collectionView) { view, indexPath, model in
+            switch model {
+            case .legendEntry:
+                return view.dequeueConfiguredReusableCell(using: legendRegistration, for: indexPath, item: model)
+            case .chartData:
+                return view.dequeueConfiguredReusableCell(using: chartRegistration, for: indexPath, item: model)
+            }
+        }
     }
 
     func apply(_ snapshot: NSDiffableDataSourceSnapshot<MemoryListSection, MemoryListRow>) {

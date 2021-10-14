@@ -25,10 +25,9 @@ extension UICollectionViewDiffableDataSource: MonitorListDataSource where Sectio
             configuration.image = row.icon
             cell.contentConfiguration = configuration
         }
-        self.init(collectionView: collectionView,
-                  cellProvider: { view, indexPath, model in
-                      view.dequeueConfiguredReusableCell(using: registration, for: indexPath, item: model)
-                  })
+        self.init(collectionView: collectionView) { view, indexPath, model in
+            view.dequeueConfiguredReusableCell(using: registration, for: indexPath, item: model)
+        }
     }
 
     // MARK: - MonitorListDataSource

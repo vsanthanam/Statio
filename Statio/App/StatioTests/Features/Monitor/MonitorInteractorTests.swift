@@ -24,6 +24,7 @@ final class MonitorInteractorTests: TestCase {
     let processorBuilder = ProcessorBuildableMock()
     let cellularBuilder = CellularBuildableMock()
     let wifiBuilder = WiFiBuildableMock()
+    let accelerometerBuilder = AccelerometerBuildableMock()
 
     var interactor: MonitorInteractor!
 
@@ -41,7 +42,8 @@ final class MonitorInteractorTests: TestCase {
                            diskBuilder: diskBuilder,
                            processorBuilder: processorBuilder,
                            cellularBuilder: cellularBuilder,
-                           wifiBuilder: wifiBuilder)
+                           wifiBuilder: wifiBuilder,
+                           accelerometerBuilder: accelerometerBuilder)
         interactor.listener = listener
     }
 
@@ -252,6 +254,28 @@ final class MonitorInteractorTests: TestCase {
         interactor.monitorListDidSelect(identifier: .wifi)
 
         XCTAssertEqual(wifiBuilder.buildCallCount, 1)
+        XCTAssertEqual(presenter.showMonitorCallCount, 1)
+        XCTAssertEqual(interactor.children.count, 1)
+    }
+
+    func test_didSelect_accelerometer_buildsAndAttaches() {
+        let viewController = ViewControllableMock()
+        let wifi = PresentableInteractableMock()
+        wifi.viewControllable = viewController
+
+        accelerometerBuilder.buildHandler = { [interactor] listener in
+            XCTAssertTrue(interactor === listener)
+            return wifi
+        }
+
+        XCTAssertEqual(accelerometerBuilder.buildCallCount, 0)
+        XCTAssertEqual(presenter.showMonitorCallCount, 0)
+        XCTAssertEqual(interactor.children.count, 0)
+
+        interactor.activate()
+        interactor.monitorListDidSelect(identifier: .accelerometer)
+
+        XCTAssertEqual(accelerometerBuilder.buildCallCount, 1)
         XCTAssertEqual(presenter.showMonitorCallCount, 1)
         XCTAssertEqual(interactor.children.count, 1)
     }

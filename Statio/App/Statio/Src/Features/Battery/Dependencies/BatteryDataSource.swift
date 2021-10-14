@@ -22,10 +22,9 @@ extension UICollectionViewDiffableDataSource: BatteryDataSource where SectionIde
             configuration.secondaryText = row.value
             cell.contentConfiguration = configuration
         }
-        self.init(collectionView: collectionView,
-                  cellProvider: { view, indexPath, model in
-                      view.dequeueConfiguredReusableCell(using: registration, for: indexPath, item: model)
-                  })
+        self.init(collectionView: collectionView) { view, indexPath, model in
+            view.dequeueConfiguredReusableCell(using: registration, for: indexPath, item: model)
+        }
     }
 
     func apply(_ snapshot: NSDiffableDataSourceSnapshot<Int, BatteryRow>) {

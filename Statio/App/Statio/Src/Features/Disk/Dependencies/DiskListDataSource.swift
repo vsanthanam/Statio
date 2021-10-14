@@ -27,17 +27,16 @@ extension UICollectionViewDiffableDataSource: DiskListDataSource where SectionId
             configuration.secondaryText = value
             cell.contentConfiguration = configuration
         }
-        self.init(collectionView: collectionView,
-                  cellProvider: { view, indexPath, model in
-                      switch model {
-                      case .legendEntry:
-                          return view.dequeueConfiguredReusableCell(using: legendRegistration,
-                                                                    for: indexPath,
-                                                                    item: model)
-                      case .gaugeData:
-                          fatalError()
-                      }
-                  })
+        self.init(collectionView: collectionView) { view, indexPath, model in
+            switch model {
+            case .legendEntry:
+                return view.dequeueConfiguredReusableCell(using: legendRegistration,
+                                                          for: indexPath,
+                                                          item: model)
+            case .gaugeData:
+                fatalError()
+            }
+        }
     }
 
     func apply(_ snapshot: NSDiffableDataSourceSnapshot<DiskListSection, DiskListRow>) {
