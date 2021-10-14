@@ -3,11 +3,14 @@
 // Varun Santhanam
 //
 
+import Analytics
 import Foundation
 import NeedleFoundation
 import ShortRibs
 
-protocol GyroscopeDependency: Dependency {}
+protocol GyroscopeDependency: Dependency {
+    var analyticsManager: AnalyticsManaging { get }
+}
 
 class GyroscopeComponent: Component<GyroscopeDependency> {}
 
@@ -28,7 +31,7 @@ final class GyroscopeBuilder: ComponentizedBuilder<GyroscopeComponent, Presentab
 
     override func build(with component: GyroscopeComponent, _ dynamicBuildDependency: GyroscopeDynamicBuildDependency) -> PresentableInteractable {
         let listener = dynamicBuildDependency
-        let viewController = GyroscopeViewController()
+        let viewController = GyroscopeViewController(analyticsManager: component.analyticsManager)
         let interactor = GyroscopeInteractor(presenter: viewController)
         interactor.listener = listener
         return interactor
