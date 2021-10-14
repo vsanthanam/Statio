@@ -130,10 +130,14 @@ class MonitorComponent: Component<MonitorDependency> {
     fileprivate var accelerometerBuilder: AccelerometerBuildable {
         AccelerometerBuilder { AccelerometerComponent(parent: self) }
     }
+
+    fileprivate var gyroscopeBuilder: GyroscopeBuildable {
+        GyroscopeBuilder { GyroscopeComponent(parent: self) }
+    }
 }
 
 /// @CreateMock
-protocol MonitorInteractable: PresentableInteractable, MonitorListListener, DeviceIdentityListener, MemoryListener, BatteryListener, DiskListener, ProcessorListener, CellularListener, WiFiListener, AccelerometerListener {}
+protocol MonitorInteractable: PresentableInteractable, MonitorListListener, DeviceIdentityListener, MemoryListener, BatteryListener, DiskListener, ProcessorListener, CellularListener, WiFiListener, AccelerometerListener, GyroscopeListener {}
 
 typealias MonitorDynamicBuildDependency = (
     MonitorListener
@@ -164,7 +168,8 @@ final class MonitorBuilder: ComponentizedBuilder<MonitorComponent, PresentableIn
                                            processorBuilder: component.processorBuilder,
                                            cellularBuilder: component.cellularBuilder,
                                            wifiBuilder: component.wifiBuilder,
-                                           accelerometerBuilder: component.accelerometerBuilder)
+                                           accelerometerBuilder: component.accelerometerBuilder,
+                                           gyroscopeBuilder: component.gyroscopeBuilder)
         interactor.listener = listener
         return interactor
     }

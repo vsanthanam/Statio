@@ -25,6 +25,7 @@ final class MonitorInteractorTests: TestCase {
     let cellularBuilder = CellularBuildableMock()
     let wifiBuilder = WiFiBuildableMock()
     let accelerometerBuilder = AccelerometerBuildableMock()
+    let gyroscopeBuilder = GyroscopeBuildableMock()
 
     var interactor: MonitorInteractor!
 
@@ -43,7 +44,8 @@ final class MonitorInteractorTests: TestCase {
                            processorBuilder: processorBuilder,
                            cellularBuilder: cellularBuilder,
                            wifiBuilder: wifiBuilder,
-                           accelerometerBuilder: accelerometerBuilder)
+                           accelerometerBuilder: accelerometerBuilder,
+                           gyroscopeBuilder: gyroscopeBuilder)
         interactor.listener = listener
     }
 
@@ -260,12 +262,12 @@ final class MonitorInteractorTests: TestCase {
 
     func test_didSelect_accelerometer_buildsAndAttaches() {
         let viewController = ViewControllableMock()
-        let wifi = PresentableInteractableMock()
-        wifi.viewControllable = viewController
+        let accelerometer = PresentableInteractableMock()
+        accelerometer.viewControllable = viewController
 
         accelerometerBuilder.buildHandler = { [interactor] listener in
             XCTAssertTrue(interactor === listener)
-            return wifi
+            return accelerometer
         }
 
         XCTAssertEqual(accelerometerBuilder.buildCallCount, 0)
@@ -276,6 +278,28 @@ final class MonitorInteractorTests: TestCase {
         interactor.monitorListDidSelect(identifier: .accelerometer)
 
         XCTAssertEqual(accelerometerBuilder.buildCallCount, 1)
+        XCTAssertEqual(presenter.showMonitorCallCount, 1)
+        XCTAssertEqual(interactor.children.count, 1)
+    }
+
+    func test_didSelect_gyroscope_buildsAndAttaches() {
+        let viewController = ViewControllableMock()
+        let gyroscope = PresentableInteractableMock()
+        gyroscope.viewControllable = viewController
+
+        accelerometerBuilder.buildHandler = { [interactor] listener in
+            XCTAssertTrue(interactor === listener)
+            return gyroscope
+        }
+
+        XCTAssertEqual(gyroscopeBuilder.buildCallCount, 0)
+        XCTAssertEqual(presenter.showMonitorCallCount, 0)
+        XCTAssertEqual(interactor.children.count, 0)
+
+        interactor.activate()
+        interactor.monitorListDidSelect(identifier: .gyroscope)
+
+        XCTAssertEqual(gyroscopeBuilder.buildCallCount, 1)
         XCTAssertEqual(presenter.showMonitorCallCount, 1)
         XCTAssertEqual(interactor.children.count, 1)
     }
