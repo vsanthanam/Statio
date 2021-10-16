@@ -5,8 +5,8 @@
 
 import Combine
 import Foundation
+@testable import MonitorKit
 @testable import Statio
-@testable import StatioKit
 import XCTest
 
 final class ProcessorSnapshotStreamTests: TestCase {

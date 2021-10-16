@@ -6,9 +6,9 @@
 import Combine
 import CombineSchedulers
 import Foundation
+import MonitorKit
 import ShortRibs
 @testable import Statio
-import StatioKit
 import XCTest
 
 final class DiskMonitorWorkerTests: TestCase {

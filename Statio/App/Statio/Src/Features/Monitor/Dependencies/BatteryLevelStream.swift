@@ -6,7 +6,7 @@
 import Combine
 import CombineExt
 import Foundation
-import StatioKit
+import MonitorKit
 
 /// @CreateMock
 protocol BatteryLevelStreaming: AnyObject {

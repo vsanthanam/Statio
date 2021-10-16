@@ -5,8 +5,8 @@
 
 import Combine
 import Foundation
+import MonitorKit
 @testable import Statio
-import StatioKit
 import XCTest
 
 final class DiskSnapshotStreamTests: TestCase {

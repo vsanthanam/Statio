@@ -4,8 +4,8 @@
 //
 
 import Foundation
+import MonitorKit
 import ShortRibs
-import StatioKit
 
 /// @CreateMock
 protocol BatteryPresentable: BatteryViewControllable {

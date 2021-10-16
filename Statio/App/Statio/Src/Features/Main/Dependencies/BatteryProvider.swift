@@ -4,7 +4,7 @@
 //
 
 import Foundation
-import StatioKit
+import MonitorKit
 
 /// @CreateMock
 protocol BatteryProviding: AnyObject {

@@ -18,11 +18,11 @@ The app is comprised of the primary app target, as well as several first party l
     - [AppFoundation](https://github.com/vsanthanam/AppFoundation/), A set of common swift utilities
     - [Ombi](https://ombi.network), Reactive networking with Combine and Swift
     - [MaterialColors](https://swiftmaterialcolors.xyz), Material Design Colors in Swift
-    - [StatioKit](https://github.com/vsanthanam/StatioKit), A set of system monitoring utilities in Swift.
 - Internal First Party Libraries
     - ShortRibs, a trimmed down version of Uber's [RIBs](https://github.com/uber/ribs), wihout routers, using Combine instead of RxSwift
     - Logging, a wrapper for Apple Unified Logging
     - Analytics, a Swift wrapper for Countly's Objective-C SDK
+    - MonitorKit, A set of system monitoring utilities in Swift.
 
 Additionally, the repo makes use of the following third party tooling utilities:
 - [SwiftLint](https://realm.github.io/SwiftLint/), A Swift linter

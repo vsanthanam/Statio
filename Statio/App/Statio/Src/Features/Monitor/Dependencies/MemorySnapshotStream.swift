@@ -5,7 +5,7 @@
 
 import Combine
 import Foundation
-import StatioKit
+import MonitorKit
 
 /// @CreateMock
 protocol MemorySnapshotStreaming: AnyObject {

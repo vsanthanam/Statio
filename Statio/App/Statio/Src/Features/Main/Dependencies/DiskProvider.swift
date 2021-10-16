@@ -11,7 +11,7 @@
 //  Copyright © 2021 Varun Santhanam. All rights reserved.
 //
 import Foundation
-import StatioKit
+import MonitorKit
 
 /// @CreateMock
 protocol DiskProviding: AnyObject {

@@ -4,7 +4,7 @@
 //
 
 import Foundation
-import StatioKit
+import MonitorKit
 
 @dynamicMemberLookup
 struct DiskSnapshot: Equatable, Hashable {

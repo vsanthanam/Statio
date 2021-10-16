@@ -53,10 +53,6 @@ public extension RemoteSwiftPackage {
                                                   url: "https://github.com/danielgindi/Charts.git",
                                                   minVersion: "4.0.0")
 
-    static let statioKit: RemoteSwiftPackage = .init(name: "StatioKit",
-                                                     url: "https://github.com/vsanthanam/StatioKit.git",
-                                                     minVersion: "0.0.0")
-
     static let appFoundation: RemoteSwiftPackage = .init(name: "AppFoundation",
                                                          url: "https://github.com/vsanthanam/AppFoundation.git",
                                                          minVersion: "0.0.0")

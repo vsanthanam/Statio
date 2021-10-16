@@ -5,9 +5,9 @@
 
 import Combine
 import Foundation
+import MonitorKit
 @testable import ShortRibs
 @testable import Statio
-import StatioKit
 import XCTest
 
 final class BatteryInteractorTests: TestCase {

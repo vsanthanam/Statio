@@ -10,7 +10,8 @@ let workspace = Workspace(name: "Statio",
                               "App",
                               "Libraries/Analytics",
                               "Libraries/Logging",
-                              "Libraries/ShortRibs"
+                              "Libraries/ShortRibs",
+                              "Libraries/MonitorKit"
                           ],
                           schemes: [
                               .init(name: "Statio",
