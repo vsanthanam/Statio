@@ -35,7 +35,8 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
          cellularBuilder: CellularBuildable,
          wifiBuilder: WiFiBuildable,
          accelerometerBuilder: AccelerometerBuildable,
-         gyroscopeBuilder: GyroscopeBuildable) {
+         gyroscopeBuilder: GyroscopeBuildable,
+         magnometerBuilder: MagnometerBuildable) {
         self.batteryMonitorWorker = batteryMonitorWorker
         self.diskMonitorWorker = diskMonitorWorker
         self.memoryMonitorWorker = memoryMonitorWorker
@@ -50,6 +51,7 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
         self.wifiBuilder = wifiBuilder
         self.accelerometerBuilder = accelerometerBuilder
         self.gyroscopeBuilder = gyroscopeBuilder
+        self.magnometerBuilder = magnometerBuilder
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -97,6 +99,8 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
             monitor = accelerometerBuilder.build(withListener: self)
         case .gyroscope:
             monitor = gyroscopeBuilder.build(withListener: self)
+        case .magnometer:
+            monitor = magnometerBuilder.build(withListener: self)
         default:
             fatalError()
         }
@@ -177,6 +181,7 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
     private let wifiBuilder: WiFiBuildable
     private let accelerometerBuilder: AccelerometerBuildable
     private let gyroscopeBuilder: GyroscopeBuildable
+    private let magnometerBuilder: MagnometerBuildable
 
     private var monitorList: MonitorListInteractable?
     private var activeMonitor: PresentableInteractable?
