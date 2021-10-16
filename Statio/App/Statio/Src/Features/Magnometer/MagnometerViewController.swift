@@ -23,6 +23,16 @@ final class MagnometerViewController: ScopeViewController, MagnometerPresentable
 
     // MARK: - UIViewController
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        title = "Magnometer"
+        let leadingItem = UIBarButtonItem(barButtonSystemItem: .close,
+                                          target: self,
+                                          action: #selector(didTapBack))
+        navigationItem.leftBarButtonItem = leadingItem
+        specializedView.backgroundColor = .systemBackground
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         analyticsManager.send(event: AnalyticsEvent.magnometer_vc_impression)
@@ -36,4 +46,8 @@ final class MagnometerViewController: ScopeViewController, MagnometerPresentable
 
     private let analyticsManager: AnalyticsManaging
 
+    @objc
+    private func didTapBack() {
+        analyticsManager.send(event: AnalyticsEvent.magnometer_vc_dismiss)
+    }
 }
