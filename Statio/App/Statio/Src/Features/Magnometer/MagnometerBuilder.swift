@@ -3,11 +3,14 @@
 // Varun Santhanam
 //
 
+import Analytics
 import Foundation
 import NeedleFoundation
 import ShortRibs
 
-protocol MagnometerDependency: Dependency {}
+protocol MagnometerDependency: Dependency {
+    var analyticsManager: AnalyticsManaging { get }
+}
 
 class MagnometerComponent: Component<MagnometerDependency> {}
 
@@ -28,7 +31,7 @@ final class MagnometerBuilder: ComponentizedBuilder<MagnometerComponent, Present
 
     override func build(with component: MagnometerComponent, _ dynamicBuildDependency: MagnometerDynamicBuildDependency) -> PresentableInteractable {
         let listener = dynamicBuildDependency
-        let viewController = MagnometerViewController()
+        let viewController = MagnometerViewController(analyticsManager: component.analyticsManager)
         let interactor = MagnometerInteractor(presenter: viewController)
         interactor.listener = listener
         return interactor
