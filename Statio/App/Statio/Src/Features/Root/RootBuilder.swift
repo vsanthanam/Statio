@@ -37,7 +37,7 @@ final class RootComponent: BootstrapComponent, ShortRibs.RootComponent {
 }
 
 /// @CreateMock
-protocol RootInteractable: PresentableInteractable, MainListener {}
+protocol RootInteractable: PresentableInteractable {}
 
 typealias RootDynamicBuildDependency = (
     UIWindow

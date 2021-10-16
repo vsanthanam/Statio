@@ -21,8 +21,6 @@ final class MainInteractorTests: TestCase {
     let reporterBuilder = ReporterBuildableMock()
     let settingsBuilder = SettingsBuildableMock()
 
-    let listener = MainListenerMock()
-
     var interactor: MainInteractor!
 
     override func setUp() {
@@ -36,7 +34,6 @@ final class MainInteractorTests: TestCase {
                            monitorBuilder: monitorBuilder,
                            reporterBuilder: reporterBuilder,
                            settingsBuilder: settingsBuilder)
-        interactor.listener = listener
     }
 
     func test_init_setsPresenterListener() {

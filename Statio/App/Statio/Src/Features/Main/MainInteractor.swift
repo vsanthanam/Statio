@@ -17,9 +17,6 @@ protocol MainPresentable: MainViewControllable {
     func activateTab(_ id: Int)
 }
 
-/// @CreateMock
-protocol MainListener: AnyObject {}
-
 final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteractable, MainPresentableListener {
 
     // MARK: - Initializers
@@ -44,10 +41,6 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
         super.init(presenter: presenter)
         presenter.listener = self
     }
-
-    // MARK: - API
-
-    weak var listener: MainListener?
 
     // MARK: - Interactor
 

@@ -134,21 +134,16 @@ final class MainComponent: Component<MainDependency> {
 /// @CreateMock
 protocol MainInteractable: PresentableInteractable, MonitorListener, ReporterListener, SettingsListener {}
 
-typealias MainDynamicBuildDependency = (
-    MainListener
-)
-
 /// @CreateMock
 protocol MainBuildable: Buildable {
-    func build(withListener listener: MainListener) -> PresentableInteractable
+    func build() -> PresentableInteractable
 }
 
-final class MainBuilder: ComponentizedBuilder<MainComponent, PresentableInteractable, MainDynamicBuildDependency, Void>, MainBuildable {
+final class MainBuilder: SimpleComponentizedBuilder<MainComponent, PresentableInteractable>, MainBuildable {
 
-    // MARK: - ComponentizedBuilder
+    // MARK: - SimpleComponentizedBuilder
 
-    override func build(with component: MainComponent, _ dynamicBuildDependency: MainDynamicBuildDependency) -> PresentableInteractable {
-        let listener = dynamicBuildDependency
+    override func build(with component: MainComponent) -> PresentableInteractable {
         let viewController = MainViewController(analyticsManager: component.analyticsManager)
         let interactor = MainInteractor(presenter: viewController,
                                         appStateManager: component.appStateManager,
@@ -159,14 +154,7 @@ final class MainBuilder: ComponentizedBuilder<MainComponent, PresentableInteract
                                         monitorBuilder: component.monitorBuilder,
                                         reporterBuilder: component.reporterBuilder,
                                         settingsBuilder: component.settingsBuilder)
-        interactor.listener = listener
         return interactor
-    }
-
-    // MARK: - MainBuildable
-
-    func build(withListener listener: MainListener) -> PresentableInteractable {
-        build(withDynamicBuildDependency: listener)
     }
 
 }

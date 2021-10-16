@@ -32,9 +32,8 @@ final class RootInteractorTests: TestCase {
         let viewController = ViewControllableMock()
         main.viewControllable = viewController
 
-        mainBuilder.buildHandler = { listener in
-            XCTAssertTrue(listener === self.interactor)
-            return main
+        mainBuilder.buildHandler = {
+            main
         }
 
         presenter.showMainHandler = { vc in
