@@ -23,4 +23,10 @@ final class MagnometerInteractorTests: TestCase {
     func test_init_sets_presenter_listener() {
         XCTAssertTrue(presenter.listener === interactor)
     }
+
+    func test_didTapBack_callsListener() {
+        XCTAssertEqual(listener.magnometerDidCloseCallCount, 0)
+        interactor.didTapBack()
+        XCTAssertEqual(listener.magnometerDidCloseCallCount, 1)
+    }
 }

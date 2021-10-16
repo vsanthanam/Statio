@@ -12,7 +12,9 @@ protocol MagnometerPresentable: ViewControllable {
 }
 
 /// @CreateMock
-protocol MagnometerListener: AnyObject {}
+protocol MagnometerListener: AnyObject {
+    func magnometerDidClose()
+}
 
 final class MagnometerInteractor: PresentableInteractor<MagnometerPresentable>, MagnometerInteractable, MagnometerPresentableListener {
 
@@ -26,4 +28,10 @@ final class MagnometerInteractor: PresentableInteractor<MagnometerPresentable>, 
     // MARK: - API
 
     weak var listener: MagnometerListener?
+
+    // MARK: - MagnometerPresentableListener
+
+    func didTapBack() {
+        listener?.magnometerDidClose()
+    }
 }

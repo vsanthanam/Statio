@@ -164,6 +164,12 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
         attachMonitorList()
     }
 
+    // MARK: - MagnometerListener
+
+    func magnometerDidClose() {
+        attachMonitorList()
+    }
+
     // MARK: - Private
 
     private let batteryMonitorWorker: BatteryMonitorWorking

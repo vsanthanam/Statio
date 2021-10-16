@@ -12,7 +12,9 @@ import UIKit
 protocol MagnometerViewControllable: ViewControllable {}
 
 /// @CreateMock
-protocol MagnometerPresentableListener: AnyObject {}
+protocol MagnometerPresentableListener: AnyObject {
+    func didTapBack()
+}
 
 final class MagnometerViewController: ScopeViewController, MagnometerPresentable {
 
@@ -49,5 +51,6 @@ final class MagnometerViewController: ScopeViewController, MagnometerPresentable
     @objc
     private func didTapBack() {
         analyticsManager.send(event: AnalyticsEvent.magnometer_vc_dismiss)
+        listener?.didTapBack()
     }
 }
