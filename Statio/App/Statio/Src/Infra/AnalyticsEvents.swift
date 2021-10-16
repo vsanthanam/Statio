@@ -32,6 +32,8 @@ enum AnalyticsEvent: String, Event, Equatable, Hashable, CustomStringConvertible
     case accelerometer_vc_dismiss
     case gyroscope_vc_impression
     case gyroscope_vc_dismiss
+    case magnometer_vc_impression
+    case magnometer_vc_dismiss
 
     // MARK: - Event
 
