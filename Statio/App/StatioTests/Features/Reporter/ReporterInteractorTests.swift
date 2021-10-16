@@ -10,7 +10,6 @@ import XCTest
 
 final class ReporterInteractorTests: TestCase {
 
-    let listener = ReporterListenerMock()
     let presenter = ReporterPresentableMock()
 
     var interactor: ReporterInteractor!
@@ -18,7 +17,6 @@ final class ReporterInteractorTests: TestCase {
     override func setUp() {
         super.setUp()
         interactor = .init(presenter: presenter)
-        interactor.listener = listener
     }
 
     func test_init_assigns_presenter_listener() {

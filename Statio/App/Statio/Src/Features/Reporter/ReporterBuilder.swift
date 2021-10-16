@@ -17,31 +17,19 @@ class ReporterComponent: Component<ReporterDependency> {}
 /// @CreateMock
 protocol ReporterInteractable: PresentableInteractable {}
 
-typealias ReporterDynamicBuildDependency = (
-    ReporterListener
-)
-
 /// @CreateMock
 protocol ReporterBuildable: AnyObject {
-    func build(withListener listener: ReporterListener) -> PresentableInteractable
+    func build() -> PresentableInteractable
 }
 
-final class ReporterBuilder: ComponentizedBuilder<ReporterComponent, PresentableInteractable, ReporterDynamicBuildDependency, Void>, ReporterBuildable {
+final class ReporterBuilder: SimpleComponentizedBuilder<ReporterComponent, PresentableInteractable>, ReporterBuildable {
 
-    // MARK: - ComponentizedBuilder
+    // MARK: - SimpleComponentizedBuilder
 
-    override func build(with component: ReporterComponent, _ dynamicBuildDependency: ReporterDynamicBuildDependency) -> PresentableInteractable {
-        let listener = dynamicBuildDependency
+    override func build(with component: ReporterComponent) -> PresentableInteractable {
         let viewController = ReporterViewController(analyticsManager: component.analyticsManager)
         let interactor = ReporterInteractor(presenter: viewController)
-        interactor.listener = listener
         return interactor
-    }
-
-    // MARK: - ReporterBuildable
-
-    func build(withListener listener: ReporterListener) -> PresentableInteractable {
-        build(withDynamicBuildDependency: listener)
     }
 
 }

@@ -132,7 +132,7 @@ final class MainComponent: Component<MainDependency> {
 }
 
 /// @CreateMock
-protocol MainInteractable: PresentableInteractable, MonitorListener, ReporterListener, SettingsListener {}
+protocol MainInteractable: PresentableInteractable {}
 
 /// @CreateMock
 protocol MainBuildable: Buildable {

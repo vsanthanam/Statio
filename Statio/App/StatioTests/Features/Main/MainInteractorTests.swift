@@ -63,20 +63,9 @@ final class MainInteractorTests: TestCase {
         let reporter = ReporterInteractableMock()
         let settings = SettingsInteractableMock()
 
-        monitorBuilder.buildHandler = { [interactor] listener in
-            XCTAssertTrue(interactor === listener)
-            return monitor
-        }
-
-        reporterBuilder.buildHandler = { [interactor] listener in
-            XCTAssertTrue(interactor === listener)
-            return reporter
-        }
-
-        settingsBuilder.buildHandler = { [interactor] listener in
-            XCTAssertTrue(interactor === listener)
-            return settings
-        }
+        monitorBuilder.buildHandler = { monitor }
+        reporterBuilder.buildHandler = { reporter }
+        settingsBuilder.buildHandler = { settings }
 
         XCTAssertEqual(monitorBuilder.buildCallCount, 0)
         XCTAssertEqual(reporterBuilder.buildCallCount, 0)

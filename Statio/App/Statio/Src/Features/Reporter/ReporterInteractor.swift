@@ -11,9 +11,6 @@ protocol ReporterPresentable: ReporterViewControllable {
     var listener: ReporterPresentableListener? { get set }
 }
 
-/// @CreateMock
-protocol ReporterListener: AnyObject {}
-
 final class ReporterInteractor: PresentableInteractor<ReporterPresentable>, ReporterInteractable, ReporterPresentableListener {
 
     // MARK: - Initializers
@@ -22,9 +19,5 @@ final class ReporterInteractor: PresentableInteractor<ReporterPresentable>, Repo
         super.init(presenter: presenter)
         presenter.listener = self
     }
-
-    // MARK: - API
-
-    weak var listener: ReporterListener?
 
 }

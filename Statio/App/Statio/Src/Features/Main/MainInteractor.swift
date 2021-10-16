@@ -65,19 +65,17 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
     // MARK: - Private
 
     private let appStateManager: AppStateManaging
-
     private let deviceModelStorageWorker: DeviceModelStorageWorking
     private let deviceModelUpdateWorker: DeviceModelUpdateWorking
     private let deviceBoardStorageWorker: DeviceBoardStorageWorking
     private let deviceBoardUpdateWorker: DeviceBoardUpdateWorking
-
     private let monitorBuilder: MonitorBuildable
     private let reporterBuilder: ReporterBuildable
     private let settingsBuilder: SettingsBuildable
 
-    private lazy var monitor = monitorBuilder.build(withListener: self)
-    private lazy var reporter = reporterBuilder.build(withListener: self)
-    private lazy var settings = settingsBuilder.build(withListener: self)
+    private lazy var monitor = monitorBuilder.build()
+    private lazy var reporter = reporterBuilder.build()
+    private lazy var settings = settingsBuilder.build()
 
     private var currentState: PresentableInteractable?
 

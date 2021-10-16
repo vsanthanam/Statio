@@ -11,7 +11,6 @@ import XCTest
 final class MonitorInteractorTests: TestCase {
 
     let presenter = MonitorPresentableMock()
-    let listener = MonitorListenerMock()
     let batteryMonitorWorker = BatteryMonitorWorkingMock()
     let diskMonitorWorker = DiskMonitorWorkingMock()
     let memoryMonitorWorker = MemoryMonitorWorkingMock()
@@ -48,7 +47,6 @@ final class MonitorInteractorTests: TestCase {
                            accelerometerBuilder: accelerometerBuilder,
                            gyroscopeBuilder: gyroscopeBuilder,
                            magnometerBuilder: magnometerBuilder)
-        interactor.listener = listener
     }
 
     func test_init_assigns_presenter_listener() {

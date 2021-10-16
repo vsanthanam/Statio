@@ -17,31 +17,19 @@ class SettingsComponent: Component<SettingsDependency> {}
 /// @CreateMock
 protocol SettingsInteractable: PresentableInteractable {}
 
-typealias SettingsDynamicBuildDependency = (
-    SettingsListener
-)
-
 /// @CreateMock
 protocol SettingsBuildable: AnyObject {
-    func build(withListener listener: SettingsListener) -> PresentableInteractable
+    func build() -> PresentableInteractable
 }
 
-final class SettingsBuilder: ComponentizedBuilder<SettingsComponent, PresentableInteractable, SettingsDynamicBuildDependency, Void>, SettingsBuildable {
+final class SettingsBuilder: SimpleComponentizedBuilder<SettingsComponent, PresentableInteractable>, SettingsBuildable {
 
-    // MARK: - ComponentizedBuilder
+    // MARK: - SimpleComponentizedBuilder
 
-    override final func build(with component: SettingsComponent, _ dynamicBuildDependency: SettingsDynamicBuildDependency) -> PresentableInteractable {
-        let listener = dynamicBuildDependency
+    override final func build(with component: SettingsComponent) -> PresentableInteractable {
         let viewController = SettingsViewController(analyticsManager: component.analyticsManager)
         let interactor = SettingsInteractor(presenter: viewController)
-        interactor.listener = listener
         return interactor
-    }
-
-    // MARK: - SettingsBuildable
-
-    func build(withListener listener: SettingsListener) -> PresentableInteractable {
-        build(withDynamicBuildDependency: listener)
     }
 
 }

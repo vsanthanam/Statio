@@ -143,21 +143,16 @@ class MonitorComponent: Component<MonitorDependency> {
 /// @CreateMock
 protocol MonitorInteractable: PresentableInteractable, MonitorListListener, DeviceIdentityListener, MemoryListener, BatteryListener, DiskListener, ProcessorListener, CellularListener, WiFiListener, AccelerometerListener, GyroscopeListener, MagnometerListener {}
 
-typealias MonitorDynamicBuildDependency = (
-    MonitorListener
-)
-
 /// @CreateMock
 protocol MonitorBuildable: AnyObject {
-    func build(withListener listener: MonitorListener) -> PresentableInteractable
+    func build() -> PresentableInteractable
 }
 
-final class MonitorBuilder: ComponentizedBuilder<MonitorComponent, PresentableInteractable, MonitorDynamicBuildDependency, Void>, MonitorBuildable {
+final class MonitorBuilder: SimpleComponentizedBuilder<MonitorComponent, PresentableInteractable>, MonitorBuildable {
 
     // MARK: - ComponentizedBuilder
 
-    override final func build(with component: MonitorComponent, _ dynamicBuildDependency: MonitorDynamicBuildDependency) -> PresentableInteractable {
-        let listener = dynamicBuildDependency
+    override final func build(with component: MonitorComponent) -> PresentableInteractable {
         let viewController = MonitorViewController(analyticsManager: component.analyticsManager)
         let interactor = MonitorInteractor(presenter: viewController,
                                            batteryMonitorWorker: component.batteryMonitorWorker,
@@ -175,14 +170,7 @@ final class MonitorBuilder: ComponentizedBuilder<MonitorComponent, PresentableIn
                                            accelerometerBuilder: component.accelerometerBuilder,
                                            gyroscopeBuilder: component.gyroscopeBuilder,
                                            magnometerBuilder: component.magnometerBuilder)
-        interactor.listener = listener
         return interactor
-    }
-
-    // MARK: - MonitorBuildable
-
-    func build(withListener listener: MonitorListener) -> PresentableInteractable {
-        build(withDynamicBuildDependency: listener)
     }
 
 }

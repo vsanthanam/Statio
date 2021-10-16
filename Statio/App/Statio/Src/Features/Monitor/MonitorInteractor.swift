@@ -14,9 +14,6 @@ protocol MonitorPresentable: MonitorViewControllable {
     func showMonitor(_ viewController: ViewControllable)
 }
 
-/// @CreateMock
-protocol MonitorListener: AnyObject {}
-
 final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, MonitorInteractable, MonitorPresentableListener {
 
     // MARK: - Initializers
@@ -55,10 +52,6 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
         super.init(presenter: presenter)
         presenter.listener = self
     }
-
-    // MARK: - API
-
-    weak var listener: MonitorListener?
 
     // MARK: - Interactor
 

@@ -11,9 +11,6 @@ protocol SettingsPresentable: SettingsViewControllable {
     var listener: SettingsPresentableListener? { get set }
 }
 
-/// @CreateMock
-protocol SettingsListener: AnyObject {}
-
 final class SettingsInteractor: PresentableInteractor<SettingsPresentable>, SettingsInteractable, SettingsPresentableListener {
 
     // MARK: - Initializers
@@ -23,7 +20,4 @@ final class SettingsInteractor: PresentableInteractor<SettingsPresentable>, Sett
         presenter.listener = self
     }
 
-    // MARK: - API
-
-    weak var listener: SettingsListener?
 }
