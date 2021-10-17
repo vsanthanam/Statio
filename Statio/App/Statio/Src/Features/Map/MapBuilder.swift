@@ -3,11 +3,14 @@
 // Varun Santhanam
 //
 
+import Analytics
 import Foundation
 import NeedleFoundation
 import ShortRibs
 
-protocol MapDependency: Dependency {}
+protocol MapDependency: Dependency {
+    var analyticsManager: AnalyticsManaging { get }
+}
 
 class MapComponent: Component<MapDependency> {}
 
@@ -29,7 +32,7 @@ final class MapBuilder: ComponentizedBuilder<MapComponent, PresentableInteractab
 
     override func build(with component: MapComponent, _ dynamicBuildDependency: MapDynamicBuildDependency) -> PresentableInteractable {
         let listener = dynamicBuildDependency
-        let viewController = MapViewController()
+        let viewController = MapViewController(analyticsManager: component.analyticsManager)
         let interactor = MapInteractor(presenter: viewController)
         interactor.listener = listener
         return interactor
