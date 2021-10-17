@@ -33,7 +33,10 @@ let project = Project(name: "Statio",
                                      "Statio/Resources/**"
                                  ],
                                  scripts: [
-                                     .pre(script: "../../repo generate dig --repo-root ../../", name: "Generate DI Graph")
+                                     .pre(script: "../../repo generate dig --repo-root ../../",
+                                          name: "Generate DI Graph"),
+                                     .pre(script: "../../repo generate mocks --repo-root ../../",
+                                          name: "Generate Mocks")
                                  ],
                                  dependencies: [
                                      .remote(.needle),
