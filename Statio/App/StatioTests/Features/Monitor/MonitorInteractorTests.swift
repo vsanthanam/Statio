@@ -26,6 +26,7 @@ final class MonitorInteractorTests: TestCase {
     let accelerometerBuilder = AccelerometerBuildableMock()
     let gyroscopeBuilder = GyroscopeBuildableMock()
     let magnometerBuilder = MagnometerBuildableMock()
+    let mapBuilder = MapBuildableMock()
 
     var interactor: MonitorInteractor!
 
@@ -46,7 +47,8 @@ final class MonitorInteractorTests: TestCase {
                            wifiBuilder: wifiBuilder,
                            accelerometerBuilder: accelerometerBuilder,
                            gyroscopeBuilder: gyroscopeBuilder,
-                           magnometerBuilder: magnometerBuilder)
+                           magnometerBuilder: magnometerBuilder,
+                           mapBuilder: mapBuilder)
     }
 
     func test_init_assigns_presenter_listener() {
@@ -322,6 +324,28 @@ final class MonitorInteractorTests: TestCase {
         interactor.monitorListDidSelect(identifier: .magnometer)
 
         XCTAssertEqual(magnometerBuilder.buildCallCount, 1)
+        XCTAssertEqual(presenter.showMonitorCallCount, 1)
+        XCTAssertEqual(interactor.children.count, 1)
+    }
+
+    func test_didSelect_map_buildsAndAttaches() {
+        let viewController = ViewControllableMock()
+        let map = PresentableInteractableMock()
+        map.viewControllable = viewController
+
+        mapBuilder.buildHandler = { [interactor] listener in
+            XCTAssertTrue(interactor === listener)
+            return map
+        }
+
+        XCTAssertEqual(mapBuilder.buildCallCount, 0)
+        XCTAssertEqual(presenter.showMonitorCallCount, 0)
+        XCTAssertEqual(interactor.children.count, 0)
+
+        interactor.activate()
+        interactor.monitorListDidSelect(identifier: .map)
+
+        XCTAssertEqual(mapBuilder.buildCallCount, 1)
         XCTAssertEqual(presenter.showMonitorCallCount, 1)
         XCTAssertEqual(interactor.children.count, 1)
     }
