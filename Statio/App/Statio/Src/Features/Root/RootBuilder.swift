@@ -37,7 +37,9 @@ final class RootComponent: BootstrapComponent, ShortRibs.RootComponent {
 }
 
 /// @CreateMock
-protocol RootInteractable: PresentableInteractable {}
+protocol RootInteractable: PresentableInteractable {
+    func openURL(_ url: URL)
+}
 
 typealias RootDynamicBuildDependency = (
     UIWindow
@@ -46,15 +48,15 @@ typealias RootDynamicBuildDependency = (
 /// @CreateMock
 protocol RootBuildable: AnyObject {
     func build(onWindow window: UIWindow,
-               analyticsManager: AnalyticsManaging) -> PresentableInteractable
+               analyticsManager: AnalyticsManaging) -> RootInteractable
 }
 
-final class RootBuilder: ComponentizedRootBuilder<RootComponent, PresentableInteractable, RootDynamicBuildDependency, RootDynamicComponentDependency>, RootBuildable {
+final class RootBuilder: ComponentizedRootBuilder<RootComponent, RootInteractable, RootDynamicBuildDependency, RootDynamicComponentDependency>, RootBuildable {
 
     // MARK: - ComponentizedBuilder
 
     override final func build(with component: RootComponent,
-                              _ dynamicBuildDependency: RootDynamicBuildDependency) -> PresentableInteractable {
+                              _ dynamicBuildDependency: RootDynamicBuildDependency) -> RootInteractable {
         let window = dynamicBuildDependency
         let viewController = RootViewController(analyticsManager: component.analyticsManager)
         let interactor = RootInteractor(presenter: viewController,
@@ -67,7 +69,7 @@ final class RootBuilder: ComponentizedRootBuilder<RootComponent, PresentableInte
     // MARK: - RootBuildable
 
     func build(onWindow window: UIWindow,
-               analyticsManager: AnalyticsManaging) -> PresentableInteractable {
+               analyticsManager: AnalyticsManaging) -> RootInteractable {
         build(withDynamicBuildDependency: window,
               dynamicComponentDependency: analyticsManager)
     }

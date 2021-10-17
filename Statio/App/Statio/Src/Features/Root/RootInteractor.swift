@@ -34,6 +34,10 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
         attachMain()
     }
 
+    // MARK: - RootInteractable
+
+    func openURL(_ url: URL) {}
+
     // MARK: - Private
 
     private let mainBuilder: MainBuildable

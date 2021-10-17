@@ -46,9 +46,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
 
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        guard let root = root,
+              let url = URLContexts.map(\.url).first else {
+            return
+        }
+        root.openURL(url)
+    }
+
     // MARK: - Private
 
-    private var root: PresentableInteractable?
+    private var root: RootInteractable?
 
     private func launchScene() {
         guard let window = window else {
