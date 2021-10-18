@@ -25,4 +25,10 @@ final class CompassInteractorTests: TestCase {
         XCTAssertTrue(presenter.listener === interactor)
     }
 
+    func test_didTapBack_callsListener() {
+        XCTAssertEqual(listener.compassDidCloseCallCount, 0)
+        interactor.didTapBack()
+        XCTAssertEqual(listener.compassDidCloseCallCount, 1)
+    }
+
 }

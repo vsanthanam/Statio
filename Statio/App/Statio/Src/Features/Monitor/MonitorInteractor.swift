@@ -175,6 +175,12 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
         attachMonitorList()
     }
 
+    // MARK: - CompassListener
+
+    func compassDidClose() {
+        attachMonitorList()
+    }
+
     // MARK: - Private
 
     private let batteryMonitorWorker: BatteryMonitorWorking

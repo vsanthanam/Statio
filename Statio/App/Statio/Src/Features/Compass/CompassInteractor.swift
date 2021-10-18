@@ -12,7 +12,9 @@ protocol CompassPresentable: CompassViewControllable {
 }
 
 /// @CreateMock
-protocol CompassListener: AnyObject {}
+protocol CompassListener: AnyObject {
+    func compassDidClose()
+}
 
 final class CompassInteractor: PresentableInteractor<CompassPresentable>, CompassInteractable, CompassPresentableListener {
 
@@ -27,4 +29,9 @@ final class CompassInteractor: PresentableInteractor<CompassPresentable>, Compas
 
     weak var listener: CompassListener?
 
+    // MARK: - CompassPresentableListener
+
+    func didTapBack() {
+        listener?.compassDidClose()
+    }
 }

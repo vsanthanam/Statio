@@ -6,12 +6,15 @@
 import Analytics
 import Foundation
 import ShortRibs
+import UIKit
 
 /// @CreateMock
 protocol CompassViewControllable: ViewControllable {}
 
 /// @CreateMock
-protocol CompassPresentableListener: AnyObject {}
+protocol CompassPresentableListener: AnyObject {
+    func didTapBack()
+}
 
 final class CompassViewController: ScopeViewController, CompassPresentable {
 
@@ -29,6 +32,16 @@ final class CompassViewController: ScopeViewController, CompassPresentable {
         analyticsManager.send(event: AnalyticsEvent.compass_vc_impression)
     }
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        title = "Compass"
+        let leadingItem = UIBarButtonItem(barButtonSystemItem: .close,
+                                          target: self,
+                                          action: #selector(didTapBack))
+        navigationItem.leftBarButtonItem = leadingItem
+        specializedView.backgroundColor = .systemBackground
+    }
+
     // MARK: - CompassPresentable
 
     weak var listener: CompassPresentableListener?
@@ -37,4 +50,9 @@ final class CompassViewController: ScopeViewController, CompassPresentable {
 
     private let analyticsManager: AnalyticsManaging
 
+    @objc
+    private func didTapBack() {
+        analyticsManager.send(event: AnalyticsEvent.compass_vc_dismiss)
+        listener?.didTapBack()
+    }
 }

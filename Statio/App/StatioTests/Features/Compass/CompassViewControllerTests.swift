@@ -35,4 +35,18 @@ final class CompassViewControllerTests: TestCase {
         viewController.viewDidAppear(true)
         XCTAssertEqual(analyticsManager.sendCallCount, 1)
     }
+
+    func test_didTapBack_sendsEvent() {
+        analyticsManager.sendHandler = { event, _, _, _, _ in
+            guard let event = event as? AnalyticsEvent else {
+                XCTFail("Invalid Analytics Event")
+                return
+            }
+            XCTAssertEqual(event, .compass_vc_dismiss)
+        }
+
+        XCTAssertEqual(analyticsManager.sendCallCount, 0)
+        viewController.perform(NSSelectorFromString("didTapBack"))
+        XCTAssertEqual(analyticsManager.sendCallCount, 1)
+    }
 }
