@@ -36,6 +36,7 @@ enum AnalyticsEvent: String, Event, Equatable, Hashable, CustomStringConvertible
     case magnometer_vc_dismiss
     case map_vc_impression
     case map_vc_dismiss
+    case compass_vc_impression
 
     // MARK: - Event
 

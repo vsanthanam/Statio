@@ -3,11 +3,14 @@
 // Varun Santhanam
 //
 
+import Analytics
 import Foundation
 import NeedleFoundation
 import ShortRibs
 
-protocol CompassDependency: Dependency {}
+protocol CompassDependency: Dependency {
+    var analyticsManager: AnalyticsManaging { get }
+}
 
 class CompassComponent: Component<CompassDependency> {}
 
@@ -29,7 +32,7 @@ final class CompassBuilder: ComponentizedBuilder<CompassComponent, PresentableIn
 
     override func build(with component: CompassComponent, _ dynamicBuildDependency: CompassDynamicBuildDependency) -> PresentableInteractable {
         let listener = dynamicBuildDependency
-        let viewController = CompassViewController()
+        let viewController = CompassViewController(analyticsManager: component.analyticsManager)
         let interactor = CompassInteractor(presenter: viewController)
         interactor.listener = listener
         return interactor
