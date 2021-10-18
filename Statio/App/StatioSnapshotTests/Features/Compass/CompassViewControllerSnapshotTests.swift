@@ -9,15 +9,15 @@ import Foundation
 @testable import Statio
 import XCTest
 
-final class MapViewControllerSnapshotTests: SnapshotTestCase {
+final class CompassViewControllerSnapshotTests: SnapshotTestCase {
 
     override func setUp() {
         super.setUp()
         recordMode = false
     }
 
-    func test_mapViewController() {
-        let viewController = MapViewController(analyticsManager: AnalyticsManagingMock())
+    func test_compassViewController() {
+        let viewController = CompassViewController(analyticsManager: AnalyticsManagingMock())
         viewController.loadView()
         viewController.viewDidLoad()
         FBSnapshotVerifyViewController(viewController)
