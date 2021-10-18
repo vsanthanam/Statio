@@ -34,7 +34,8 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
          accelerometerBuilder: AccelerometerBuildable,
          gyroscopeBuilder: GyroscopeBuildable,
          magnometerBuilder: MagnometerBuildable,
-         mapBuilder: MapBuildable) {
+         mapBuilder: MapBuildable,
+         compassBuilder: CompassBuildable) {
         self.batteryMonitorWorker = batteryMonitorWorker
         self.diskMonitorWorker = diskMonitorWorker
         self.memoryMonitorWorker = memoryMonitorWorker
@@ -51,6 +52,7 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
         self.gyroscopeBuilder = gyroscopeBuilder
         self.magnometerBuilder = magnometerBuilder
         self.mapBuilder = mapBuilder
+        self.compassBuilder = compassBuilder
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -98,8 +100,8 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
             monitor = magnometerBuilder.build(withListener: self)
         case .map:
             monitor = mapBuilder.build(withListener: self)
-        default:
-            fatalError()
+        case .compass:
+            monitor = compassBuilder.build(withListener: self)
         }
 
         attach(child: monitor)
@@ -192,6 +194,7 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
     private let gyroscopeBuilder: GyroscopeBuildable
     private let magnometerBuilder: MagnometerBuildable
     private let mapBuilder: MapBuildable
+    private let compassBuilder: CompassBuildable
 
     private var monitorList: MonitorListInteractable?
     private var activeMonitor: PresentableInteractable?

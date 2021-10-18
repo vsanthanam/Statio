@@ -13,7 +13,6 @@ enum MonitorIdentifier: String, Identifiable, Equatable, Hashable, CustomStringC
     case battery
     case disk
     case processor
-    case carrier
     case identity
     case cellular
     case wifi
@@ -23,9 +22,11 @@ enum MonitorIdentifier: String, Identifiable, Equatable, Hashable, CustomStringC
     case map
     case compass
 
+    // TODO: - Add carrier info
+
     var category: MonitorCategoryIdentifier {
         switch self {
-        case .identity, .carrier:
+        case .identity:
             return .identity
         case .processor, .memory, .disk, .battery:
             return .system

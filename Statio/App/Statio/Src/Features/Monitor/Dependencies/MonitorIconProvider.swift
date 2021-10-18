@@ -52,10 +52,10 @@ final class MonitorIconProvider: MonitorIconProviding {
             drawMemory(color: color,
                        targetFrame: targetFrame,
                        resizing: resizing)
-        case .carrier:
-            drawPhone(color: color,
-                      targetFrame: targetFrame,
-                      resizing: resizing)
+//        case .carrier:
+//            drawPhone(color: color,
+//                      targetFrame: targetFrame,
+//                      resizing: resizing)
         case .identity:
             drawSmartPhone(color: color,
                            targetFrame: targetFrame,
