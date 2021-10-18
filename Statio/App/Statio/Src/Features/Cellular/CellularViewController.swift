@@ -16,7 +16,7 @@ protocol CellularPresentableListener: AnyObject {
     func didTapBack()
 }
 
-final class CellularViewControler: ScopeViewController, CellularPresentable {
+final class CellularViewController: ScopeViewController, CellularPresentable {
 
     // MARK: - Initializers
 

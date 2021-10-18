@@ -17,7 +17,7 @@ final class CellularViewControllerSnapshotTests: SnapshotTestCase {
     }
 
     func test_cellularViewController() {
-        let viewController = CellularViewControler(analyticsManager: AnalyticsManagingMock())
+        let viewController = CellularViewController(analyticsManager: AnalyticsManagingMock())
         viewController.loadView()
         viewController.viewDidLoad()
         FBSnapshotVerifyViewController(viewController)

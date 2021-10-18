@@ -3,11 +3,14 @@
 // Varun Santhanam
 //
 
+import Analytics
 import Foundation
 import NeedleFoundation
 import ShortRibs
 
-protocol AltimeterDependency: Dependency {}
+protocol AltimeterDependency: Dependency {
+    var analyticsManager: AnalyticsManaging { get }
+}
 
 class AltimeterComponent: Component<AltimeterDependency> {}
 
@@ -29,7 +32,7 @@ final class AltimeterBuilder: ComponentizedBuilder<AltimeterComponent, Presentab
 
     override func build(with component: AltimeterComponent, _ dynamicBuildDependency: AltimeterDynamicBuildDependency) -> PresentableInteractable {
         let listener = dynamicBuildDependency
-        let viewController = AltimeterViewController()
+        let viewController = AltimeterViewController(analyticsManager: component.analyticsManager)
         let interactor = AltimeterInteractor(presenter: viewController)
         interactor.listener = listener
         return interactor

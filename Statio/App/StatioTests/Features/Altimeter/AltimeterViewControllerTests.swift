@@ -9,11 +9,11 @@ import ShortRibs
 @testable import Statio
 import XCTest
 
-final class CellularViewControllerTests: TestCase {
+final class AltimeterViewControllerTests: TestCase {
 
     let analyticsManager = AnalyticsManagingMock()
-    let listener = CellularPresentableListenerMock()
-    var viewController: CellularViewController!
+    let listener = AltimeterPresentableListenerMock()
+    var viewController: AltimeterViewController!
 
     override func setUp() {
         super.setUp()
@@ -27,25 +27,11 @@ final class CellularViewControllerTests: TestCase {
                 XCTFail("Invalid Analytics Event")
                 return
             }
-            XCTAssertEqual(event, .cellular_vc_impression)
+            XCTAssertEqual(event, .altimeter_vc_impression)
         }
 
         XCTAssertEqual(analyticsManager.sendCallCount, 0)
         viewController.viewDidAppear(true)
-        XCTAssertEqual(analyticsManager.sendCallCount, 1)
-    }
-
-    func test_didTapBack_sendsEvent() {
-        analyticsManager.sendHandler = { event, _, _, _, _ in
-            guard let event = event as? AnalyticsEvent else {
-                XCTFail("Invalid Analytics Event")
-                return
-            }
-            XCTAssertEqual(event, .cellular_vc_dismiss)
-        }
-
-        XCTAssertEqual(analyticsManager.sendCallCount, 0)
-        viewController.perform(NSSelectorFromString("didTapBack"))
         XCTAssertEqual(analyticsManager.sendCallCount, 1)
     }
 }
