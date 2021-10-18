@@ -167,6 +167,12 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
         attachMonitorList()
     }
 
+    // MARK: - MapListener
+
+    func mapDidClose() {
+        attachMonitorList()
+    }
+
     // MARK: - Private
 
     private let batteryMonitorWorker: BatteryMonitorWorking

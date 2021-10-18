@@ -12,7 +12,9 @@ protocol MapPresentable: MapViewControllable {
 }
 
 /// @CreateMock
-protocol MapListener: AnyObject {}
+protocol MapListener: AnyObject {
+    func mapDidClose()
+}
 
 final class MapInteractor: PresentableInteractor<MapPresentable>, MapInteractable, MapPresentableListener {
 
@@ -26,5 +28,11 @@ final class MapInteractor: PresentableInteractor<MapPresentable>, MapInteractabl
     // MARK: - API
 
     weak var listener: MapListener?
+
+    // MARK: - MapPresentableListener
+
+    func didTapBack() {
+        listener?.mapDidClose()
+    }
 
 }

@@ -24,4 +24,10 @@ final class MapInteractorTests: TestCase {
         XCTAssertTrue(presenter.listener === interactor)
     }
 
+    func test_didTapBack_callsListener() {
+        XCTAssertEqual(listener.mapDidCloseCallCount, 0)
+        interactor.didTapBack()
+        XCTAssertEqual(listener.mapDidCloseCallCount, 1)
+    }
+
 }
