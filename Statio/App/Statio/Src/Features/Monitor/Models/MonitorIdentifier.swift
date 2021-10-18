@@ -21,7 +21,7 @@ enum MonitorIdentifier: String, Identifiable, Equatable, Hashable, CustomStringC
     case gyroscope
     case magnometer
     case map
-    case gps
+    case compass
 
     var category: MonitorCategoryIdentifier {
         switch self {
@@ -33,7 +33,7 @@ enum MonitorIdentifier: String, Identifiable, Equatable, Hashable, CustomStringC
             return .network
         case .accelerometer, .gyroscope, .magnometer:
             return .motion
-        case .map, .gps:
+        case .map, .compass:
             return .location
         }
     }
