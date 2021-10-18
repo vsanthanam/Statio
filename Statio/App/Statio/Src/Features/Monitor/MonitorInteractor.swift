@@ -185,6 +185,12 @@ final class MonitorInteractor: PresentableInteractor<MonitorPresentable>, Monito
         attachMonitorList()
     }
 
+    // MARK: - AltimeterListener
+
+    func altimeterDidClose() {
+        attachMonitorList()
+    }
+
     // MARK: - Private
 
     private let batteryMonitorWorker: BatteryMonitorWorking

@@ -12,7 +12,9 @@ protocol AltimeterPresentable: AltimeterViewControllable {
 }
 
 /// @CreateMock
-protocol AltimeterListener: AnyObject {}
+protocol AltimeterListener: AnyObject {
+    func altimeterDidClose()
+}
 
 final class AltimeterInteractor: PresentableInteractor<AltimeterPresentable>, AltimeterInteractable, AltimeterPresentableListener {
 
@@ -26,5 +28,11 @@ final class AltimeterInteractor: PresentableInteractor<AltimeterPresentable>, Al
     // MARK: - API
 
     weak var listener: AltimeterListener?
+
+    // MARK: - AltimeterPresentableListener
+
+    func didTapClose() {
+        listener?.altimeterDidClose()
+    }
 
 }

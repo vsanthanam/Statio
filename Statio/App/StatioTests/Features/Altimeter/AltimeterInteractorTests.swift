@@ -23,4 +23,10 @@ final class AltimeterInteractorTests: TestCase {
     func test_init_sets_presenter_listener() {
         XCTAssertTrue(presenter.listener === interactor)
     }
+
+    func test_didTapBack_callsListener() {
+        XCTAssertEqual(listener.altimeterDidCloseCallCount, 0)
+        interactor.didTapClose()
+        XCTAssertEqual(listener.altimeterDidCloseCallCount, 1)
+    }
 }

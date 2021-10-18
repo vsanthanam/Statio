@@ -12,7 +12,9 @@ import UIKit
 protocol AltimeterViewControllable: ViewControllable {}
 
 /// @CreateMock
-protocol AltimeterPresentableListener: AnyObject {}
+protocol AltimeterPresentableListener: AnyObject {
+    func didTapClose()
+}
 
 final class AltimeterViewController: ScopeViewController, AltimeterPresentable {
 
@@ -47,6 +49,9 @@ final class AltimeterViewController: ScopeViewController, AltimeterPresentable {
     private let analyticsManager: AnalyticsManaging
 
     @objc
-    private func didTapBack() {}
+    private func didTapBack() {
+        analyticsManager.send(event: AnalyticsEvent.altimeter_vc_dismiss)
+        listener?.didTapClose()
+    }
 
 }
