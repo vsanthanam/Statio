@@ -21,6 +21,7 @@ enum MonitorIdentifier: String, Identifiable, Equatable, Hashable, CustomStringC
     case magnometer
     case map
     case compass
+    case altimeter
 
     // TODO: - Add carrier info
 
@@ -34,7 +35,7 @@ enum MonitorIdentifier: String, Identifiable, Equatable, Hashable, CustomStringC
             return .network
         case .accelerometer, .gyroscope, .magnometer:
             return .motion
-        case .map, .compass:
+        case .map, .compass, .altimeter:
             return .location
         }
     }

@@ -146,10 +146,14 @@ class MonitorComponent: Component<MonitorDependency> {
     fileprivate var compassBuilder: CompassBuildable {
         CompassBuilder { CompassComponent(parent: self) }
     }
+
+    fileprivate var altimeterBuilder: AltimeterBuildable {
+        AltimeterBuilder { AltimeterComponent(parent: self) }
+    }
 }
 
 /// @CreateMock
-protocol MonitorInteractable: PresentableInteractable, MonitorListListener, DeviceIdentityListener, MemoryListener, BatteryListener, DiskListener, ProcessorListener, CellularListener, WiFiListener, AccelerometerListener, GyroscopeListener, MagnometerListener, MapListener, CompassListener {}
+protocol MonitorInteractable: PresentableInteractable, MonitorListListener, DeviceIdentityListener, MemoryListener, BatteryListener, DiskListener, ProcessorListener, CellularListener, WiFiListener, AccelerometerListener, GyroscopeListener, MagnometerListener, MapListener, CompassListener, AltimeterListener {}
 
 /// @CreateMock
 protocol MonitorBuildable: AnyObject {
@@ -179,7 +183,8 @@ final class MonitorBuilder: SimpleComponentizedBuilder<MonitorComponent, Present
                                            gyroscopeBuilder: component.gyroscopeBuilder,
                                            magnometerBuilder: component.magnometerBuilder,
                                            mapBuilder: component.mapBuilder,
-                                           compassBuilder: component.compassBuilder)
+                                           compassBuilder: component.compassBuilder,
+                                           altimeterBuilder: component.altimeterBuilder)
         return interactor
     }
 
